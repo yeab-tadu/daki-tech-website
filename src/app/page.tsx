@@ -76,67 +76,68 @@ export default function Home() {
     <div className="flex flex-col min-h-dvh">
       <main className="flex-1">
         {/* Hero Section */}
-        <motion.section 
-          className="relative w-full h-dvh flex items-center justify-center text-center overflow-hidden bg-background"
+        <motion.section
+          className="w-full h-dvh flex items-center bg-primary/5 overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          {heroImage && (
-            <motion.div 
-              className="absolute inset-0 z-0"
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 10, ease: "easeInOut" }}
-            >
-              <Image
-                src={heroImage.imageUrl}
-                alt={heroImage.description}
-                fill
-                className="object-cover"
-                data-ai-hint={heroImage.imageHint}
-                priority
-              />
-               <div className="absolute inset-0 bg-black/60" />
-            </motion.div>
-          )}
-          
-          <div className="container mx-auto px-4 md:px-6 relative z-20">
-            <motion.div 
-              className="flex flex-col justify-center items-center space-y-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            >
-              <div className="space-y-4">
-                 <h1 className="font-headline text-4xl font-extrabold tracking-tight text-primary-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-                  <span className="text-primary">Innovate.</span>
-                  <span className="text-accent"> Build.</span>
-                  <span className="text-primary-foreground"> Empower.</span>
-                </h1>
-                <p className="max-w-[600px] text-primary-foreground/80 md:text-xl mx-auto">
-                  Daki Techs is a modern digital technology company that provides full software and IT solutions to empower your business.
-                </p>
-              </div>
-              <motion.div 
-                className="flex flex-col gap-4 min-[400px]:flex-row"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <motion.div
+                className="flex flex-col justify-center space-y-6 text-center md:text-left"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
               >
-                <Button asChild size="lg" className="transition-transform hover:scale-105 shadow-lg">
-                  <Link href="/contact">Get a Quote</Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105 bg-transparent text-primary-foreground border-primary-foreground/50 hover:bg-primary-foreground/10 hover:text-primary-foreground">
-                  <Link href="/services">Our Services</Link>
-                </Button>
+                <div className="space-y-4">
+                  <h1 className="font-headline text-4xl font-extrabold tracking-tight text-primary sm:text-5xl md:text-6xl lg:text-7xl">
+                    <span className="text-primary">Innovate.</span>
+                    <span className="text-accent"> Build.</span>
+                    <span className="text-foreground"> Empower.</span>
+                  </h1>
+                  <p className="max-w-[600px] text-foreground/80 md:text-xl mx-auto md:mx-0">
+                    Daki Techs is a modern digital technology company that provides full software and IT solutions to empower your business.
+                  </p>
+                </div>
+                <motion.div
+                  className="flex flex-col gap-4 min-[400px]:flex-row md:justify-start justify-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+                >
+                  <Button asChild size="lg" className="transition-transform hover:scale-105 shadow-lg">
+                    <Link href="/contact">Get a Quote</Link>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
+                    <Link href="/services">Our Services</Link>
+                  </Button>
+                </motion.div>
               </motion.div>
-            </motion.div>
+              <motion.div
+                className="hidden md:flex justify-center"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
+              >
+                {heroImage && (
+                  <Image
+                    src={heroImage.imageUrl}
+                    alt={heroImage.description}
+                    width={800}
+                    height={600}
+                    className="object-contain"
+                    data-ai-hint={heroImage.imageHint}
+                    priority
+                  />
+                )}
+              </motion.div>
+            </div>
           </div>
         </motion.section>
 
         {/* Academy Section */}
-        <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <motion.div 
@@ -188,7 +189,7 @@ export default function Home() {
         </section>
 
         {/* Services Overview */}
-        <section id="services" className="w-full py-12 md:py-24 lg:py-32">
+        <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -234,7 +235,7 @@ export default function Home() {
         </section>
 
         {/* Why Choose Us */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -254,7 +255,7 @@ export default function Home() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                 >
-                  <div className="p-4 bg-background rounded-full transition-transform hover:scale-110 shadow-md">{reason.icon}</div>
+                  <div className="p-4 bg-primary/10 rounded-full transition-transform hover:scale-110 shadow-md">{reason.icon}</div>
                   <h3 className="font-headline text-xl font-bold mt-4">{reason.title}</h3>
                   <p className="mt-2 text-foreground/80">{reason.description}</p>
                 </motion.div>
@@ -264,7 +265,7 @@ export default function Home() {
         </section>
         
         {/* Our Process */}
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -281,7 +282,7 @@ export default function Home() {
                 {processSteps.map((step, index) => (
                   <div key={step.name} className="flex flex-col items-center text-center z-10 group">
                     <motion.div 
-                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
+                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-primary/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       viewport={{ once: true }}
@@ -298,7 +299,7 @@ export default function Home() {
         </section>
 
         {/* Featured Projects */}
-        <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -358,7 +359,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials */}
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32">
+        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-5xl">
               What Our Clients Say
