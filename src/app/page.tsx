@@ -72,35 +72,40 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative w-full pt-20 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 bg-primary/5">
+        <section className="relative w-full min-h-screen flex items-center justify-center bg-background overflow-hidden">
+          <div className="absolute inset-0 bg-primary/10 -z-10" />
+          <div className="absolute inset-0 grain-bg -z-10" />
+          
           <div className="container mx-auto px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-primary">
-                    Empowering Businesses with Smart Digital Solutions.
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
+              <div className="flex flex-col justify-center space-y-4 animate-fade-in-up">
+                <div className="space-y-4">
+                   <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                    <span className="text-primary">Innovate.</span>
+                    <span className="text-accent"> Build.</span>
+                    <span className="text-foreground"> Empower.</span>
                   </h1>
                   <p className="max-w-[600px] text-foreground/80 md:text-xl">
-                    Daki Techs is a modern digital technology company that provides full software and IT solutions to innovate, build, and empower your business.
+                    Daki Techs is a modern digital technology company that provides full software and IT solutions to empower your business.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button asChild size="lg">
+                  <Button asChild size="lg" className="transition-transform hover:scale-105">
                     <Link href="/contact">Get a Quote</Link>
                   </Button>
-                  <Button asChild size="lg" variant="outline">
+                  <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
                     <Link href="/academy">Visit Academy</Link>
                   </Button>
                 </div>
               </div>
-              <div className="relative flex items-center justify-center">
+              <div className="relative flex items-center justify-center animate-fade-in-up [animation-delay:200ms]">
                  {heroImage && (
                     <Image
                       src={heroImage.imageUrl}
                       alt="Hero Image"
                       width={600}
                       height={400}
-                      className="rounded-xl shadow-2xl"
+                      className="rounded-xl shadow-2xl transform transition-all duration-500 hover:scale-105 hover:rotate-1"
                       data-ai-hint={heroImage.imageHint}
                     />
                  )}
@@ -123,7 +128,7 @@ export default function Home() {
             </div>
             <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 pt-12">
               {services.slice(0, 6).map((service) => (
-                <Card key={service.id} className="hover:shadow-lg transition-shadow duration-300">
+                <Card key={service.id} className="hover:shadow-lg transition-shadow duration-300 hover:-translate-y-2">
                   <CardHeader className="flex flex-row items-center gap-4">
                     <div className="bg-primary/10 p-3 rounded-full text-primary">
                       {serviceIcons[service.id] || <Code className="h-8 w-8" />}
@@ -132,15 +137,15 @@ export default function Home() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-foreground/80">{service.description.substring(0, 100)}...</p>
-                    <Button variant="link" asChild className="p-0 h-auto mt-2">
-                      <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    <Button variant="link" asChild className="p-0 h-auto mt-2 group">
+                      <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
                     </Button>
                   </CardContent>
                 </Card>
               ))}
             </div>
              <div className="text-center mt-12">
-                <Button asChild size="lg" variant="outline">
+                <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
                     <Link href="/services">View All Services <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
             </div>
@@ -160,8 +165,8 @@ export default function Home() {
             </div>
             <div className="mx-auto grid items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
               {whyChooseUs.map((reason) => (
-                <div key={reason.title} className="flex flex-col items-center text-center p-6">
-                  {reason.icon}
+                <div key={reason.title} className="flex flex-col items-center text-center p-6 rounded-lg hover:bg-background transition-colors duration-300">
+                  <div className="p-4 bg-background rounded-full transition-transform hover:scale-110">{reason.icon}</div>
                   <h3 className="font-headline text-xl font-bold mt-4">{reason.title}</h3>
                   <p className="mt-2 text-foreground/80">{reason.description}</p>
                 </div>
@@ -186,8 +191,8 @@ export default function Home() {
               <div className="absolute left-0 top-1/2 w-full h-0.5 bg-border -translate-y-1/2" />
               <div className="relative flex justify-between">
                 {processSteps.map((step, index) => (
-                  <div key={step.name} className="flex flex-col items-center text-center z-10">
-                    <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background">
+                  <div key={step.name} className="flex flex-col items-center text-center z-10 group">
+                    <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent">
                       {index + 1}
                     </div>
                     <p className="font-headline mt-2 font-semibold">{step.name}</p>
@@ -219,17 +224,19 @@ export default function Home() {
                   return (
                     <CarouselItem key={project.id} className="md:basis-1/2 lg:basis-1/3">
                       <div className="p-1">
-                        <Card className="h-full">
-                          <CardContent className="p-0">
+                        <Card className="h-full overflow-hidden group/project">
+                           <CardContent className="p-0">
                             {projectImage && (
-                              <Image
-                                src={projectImage.imageUrl}
-                                alt={project.title}
-                                width={600}
-                                height={400}
-                                className="rounded-t-lg object-cover aspect-[3/2]"
-                                data-ai-hint={projectImage.imageHint}
-                              />
+                              <div className="overflow-hidden">
+                                <Image
+                                  src={projectImage.imageUrl}
+                                  alt={project.title}
+                                  width={600}
+                                  height={400}
+                                  className="rounded-t-lg object-cover aspect-[3/2] transition-transform duration-500 group-hover/project:scale-105"
+                                  data-ai-hint={projectImage.imageHint}
+                                />
+                              </div>
                             )}
                             <div className="p-6">
                               <h3 className="font-headline text-lg font-bold">{project.title}</h3>
@@ -249,7 +256,7 @@ export default function Home() {
               <CarouselNext className="hidden sm:flex" />
             </Carousel>
             <div className="text-center mt-12">
-                <Button asChild size="lg" variant="outline">
+                <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
                     <Link href="/portfolio">View All Projects <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
             </div>
@@ -280,10 +287,10 @@ export default function Home() {
               </p>
             </div>
             <div className="mx-auto w-full max-w-sm space-y-2 flex flex-col sm:flex-row sm:space-y-0 sm:space-x-2 justify-center">
-              <Button asChild size="lg" variant="secondary">
+              <Button asChild size="lg" variant="secondary" className="transition-transform hover:scale-105">
                 <Link href="/contact">Contact Us</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10">
+              <Button asChild size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 transition-transform hover:scale-105">
                 <Link href="/academy">Explore Academy</Link>
               </Button>
             </div>
