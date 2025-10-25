@@ -23,11 +23,18 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
       </linearGradient>
     </defs>
     
-    {/* Geometric Mark: D + T */}
-    <g transform="translate(0, 4)">
-        <path d="M0 2H16C24.8366 2 32 9.16344 32 18V18C32 26.8366 24.8366 34 16 34H0V2Z" fill="url(#logo-gradient)"/>
-        <path d="M12 11H22V25" stroke="hsl(var(--background))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-         <path d="M17 11V25" stroke="hsl(var(--background))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    {/* Abstract Mark based on user image */}
+    <g transform="translate(0, 4) scale(1.1)">
+      <path 
+        d="M16 2L0 10V18L16 26L32 18V10L16 2Z"
+        fill="url(#logo-gradient)"
+        stroke="url(#logo-gradient)"
+        strokeWidth="1"
+      />
+      <path d="M8 14L2 17V19L8 22L14 19V17L8 14Z" fill="hsl(var(--background))" opacity="0.5"/>
+      <path d="M24 14L18 17V19L24 22L30 19V17L24 14Z" fill="hsl(var(--background))" opacity="0.5"/>
+       <path d="M16 4L2 11L16 18L30 11L16 4Z" fill="hsl(var(--background))" />
+       <path d="M8.5 13.5L16 9L23.5 13.5" stroke="url(#logo-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </g>
 
     <text
@@ -41,7 +48,7 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
       Daki
     </text>
     <text
-      x="102"
+      x="104"
       y="28"
       fontFamily="Poppins, sans-serif"
       fontSize="24"
