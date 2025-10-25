@@ -60,28 +60,28 @@ const processSteps = [
 ];
 
 const serviceIcons: { [key: string]: React.ReactNode } = {
-  'web-development': <Code className="h-8 w-8" />,
-  'mobile-app-development': <MonitorSmartphone className="h-8 w-8" />,
-  'cloud-solutions': <Cloud className="h-8 w-8" />,
-  'custom-systems': <Layers className="h-8 w-8" />,
-  'digital-business-card': <Briefcase className="h-8 w-8" />,
-  'graphics-design': <PenTool className="h-8 w-8" />,
-  'training-workshops': <UserCheck className="h-8 w-8" />,
-  'ux-ui-design': <BarChart className="h-8 w-8" />,
+  'web-development': <Code className="h-10 w-10" />,
+  'mobile-app-development': <MonitorSmartphone className="h-10 w-10" />,
+  'cloud-solutions': <Cloud className="h-10 w-10" />,
+  'custom-systems': <Layers className="h-10 w-10" />,
+  'digital-business-card': <Briefcase className="h-10 w-10" />,
+  'graphics-design': <PenTool className="h-10 w-10" />,
+  'training-workshops': <UserCheck className="h-10 w-10" />,
+  'ux-ui-design': <BarChart className="h-10 w-10" />,
 };
 
 const heroServices = services.slice(0, 8);
 
 const InteractiveCircle = () => {
     const [hovered, setHovered] = useState<string | null>(null);
-    const radius = 150;
-    const center = 160;
+    const radius = 180;
+    const center = 200;
     const time = useTime();
     const rotate = useTransform(time, [0, 40000], [0, 360], { clamp: false });
 
 
     return (
-        <div className="relative w-[320px] h-[320px] flex items-center justify-center">
+        <div className="relative w-[400px] h-[400px] flex items-center justify-center">
             <motion.div
                 className="absolute top-0 left-0 w-full h-full"
                 style={{ rotate }}
@@ -94,14 +94,14 @@ const InteractiveCircle = () => {
                     return (
                         <motion.div
                             key={service.id}
-                            className="absolute w-16 h-16"
-                            style={{ top: y - 32, left: x - 32 }}
+                            className="absolute w-20 h-20"
+                            style={{ top: y - 40, left: x - 40 }}
                             onMouseEnter={() => setHovered(service.id)}
                             onMouseLeave={() => setHovered(null)}
                             whileHover={{ scale: 1.2 }}
                         >
                              <Link href={`/services#${service.id}`} className="flex flex-col items-center text-center">
-                                 <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
+                                 <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
                                     {serviceIcons[service.id]}
                                 </div>
                             </Link>
@@ -110,14 +110,14 @@ const InteractiveCircle = () => {
                 })}
             </motion.div>
             <motion.div
-                className="relative flex h-32 w-32 flex-col items-center justify-center rounded-full bg-primary/10 text-center"
+                className="relative flex h-40 w-40 flex-col items-center justify-center rounded-full bg-primary/10 text-center"
                 animate={{ scale: hovered ? 1.1 : 1 }}
             >
               <div className="flex flex-col items-center justify-center">
-                <p className="font-headline text-2xl font-bold text-primary">
+                <p className="font-headline text-3xl font-bold text-primary">
                     {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ')[0] : 'Daki'}
                 </p>
-                <p className="font-headline text-2xl font-bold text-accent">
+                <p className="font-headline text-3xl font-bold text-accent">
                      {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ').slice(1).join(' ') : 'Techs'}
                 </p>
               </div>
