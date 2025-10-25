@@ -1,8 +1,10 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowRight,
-  ChevronRight,
+  BookOpen,
   Cloud,
   Code,
   Layers,
@@ -27,6 +29,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { projects, services, testimonials } from '@/lib/data';
+import { motion } from 'framer-motion';
 
 const whyChooseUs = [
   {
@@ -67,46 +70,121 @@ const serviceIcons: { [key: string]: React.ReactNode } = {
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'home-hero');
   const featuredProjects = projects.slice(0, 3);
+  const academyImage = PlaceHolderImages.find(p => p.id === 'home-academy');
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-dvh">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative w-full min-h-screen flex items-center justify-center bg-background overflow-hidden">
+        <motion.section 
+          className="relative w-full h-dvh flex items-center justify-center text-center overflow-hidden bg-background"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           {heroImage && (
-            <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover absolute inset-0 z-0 opacity-10"
-              data-ai-hint={heroImage.imageHint}
-              priority
-            />
+            <motion.div 
+              className="absolute inset-0 z-0"
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 10, ease: "easeInOut" }}
+            >
+              <Image
+                src={heroImage.imageUrl}
+                alt={heroImage.description}
+                fill
+                className="object-cover"
+                data-ai-hint={heroImage.imageHint}
+                priority
+              />
+               <div className="absolute inset-0 bg-black/60" />
+            </motion.div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10" />
           
           <div className="container mx-auto px-4 md:px-6 relative z-20">
-            <div className="flex flex-col justify-center items-center text-center space-y-4 animate-fade-in-up">
+            <motion.div 
+              className="flex flex-col justify-center items-center space-y-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            >
               <div className="space-y-4">
-                 <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                 <h1 className="font-headline text-4xl font-extrabold tracking-tight text-primary-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                   <span className="text-primary">Innovate.</span>
                   <span className="text-accent"> Build.</span>
-                  <span className="text-foreground"> Empower.</span>
+                  <span className="text-primary-foreground"> Empower.</span>
                 </h1>
-                <p className="max-w-[600px] text-foreground/80 md:text-xl mx-auto">
+                <p className="max-w-[600px] text-primary-foreground/80 md:text-xl mx-auto">
                   Daki Techs is a modern digital technology company that provides full software and IT solutions to empower your business.
                 </p>
               </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button asChild size="lg" className="transition-transform hover:scale-105">
+              <motion.div 
+                className="flex flex-col gap-4 min-[400px]:flex-row"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+              >
+                <Button asChild size="lg" className="transition-transform hover:scale-105 shadow-lg">
                   <Link href="/contact">Get a Quote</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
-                  <Link href="/academy">Visit Academy</Link>
+                <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105 bg-transparent text-primary-foreground border-primary-foreground/50 hover:bg-primary-foreground/10 hover:text-primary-foreground">
+                  <Link href="/services">Our Services</Link>
                 </Button>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
+        </section>
+
+        {/* Academy Section */}
+        <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    <motion.div 
+                        className="space-y-6"
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <Badge>Daki Academy</Badge>
+                        <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Launch Your Tech Career</h2>
+                        <p className="text-foreground/80 text-lg">
+                           Our flagship course is an intensive, project-based program designed to equip you with the in-demand skills needed to become a successful full-stack web developer. Learn by doing, and build a portfolio that stands out.
+                        </p>
+                        <div className="flex items-center gap-4">
+                           <div className="flex items-center gap-2">
+                               <BookOpen className="h-6 w-6 text-accent" />
+                               <span>6-Month Program</span>
+                           </div>
+                           <div className="flex items-center gap-2">
+                                <UserCheck className="h-6 w-6 text-accent" />
+                               <span>Expert Instructors</span>
+                           </div>
+                        </div>
+                        <Button size="lg" asChild className="transition-transform hover:scale-105">
+                           <Link href="/academy">Explore the Academy <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                        </Button>
+                    </motion.div>
+                    <motion.div 
+                        className="flex justify-center"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        {academyImage && (
+                          <Image
+                            src={academyImage.imageUrl}
+                            alt={academyImage.description}
+                            width={550}
+                            height={400}
+                            className="rounded-xl shadow-2xl object-cover"
+                            data-ai-hint={academyImage.imageHint}
+                          />
+                        )}
+                    </motion.div>
+                </div>
+            </div>
         </section>
 
         {/* Services Overview */}
@@ -123,20 +201,28 @@ export default function Home() {
             </div>
             <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 pt-12">
               {services.slice(0, 6).map((service) => (
-                <Card key={service.id} className="hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    <div className="bg-primary/10 p-3 rounded-full text-primary">
-                      {serviceIcons[service.id] || <Code className="h-8 w-8" />}
-                    </div>
-                    <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-foreground/80">{service.description.substring(0, 100)}...</p>
-                    <Button variant="link" asChild className="p-0 h-auto mt-2 group">
-                      <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
-                    </Button>
-                  </CardContent>
-                </Card>
+                <motion.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-2 h-full">
+                    <CardHeader className="flex flex-row items-center gap-4">
+                      <div className="bg-primary/10 p-3 rounded-full text-primary">
+                        {serviceIcons[service.id] || <Code className="h-8 w-8" />}
+                      </div>
+                      <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-foreground/80">{service.description.substring(0, 100)}...</p>
+                      <Button variant="link" asChild className="p-0 h-auto mt-2 group">
+                        <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
             </div>
              <div className="text-center mt-12">
@@ -160,11 +246,18 @@ export default function Home() {
             </div>
             <div className="mx-auto grid items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
               {whyChooseUs.map((reason) => (
-                <div key={reason.title} className="flex flex-col items-center text-center p-6 rounded-lg hover:bg-background transition-colors duration-300">
-                  <div className="p-4 bg-background rounded-full transition-transform hover:scale-110">{reason.icon}</div>
+                 <motion.div 
+                    key={reason.title} 
+                    className="flex flex-col items-center text-center p-6"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                >
+                  <div className="p-4 bg-background rounded-full transition-transform hover:scale-110 shadow-md">{reason.icon}</div>
                   <h3 className="font-headline text-xl font-bold mt-4">{reason.title}</h3>
                   <p className="mt-2 text-foreground/80">{reason.description}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -187,10 +280,16 @@ export default function Home() {
               <div className="relative flex justify-between">
                 {processSteps.map((step, index) => (
                   <div key={step.name} className="flex flex-col items-center text-center z-10 group">
-                    <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent">
+                    <motion.div 
+                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                    >
                       {index + 1}
-                    </div>
-                    <p className="font-headline mt-2 font-semibold">{step.name}</p>
+                    </motion.div>
+                    <p className="font-headline mt-3 font-semibold">{step.name}</p>
                   </div>
                 ))}
               </div>
@@ -222,13 +321,13 @@ export default function Home() {
                         <Card className="h-full overflow-hidden group/project">
                            <CardContent className="p-0">
                             {projectImage && (
-                              <div className="overflow-hidden">
+                              <div className="overflow-hidden rounded-t-lg">
                                 <Image
                                   src={projectImage.imageUrl}
                                   alt={project.title}
                                   width={600}
                                   height={400}
-                                  className="rounded-t-lg object-cover aspect-[3/2] transition-transform duration-500 group-hover/project:scale-105"
+                                  className="object-cover aspect-[3/2] transition-transform duration-500 group-hover/project:scale-105"
                                   data-ai-hint={projectImage.imageHint}
                                 />
                               </div>
