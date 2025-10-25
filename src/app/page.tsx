@@ -173,7 +173,7 @@ export default function Home() {
                     </motion.span>
                   </h1>
                   <p className="max-w-[600px] text-foreground/80 md:text-xl mx-auto md:mx-0">
-                    DakiTechs is a modern digital technology company that provides full software and IT solutions to empower your business.
+                    Empowering businesses with digital solutions and shaping future tech leaders at our academy.
                   </p>
                 </div>
                 <motion.div
@@ -186,7 +186,7 @@ export default function Home() {
                     <Link href="/contact">Get a Quote</Link>
                   </Button>
                   <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
-                    <Link href="/services">Our Services</Link>
+                    <Link href="/academy">Explore Academy</Link>
                   </Button>
                 </motion.div>
               </motion.div>
