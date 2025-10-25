@@ -113,12 +113,14 @@ const InteractiveCircle = () => {
                 className="relative flex h-32 w-32 flex-col items-center justify-center rounded-full bg-primary/10 text-center"
                 animate={{ scale: hovered ? 1.1 : 1 }}
             >
+              <div className="flex flex-col items-center justify-center">
                 <p className="font-headline text-2xl font-bold text-primary">
                     {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ')[0] : 'Daki'}
                 </p>
                 <p className="font-headline text-2xl font-bold text-accent">
                      {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ').slice(1).join(' ') : 'Techs'}
                 </p>
+              </div>
             </motion.div>
         </div>
     )
@@ -132,7 +134,12 @@ export default function Home() {
     <div className="flex flex-col min-h-dvh">
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative w-full h-dvh flex items-center bg-primary/5 overflow-hidden">
+        <motion.section 
+          className="relative w-full h-dvh flex items-center bg-background overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2 }}
+        >
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <motion.div
@@ -142,10 +149,28 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
               >
                 <div className="space-y-4">
-                  <h1 className="font-headline text-4xl font-extrabold tracking-tight text-primary sm:text-5xl md:text-6xl lg:text-7xl">
-                    <span className="text-primary">Innovate.</span>
-                    <span className="text-accent"> Build.</span>
-                    <span className="text-foreground"> Empower.</span>
+                  <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                    <motion.span 
+                      className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B00] to-[#FF2E00]"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.5 }}
+                    >Innovate.
+                    </motion.span>
+                    <motion.span 
+                      className="text-accent"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.7 }}
+                    > Build.
+                    </motion.span>
+                    <motion.span 
+                      className="text-foreground"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.9 }}
+                    > Empower.
+                    </motion.span>
                   </h1>
                   <p className="max-w-[600px] text-foreground/80 md:text-xl mx-auto md:mx-0">
                     Daki Techs is a modern digital technology company that provides full software and IT solutions to empower your business.
@@ -177,7 +202,7 @@ export default function Home() {
           </div>
           <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
            <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
-        </section>
+        </motion.section>
 
         {/* Academy Section */}
         <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background">
@@ -414,7 +439,7 @@ export default function Home() {
         </section>
 
         {/* CTA Banner */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-[#FF6B00] to-[#FF2E00] text-primary-foreground">
           <div className="container mx-auto grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
               <h2 className="font-headline text-3xl font-bold tracking-tighter md:text-4xl/tight">

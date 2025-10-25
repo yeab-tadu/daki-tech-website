@@ -11,7 +11,7 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
   >
     <path
       d="M10.1333 0L0 9.6V32H10.1333V18.1333L20.2667 27.7333V9.6L10.1333 0ZM10.1333 14.9333V9.6L14.2 12.2667L10.1333 14.9333Z"
-      className="fill-primary"
+      className="fill-[url(#logo-gradient)]"
     />
     <text
       x="28"
@@ -19,7 +19,7 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
       fontFamily="Poppins, sans-serif"
       fontSize="24"
       fontWeight="bold"
-      className="fill-primary font-headline"
+      className="fill-foreground font-headline"
     >
       Daki
     </text>
@@ -33,6 +33,12 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
     >
       Techs
     </text>
+    <defs>
+      <linearGradient id="logo-gradient" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#FF6B00" />
+        <stop offset="100%" stopColor="#FF2E00" />
+      </linearGradient>
+    </defs>
   </svg>
 );
 

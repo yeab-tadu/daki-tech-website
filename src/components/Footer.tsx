@@ -6,7 +6,7 @@ import { Github, Twitter, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-primary/5 border-t">
+    <footer className="bg-background border-t">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
