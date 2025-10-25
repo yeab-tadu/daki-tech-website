@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   Briefcase,
   UserCheck,
+  BarChart,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,7 +30,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { projects, services, testimonials } from '@/lib/data';
-import { motion } from 'framer-motion';
+import { motion, useTime, useTransform } from 'framer-motion';
 import { useState } from 'react';
 
 const whyChooseUs = [
@@ -66,6 +67,7 @@ const serviceIcons: { [key: string]: React.ReactNode } = {
   'digital-business-card': <Briefcase className="h-8 w-8" />,
   'graphics-design': <PenTool className="h-8 w-8" />,
   'training-workshops': <UserCheck className="h-8 w-8" />,
+  'ux-ui-design': <BarChart className="h-8 w-8" />,
 };
 
 const heroServices = services.slice(0, 8);
@@ -74,9 +76,39 @@ const InteractiveCircle = () => {
     const [hovered, setHovered] = useState<string | null>(null);
     const radius = 150;
     const center = 160;
+    const time = useTime();
+    const rotate = useTransform(time, [0, 40000], [0, 360], { clamp: false });
+
 
     return (
         <div className="relative w-[320px] h-[320px]">
+            <motion.div
+                className="absolute top-0 left-0 w-full h-full"
+                style={{ rotate }}
+            >
+                {heroServices.map((service, i) => {
+                    const angle = (i / heroServices.length) * 2 * Math.PI;
+                    const x = center + radius * Math.cos(angle);
+                    const y = center + radius * Math.sin(angle);
+                    
+                    return (
+                        <motion.div
+                            key={service.id}
+                            className="absolute w-16 h-16"
+                            style={{ top: y - 32, left: x - 32 }}
+                            onMouseEnter={() => setHovered(service.id)}
+                            onMouseLeave={() => setHovered(null)}
+                            whileHover={{ scale: 1.2 }}
+                        >
+                             <Link href={`/services#${service.id}`} className="flex flex-col items-center text-center">
+                                 <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
+                                    {serviceIcons[service.id]}
+                                </div>
+                            </Link>
+                        </motion.div>
+                    )
+                })}
+            </motion.div>
             <motion.div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center"
                 animate={{ scale: hovered ? 1.1 : 1 }}
@@ -90,32 +122,6 @@ const InteractiveCircle = () => {
                     </p>
                 </div>
             </motion.div>
-            
-            {heroServices.map((service, i) => {
-                const angle = (i / heroServices.length) * 2 * Math.PI;
-                const x = center + radius * Math.cos(angle);
-                const y = center + radius * Math.sin(angle);
-                
-                return (
-                    <motion.div
-                        key={service.id}
-                        className="absolute w-16 h-16"
-                        style={{ top: y - 32, left: x - 32 }}
-                        onMouseEnter={() => setHovered(service.id)}
-                        onMouseLeave={() => setHovered(null)}
-                        whileHover={{ scale: 1.2 }}
-                    >
-                        <Link href={`/services#${service.id}`} className="flex flex-col items-center text-center">
-                             <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
-                                {serviceIcons[service.id]}
-                            </div>
-                            <span className="text-xs mt-1 font-semibold text-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity">
-                               {service.title}
-                            </span>
-                        </Link>
-                    </motion.div>
-                )
-            })}
         </div>
     )
 }
@@ -435,3 +441,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
