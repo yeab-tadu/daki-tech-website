@@ -2,9 +2,9 @@ import type { SVGProps } from 'react';
 
 const Logo = (props: SVGProps<SVGSVGElement>) => (
   <svg
-    width="160"
+    width="180"
     height="40"
-    viewBox="0 0 160 40"
+    viewBox="0 0 180 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
@@ -13,9 +13,9 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
       <linearGradient
         id="logo-gradient"
         x1="0"
-        y1="0"
+        y1="20"
         x2="32"
-        y2="32"
+        y2="20"
         gradientUnits="userSpaceOnUse"
       >
         <stop stopColor="hsl(var(--primary))" />
@@ -23,14 +23,11 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
       </linearGradient>
     </defs>
     
-    {/* Abstract mark combining D, T, </> and learning */}
+    {/* Geometric Mark: D + T */}
     <g transform="translate(0, 4)">
-        {/* The '>' part of the closing tag, also forms part of 'D' */}
-        <path d="M15 8 L23 16 L15 24" stroke="url(#logo-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        {/* The '<' part of the opening tag, also forms the cross of 'T' */}
-        <path d="M9 8 L1 16 L9 24" stroke="url(#logo-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        {/* The slash '/' and stem of 'T', which also suggests a book spine or growth */}
-        <path d="M12 30 L20 2" stroke="url(#logo-gradient)" strokeOpacity="0.5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M0 2H16C24.8366 2 32 9.16344 32 18V18C32 26.8366 24.8366 34 16 34H0V2Z" fill="url(#logo-gradient)"/>
+        <path d="M12 11H22V25" stroke="hsl(var(--background))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+         <path d="M17 11V25" stroke="hsl(var(--background))" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
     </g>
 
     <text
