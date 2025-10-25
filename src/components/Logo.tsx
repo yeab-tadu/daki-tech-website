@@ -35,8 +35,8 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
     </text>
     <defs>
       <linearGradient id="logo-gradient" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#6E0D25" />
-        <stop offset="100%" stopColor="#FF006E" />
+        <stop offset="0%" stopColor="#9A1FDD" />
+        <stop offset="100%" stopColor="#FF6B1A" />
       </linearGradient>
     </defs>
   </svg>

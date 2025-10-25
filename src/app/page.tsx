@@ -151,7 +151,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                     <motion.span 
-                      className="text-transparent bg-clip-text bg-gradient-to-r from-[#6E0D25] to-[#FF006E]"
+                      className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.5 }}
@@ -439,7 +439,7 @@ export default function Home() {
         </section>
 
         {/* CTA Banner */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-[#6E0D25] to-[#FF006E] text-primary-foreground">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-primary to-accent text-primary-foreground">
           <div className="container mx-auto grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
               <h2 className="font-headline text-3xl font-bold tracking-tighter md:text-4xl/tight">
