@@ -14,7 +14,7 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
         id="logo-gradient"
         x1="0"
         y1="20"
-        x2="32"
+        x2="40"
         y2="20"
         gradientUnits="userSpaceOnUse"
       >
@@ -23,18 +23,11 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
       </linearGradient>
     </defs>
     
-    {/* Abstract Mark based on user image */}
-    <g transform="translate(0, 4) scale(1.1)">
-      <path 
-        d="M16 2L0 10V18L16 26L32 18V10L16 2Z"
-        fill="url(#logo-gradient)"
-        stroke="url(#logo-gradient)"
-        strokeWidth="1"
-      />
-      <path d="M8 14L2 17V19L8 22L14 19V17L8 14Z" fill="hsl(var(--background))" opacity="0.5"/>
-      <path d="M24 14L18 17V19L24 22L30 19V17L24 14Z" fill="hsl(var(--background))" opacity="0.5"/>
-       <path d="M16 4L2 11L16 18L30 11L16 4Z" fill="hsl(var(--background))" />
-       <path d="M8.5 13.5L16 9L23.5 13.5" stroke="url(#logo-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    {/* Abstract Mark combining D, T, and </> */}
+    <g transform="translate(0, 4) scale(0.9)">
+        <path d="M14 2L2 8V24L14 30" stroke="url(#logo-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M26 2L38 8V24L26 30" stroke="url(#logo-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M22 4L18 30" stroke="hsl(var(--primary))" strokeOpacity="0.8" strokeWidth="3" strokeLinecap="round" />
     </g>
 
     <text
