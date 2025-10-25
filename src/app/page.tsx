@@ -110,10 +110,10 @@ const InteractiveCircle = () => {
                 })}
             </motion.div>
             <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                 animate={{ scale: hovered ? 1.1 : 1 }}
             >
-                <div className="text-center">
+                <div className="text-center w-32 h-32 bg-primary/10 rounded-full flex flex-col items-center justify-center">
                     <p className="font-headline text-2xl font-bold text-primary">
                         {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ')[0] : 'Daki'}
                     </p>
@@ -441,5 +441,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
