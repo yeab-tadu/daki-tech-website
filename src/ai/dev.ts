@@ -1,1 +1,6 @@
-// Flows will be imported for their side effects in this file.
+import { config } from 'dotenv';
+config();
+
+import '@/ai/flows/blog-auto-summarization.ts';
+import '@/ai/flows/service-description-generator.ts';
+import '@/ai/flows/blog-auto-categorization.ts';
