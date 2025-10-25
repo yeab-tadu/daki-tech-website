@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "home-hero",
-      "description": "A modern office setting with developers working on computers.",
-      "imageUrl": "https://images.unsplash.com/photo-1553632168-eb4237620881?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxvZmZpY2UlMjBkZXZlbG9wZXJzfGVufDB8fHx8MTc2MTM5MzYzOHww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "office developers"
+      "description": "Abstract code on a screen, representing technology and innovation.",
+      "imageUrl": "https://images.unsplash.com/photo-1555066931-4365d1469c58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb2RlfGVufDB8fHx8MTY5OTk3ODg2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "code technology"
     },
     {
       "id": "services-hero",
@@ -93,7 +93,7 @@
     {
       "id": "team-4",
       "description": "Professional headshot of Sarah Williams, UX Designer.",
-      "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3b21hbiUyMHNtaWxpbmd8ZW58MHx8fHwxNzYxMzQ1MjEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3b21hbiUyMHNtaWxpbmd8ZW58MHx8fHwxNzYxMzQ1MjEwfDA&ixlibrb-4.1.0&q=80&w=1080",
       "imageHint": "woman smiling"
     },
     {
@@ -105,85 +105,85 @@
     {
       "id": "testimonial-2",
       "description": "Headshot of another satisfied client.",
-      "imageUrl": "https://images.unsplash.com/photo-1728830990237-452ade78f96e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwZ2xhc3Nlc3xlbnwwfHx8fDE3NjEzODE5NDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1728830990237-452ade78f96e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwZ2xhc3Nlc3xlbnwwfHx8fDE3NjEzODE5NDN8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "man glasses"
     },
     {
       "id": "testimonial-3",
       "description": "Headshot of a happy student.",
-      "imageUrl": "https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3b21hbiUyMGhhcHB5fGVufDB8fHx8MTc2MTI5MDU4NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3b21hbiUyMGhhcHB5fGVufDB8fHx8MTc2MTI5MDU4NHww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "woman happy"
     },
     {
       "id": "blog-1",
       "description": "Abstract image representing tech trends.",
-      "imageUrl": "https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0ZWNoJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzYxMzg5ODcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0ZWNoJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzYxMzg5ODcwfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "tech abstract"
     },
     {
       "id": "blog-2",
       "description": "Code on a screen.",
-      "imageUrl": "https://images.unsplash.com/photo-1742072594003-abf6ca86e154?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjb2RlJTIwc2NyZWVufGVufDB8fHx8MTc2MTMxNDY3MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1742072594003-abf6ca86e154?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjb2RlJTIwc2NyZWVufGVufDB8fHx8MTc2MTMxNDY3MXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "code screen"
     },
     {
       "id": "blog-3",
       "description": "Wireframes and design sketches.",
-      "imageUrl": "https://images.unsplash.com/photo-1713616147761-c126f8009c6f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkZXNpZ24lMjBza2V0Y2h8ZW58MHx8fHwxNzYxMzY0ODE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1713616147761-c126f8009c6f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkZXNpZ24lMjBza2V0Y2h8ZW58MHx8fHwxNzYxMzY0ODE0fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "design sketch"
     },
     {
       "id": "service-web",
       "description": "Web development illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1605379399642-870262d3d051?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3ZWIlMjBkZXZlbG9wbWVudHxlbnwwfHx8fDE3NjEzMTIwMjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1605379399642-870262d3d051?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3ZWIlMjBkZXZlbG9wbWVudHxlbnwwfHx8fDE3NjEzMTIwMjN8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "web development"
     },
     {
       "id": "service-mobile",
       "description": "Mobile app development illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1542641728-6ca359b085f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtb2JpbGUlMjBhcHB8ZW58MHx8fHwxNzYxMjk2Nzg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1542641728-6ca359b085f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtb2JpbGUlMjBhcHB8ZW58MHx8fHwxNzYxMjk2Nzg1fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "mobile app"
     },
     {
       "id": "service-cloud",
       "description": "Cloud solutions illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1667984390527-850f63192709?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjbG91ZCUyMGNvbXB1dGluZ3xlbnwwfHx8fDE3NjEzMTc2NzN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1667984390527-850f63192709?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjbG91ZCUyMGNvbXB1dGluZ3xlbnwwfHx8fDE3NjEzMTc2NzN8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "cloud computing"
     },
     {
       "id": "service-custom",
       "description": "Custom systems illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1691302447318-e83992180803?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzeXN0ZW0lMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzYxMzMyOTkwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1691302447318-e83992180803?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzeXN0ZW0lMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzYxMzMyOTkwfDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "system architecture"
     },
     {
       "id": "service-bizcard",
       "description": "Digital business card illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1636719672819-1ccac865f0b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YnVzaW5lc3MlMjBjYXJkfGVufDB8fHx8MTc2MTM5MTg2OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1636719672819-1ccac865f0b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YnVzaW5lc3MlMjBjYXJkfGVufDB8fHx8MTc2MTM5MTg2OXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "business card"
     },
     {
       "id": "service-design",
       "description": "Graphics design illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1561070791-2526d30994b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxncmFwaGljJTIwZGVzaWdufGVufDB8fHx8MTc2MTM3MDUwMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1561070791-2526d30994b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxncmFwaGljJTIwZGVzaWdufGVufDB8fHx8MTc2MTM3MDUwMnww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "graphic design"
     },
     {
       "id": "service-training",
       "description": "Training and workshop illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1760420940953-3958ad9f6287?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3b3Jrc2hvcCUyMHByZXNlbnRhdGlvbnxlbnwwfHx8fDE3NjEzOTM2Mzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1760420940953-3958ad9f6287?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3b3Jrc2hvcCUyMHByZXNlbnRhdGlvbnxlbnwwfHx8fDE3NjEzOTM2Mzh8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "workshop presentation"
     },
     {
       "id": "service-uxui",
       "description": "UX/UI design illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1642132652806-8aa09801c2ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx1aSUyMGRlc2lnbnxlbnwwfHx8fDE3NjEzMjYyMTh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1642132652806-8aa09801c2ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx1aSUyMGRlc2lnbnxlbnwwfHx8fDE3NjEzMjYyMTh8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "ui design"
     },
     {
       "id": "service-it",
       "description": "IT support illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1664382951070-70a6e4ef8ed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxpdCUyMHN1cHBvcnR8ZW58MHx8fHwxNzYxMzkzNjM4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1664382951070-70a6e4ef8ed0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxpdCUyMHN1cHBvcnR8ZW58MHx8fHwxNzYxMzkzNjM4fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "it support"
     }
   ]
