@@ -151,7 +151,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                     <motion.span 
-                      className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent"
+                      className="text-primary"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.5 }}
