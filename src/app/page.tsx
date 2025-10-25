@@ -133,7 +133,7 @@ export default function Home() {
               </motion.div>
             </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Academy Section */}
         <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
