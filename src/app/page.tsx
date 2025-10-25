@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/carousel';
 import { projects, services, testimonials } from '@/lib/data';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 const whyChooseUs = [
   {
@@ -67,6 +68,58 @@ const serviceIcons: { [key: string]: React.ReactNode } = {
   'training-workshops': <UserCheck className="h-8 w-8" />,
 };
 
+const heroServices = services.slice(0, 8);
+
+const InteractiveCircle = () => {
+    const [hovered, setHovered] = useState<string | null>(null);
+    const radius = 150;
+    const center = 160;
+
+    return (
+        <div className="relative w-[320px] h-[320px]">
+            <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center"
+                animate={{ scale: hovered ? 1.1 : 1 }}
+            >
+                <div className="text-center">
+                    <p className="font-headline text-2xl font-bold text-primary">
+                        {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ')[0] : 'Daki'}
+                    </p>
+                    <p className="font-headline text-2xl font-bold text-accent">
+                         {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ').slice(1).join(' ') : 'Techs'}
+                    </p>
+                </div>
+            </motion.div>
+            
+            {heroServices.map((service, i) => {
+                const angle = (i / heroServices.length) * 2 * Math.PI;
+                const x = center + radius * Math.cos(angle);
+                const y = center + radius * Math.sin(angle);
+                
+                return (
+                    <motion.div
+                        key={service.id}
+                        className="absolute w-16 h-16"
+                        style={{ top: y - 32, left: x - 32 }}
+                        onMouseEnter={() => setHovered(service.id)}
+                        onMouseLeave={() => setHovered(null)}
+                        whileHover={{ scale: 1.2 }}
+                    >
+                        <Link href={`/services#${service.id}`} className="flex flex-col items-center text-center">
+                             <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
+                                {serviceIcons[service.id]}
+                            </div>
+                            <span className="text-xs mt-1 font-semibold text-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity">
+                               {service.title}
+                            </span>
+                        </Link>
+                    </motion.div>
+                )
+            })}
+        </div>
+    )
+}
+
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'home-hero');
   const featuredProjects = projects.slice(0, 3);
@@ -76,12 +129,7 @@ export default function Home() {
     <div className="flex flex-col min-h-dvh">
       <main className="flex-1">
         {/* Hero Section */}
-        <motion.section
-          className="w-full h-dvh flex items-center bg-primary/5 overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
+        <section className="relative w-full h-dvh flex items-center bg-primary/5 overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <motion.div
@@ -115,26 +163,18 @@ export default function Home() {
                 </motion.div>
               </motion.div>
               <motion.div
-                className="hidden md:flex justify-center"
+                className="hidden md:flex justify-center items-center group"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
               >
-                {heroImage && (
-                  <Image
-                    src={heroImage.imageUrl}
-                    alt={heroImage.description}
-                    width={800}
-                    height={600}
-                    className="object-contain"
-                    data-ai-hint={heroImage.imageHint}
-                    priority
-                  />
-                )}
+                <InteractiveCircle />
               </motion.div>
             </div>
           </div>
-        </motion.section>
+          <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
+           <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
+        </section>
 
         {/* Academy Section */}
         <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background">

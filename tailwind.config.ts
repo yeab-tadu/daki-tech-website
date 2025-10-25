@@ -16,6 +16,9 @@ export default {
       },
     },
     extend: {
+      backgroundImage: {
+        'grid-pattern': "radial-gradient(circle at 1px 1px, hsl(var(--border)) 1px, transparent 0)",
+      },
       fontFamily: {
         body: ['PT Sans', 'sans-serif'],
         headline: ['Poppins', 'sans-serif'],
