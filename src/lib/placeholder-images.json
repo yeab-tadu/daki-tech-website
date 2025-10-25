@@ -3,7 +3,7 @@
     {
       "id": "home-hero",
       "description": "An illustration of a team working on laptops in a modern, tech-focused environment.",
-      "imageUrl": "https://images.unsplash.com/photo-1580894742597-87bc8789db3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx0ZWNoJTIwdGVhbSUyMGlsbHVzdHJhdGlvbnxlbnwwfHx8fDE3NjE0ODU2MjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWNoJTIwd29yayUyMGlsbHVzdHJhdGlvbnxlbnwwfHx8fDE3NjQxNzY1OTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "tech illustration"
     },
     {
@@ -45,7 +45,7 @@
     {
       "id": "careers-hero",
       "description": "A welcoming and modern office entrance.",
-      "imageUrl": "https://images.unsplash.com/photo-1631195092568-a1030d926fd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxvZmZpY2UlMjBlbnRyYW5jZXxlbnwwfHx8fDE3NjEzOTM2Mzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1631195092568-a1030d926fd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxvZmZpY2UlMjBlbnRyYW5jZXxlbnwwfHx8fDE3NjEzOTM2Mzh8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "office entrance"
     },
     {
@@ -69,7 +69,7 @@
     {
       "id": "project-2",
       "description": "Mobile app interface for a social media platform.",
-      "imageUrl": "https://images.unsplash.com/photo-1601972602237-8c79241e468b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtb2JpbGUlMjBhcHB8ZW58MHx8fHwxNzYxMjk2Nzg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1601972602237-8c79241e468b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtb2JpbGUlMjBhcHB8ZW58MHx8fHwxNzYxMjk2Nzg1fDA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "mobile app"
     },
     {
@@ -93,7 +93,7 @@
     {
       "id": "team-3",
       "description": "Professional headshot of Mike Johnson, Lead Developer.",
-      "imageUrl": "https://images.unsplash.com/photo-1621624666561-84d0107001dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtYW4lMjBzbWlsaW5nfGVufDB8fHx8MTc2MTM0ODcxMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1621624666561-84d0107001dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtYW4lMjBzbWlsaW5nfGVufDB8fHx8MTc2MTM0ODcxMXww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "man smiling"
     },
     {
@@ -111,7 +111,7 @@
     {
       "id": "testimonial-2",
       "description": "Headshot of another satisfied client.",
-      "imageUrl": "https://images.unsplash.com/photo-1728830990237-452ade78f96e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwZ2xhc3Nlc3xlbnwwfHx8fDE3NjEzODE5NDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1728830990237-452ade78f96e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwZ2xhc3Nlc3xlbnwwfHx8fDE3NjEzODE5NDN8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "man glasses"
     },
     {
@@ -141,7 +141,7 @@
     {
       "id": "service-web",
       "description": "Web development illustration",
-      "imageUrl": "https://images.unsplash.com/photo-1605379399642-870262d3d051?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3ZWIlMjBkZXZlbG9wbWVudHxlbnwwfHx8fDE3NjEzMTIwMjN8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1605379399642-870262d3d051?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3ZWIlMjBkZXZlbG9wbWVudHxlbnwwfHx8fDE3NjEzMTIwMjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "web development"
     },
     {
