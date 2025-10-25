@@ -2,19 +2,29 @@ import type { SVGProps } from 'react';
 
 const Logo = (props: SVGProps<SVGSVGElement>) => (
   <svg
-    width="130"
+    width="150"
     height="32"
-    viewBox="0 0 130 32"
+    viewBox="0 0 150 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <path
-      d="M16 0L0 9.6V32H12.8V16L25.6 32V9.6L16 0Z"
-      fill="url(#logo-gradient)"
+        d="M2 2L16 16L2 30"
+        stroke="url(#logo-gradient)"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    />
+     <path
+        d="M14 2L28 16L14 30"
+        stroke="url(#logo-gradient-dimmed)"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
     />
     <text
-      x="34"
+      x="40"
       y="24"
       fontFamily="Poppins, sans-serif"
       fontSize="24"
@@ -24,7 +34,7 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
       Daki
     </text>
     <text
-      x="88"
+      x="98"
       y="24"
       fontFamily="Poppins, sans-serif"
       fontSize="24"
@@ -36,14 +46,25 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
     <defs>
       <linearGradient
         id="logo-gradient"
-        x1="12.8"
+        x1="0"
         y1="0"
-        x2="12.8"
+        x2="32"
         y2="32"
         gradientUnits="userSpaceOnUse"
       >
         <stop stopColor="hsl(var(--primary))" />
         <stop offset="1" stopColor="hsl(var(--accent))" />
+      </linearGradient>
+       <linearGradient
+        id="logo-gradient-dimmed"
+        x1="0"
+        y1="0"
+        x2="32"
+        y2="32"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stopColor="hsl(var(--primary))" stopOpacity="0.5" />
+        <stop offset="1" stopColor="hsl(var(--accent))" stopOpacity="0.5" />
       </linearGradient>
     </defs>
   </svg>

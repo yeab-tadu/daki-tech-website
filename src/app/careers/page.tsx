@@ -110,7 +110,7 @@ export default function CareersPage() {
               <div className="space-y-4">
                  <h2 className="font-headline text-3xl font-bold tracking-tighter">Our Culture</h2>
                  <p className="text-foreground/80">
-                    At Daki Techs, we foster a collaborative and inclusive environment where every team member's voice is heard. We believe in work-life balance, continuous learning, and empowering our employees to do their best work.
+                    At DakiTechs, we foster a collaborative and inclusive environment where every team member's voice is heard. We believe in work-life balance, continuous learning, and empowering our employees to do their best work.
                  </p>
               </div>
               <div>

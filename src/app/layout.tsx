@@ -5,7 +5,7 @@ import { MainLayout } from '@/components/MainLayout';
 
 export const metadata: Metadata = {
   title: 'DakiTechs - Innovate. Build. Empower.',
-  description: 'Empowering Businesses with Smart Digital Solutions. Daki Techs is a modern digital technology company that provides full software and IT solutions.',
+  description: 'Empowering Businesses with Smart Digital Solutions. DakiTechs is a modern digital technology company that provides full software and IT solutions.',
 };
 
 export default function RootLayout({

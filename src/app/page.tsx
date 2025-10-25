@@ -74,14 +74,14 @@ const heroServices = services.slice(0, 8);
 
 const InteractiveCircle = () => {
     const [hovered, setHovered] = useState<string | null>(null);
-    const radius = 180;
-    const center = 200;
+    const radius = 200;
+    const center = 225;
     const time = useTime();
     const rotate = useTransform(time, [0, 40000], [0, 360], { clamp: false });
 
 
     return (
-        <div className="relative w-[400px] h-[400px] flex items-center justify-center">
+        <div className="relative w-[450px] h-[450px] flex items-center justify-center">
             <motion.div
                 className="absolute top-0 left-0 w-full h-full"
                 style={{ rotate }}
@@ -94,14 +94,14 @@ const InteractiveCircle = () => {
                     return (
                         <motion.div
                             key={service.id}
-                            className="absolute w-20 h-20"
-                            style={{ top: y - 40, left: x - 40 }}
+                            className="absolute w-24 h-24"
+                            style={{ top: y - 48, left: x - 48 }}
                             onMouseEnter={() => setHovered(service.id)}
                             onMouseLeave={() => setHovered(null)}
                             whileHover={{ scale: 1.2 }}
                         >
                              <Link href={`/services#${service.id}`} className="flex flex-col items-center text-center">
-                                 <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
+                                 <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
                                     {serviceIcons[service.id]}
                                 </div>
                             </Link>
@@ -110,14 +110,14 @@ const InteractiveCircle = () => {
                 })}
             </motion.div>
             <motion.div
-                className="relative flex h-40 w-40 flex-col items-center justify-center rounded-full bg-primary/10 text-center"
+                className="relative flex h-48 w-48 flex-col items-center justify-center rounded-full bg-primary/10 text-center"
                 animate={{ scale: hovered ? 1.1 : 1 }}
             >
               <div className="flex flex-col items-center justify-center">
-                <p className="font-headline text-3xl font-bold text-primary">
+                <p className="font-headline text-4xl font-bold text-primary">
                     {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ')[0] : 'Daki'}
                 </p>
-                <p className="font-headline text-3xl font-bold text-accent">
+                <p className="font-headline text-4xl font-bold text-accent">
                      {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ').slice(1).join(' ') : 'Techs'}
                 </p>
               </div>
@@ -173,7 +173,7 @@ export default function Home() {
                     </motion.span>
                   </h1>
                   <p className="max-w-[600px] text-foreground/80 md:text-xl mx-auto md:mx-0">
-                    Daki Techs is a modern digital technology company that provides full software and IT solutions to empower your business.
+                    DakiTechs is a modern digital technology company that provides full software and IT solutions to empower your business.
                   </p>
                 </div>
                 <motion.div
@@ -307,7 +307,7 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Why Choose Daki Techs?</h2>
+                <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Why Choose DakiTechs?</h2>
                 <p className="max-w-[900px] text-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   We are committed to delivering excellence and building long-term partnerships with our clients.
                 </p>

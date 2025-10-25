@@ -95,21 +95,21 @@ export const testimonials: Testimonial[] = [
     id: 'test-1',
     name: 'Alex Johnson',
     role: 'CEO, Innovate Inc.',
-    testimonial: 'Daki Techs transformed our online presence. Their team was professional, creative, and delivered beyond our expectations. Highly recommended!',
+    testimonial: 'DakiTechs transformed our online presence. Their team was professional, creative, and delivered beyond our expectations. Highly recommended!',
     imageId: 'testimonial-1',
   },
   {
     id: 'test-2',
     name: 'Samantha Lee',
     role: 'Founder, Creative Co.',
-    testimonial: 'The custom system Daki Techs built for us has streamlined our operations and saved us countless hours. They are true problem-solvers.',
+    testimonial: 'The custom system DakiTechs built for us has streamlined our operations and saved us countless hours. They are true problem-solvers.',
     imageId: 'testimonial-3',
   },
   {
     id: 'test-3',
     name: 'David Chen',
     role: 'Marketing Director, GrowthWell',
-    testimonial: 'Working with Daki Techs on our mobile app was a fantastic experience. The final product is polished, user-friendly, and has received great feedback.',
+    testimonial: 'Working with DakiTechs on our mobile app was a fantastic experience. The final product is polished, user-friendly, and has received great feedback.',
     imageId: 'testimonial-2',
   },
 ];
@@ -119,7 +119,7 @@ export const team: TeamMember[] = [
     id: 'team-1',
     name: 'John Doe',
     role: 'Founder & CEO',
-    bio: 'With over 15 years in the tech industry, John leads Daki Techs with a passion for innovation and a commitment to client success.',
+    bio: 'With over 15 years in the tech industry, John leads DakiTechs with a passion for innovation and a commitment to client success.',
     imageId: 'team-1',
   },
   {
@@ -201,8 +201,8 @@ export const jobs: Job[] = [
 export const faqs: FAQ[] = [
     {
         id: 'faq-g-1',
-        question: 'What is Daki Techs?',
-        answer: 'Daki Techs is a full-service digital technology company specializing in software development, IT solutions, and professional training.',
+        question: 'What is DakiTechs?',
+        answer: 'DakiTechs is a full-service digital technology company specializing in software development, IT solutions, and professional training.',
         category: 'General'
     },
     {
