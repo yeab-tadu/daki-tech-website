@@ -23,30 +23,14 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
       </linearGradient>
     </defs>
     
-    {/* Icon representing D, T, </> and learning */}
+    {/* Abstract mark combining D, T, </> and learning */}
     <g transform="translate(0, 4)">
-      {/* Book/learning element */}
-      <path 
-        d="M2 10C2 5.58172 5.58172 2 10 2H22C26.4183 2 30 5.58172 30 10V28H2V10Z" 
-        fill="url(#logo-gradient)"
-        fillOpacity="0.1"
-      />
-      {/* D and </> combination */}
-      <path 
-        d="M12 8L4 16L12 24" 
-        stroke="url(#logo-gradient)"
-        strokeWidth="2.5" 
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
-      />
-      {/* T element */}
-      <path 
-        d="M20 8L28 16L20 24"
-        stroke="url(#logo-gradient)" 
-        strokeWidth="2.5" 
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
-      />
+        {/* The '>' part of the closing tag, also forms part of 'D' */}
+        <path d="M15 8 L23 16 L15 24" stroke="url(#logo-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        {/* The '<' part of the opening tag, also forms the cross of 'T' */}
+        <path d="M9 8 L1 16 L9 24" stroke="url(#logo-gradient)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        {/* The slash '/' and stem of 'T', which also suggests a book spine or growth */}
+        <path d="M12 30 L20 2" stroke="url(#logo-gradient)" strokeOpacity="0.5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
     </g>
 
     <text
