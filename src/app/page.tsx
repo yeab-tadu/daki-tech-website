@@ -121,7 +121,6 @@ const InteractiveCircle = () => {
 }
 
 export default function Home() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'home-hero');
   const featuredProjects = projects.slice(0, 3);
   const academyImage = PlaceHolderImages.find(p => p.id === 'home-academy');
 
