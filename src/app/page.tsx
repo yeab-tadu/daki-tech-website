@@ -153,69 +153,54 @@ const academySkills = [
     { name: 'DevOps', icon: <TerminalSquare className="h-10 w-10" /> },
 ];
 
+const AcademySkillsGrid = () => {
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.5,
+        ease: 'easeOut',
+      },
+    }),
+  };
 
-const AcademySkillsCircle = () => {
-    const [hovered, setHovered] = useState<string | null>(null);
-    const radius = 200;
-    const center = 225;
-    const time = useTime();
-    const rotate = useTransform(time, [0, 50000], [360, 0], { clamp: false });
-
-
-    return (
-        <div className="relative w-[450px] h-[450px] flex items-center justify-center">
-            <motion.div
-                className="absolute top-0 left-0 w-full h-full"
-                style={{ rotate }}
-            >
-                {academySkills.map((skill, i) => {
-                    const angle = (i / academySkills.length) * 2 * Math.PI;
-                    const x = center + radius * Math.cos(angle);
-                    const y = center + radius * Math.sin(angle);
-                    
-                    return (
-                        <motion.div
-                            key={skill.name}
-                            className="absolute w-24 h-24 flex flex-col items-center justify-center"
-                            style={{ top: y - 48, left: x - 48 }}
-                            onMouseEnter={() => setHovered(skill.name)}
-                            onMouseLeave={() => setHovered(null)}
-                            whileHover={{ scale: 1.2 }}
-                        >
-                            <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
-                               {skill.icon}
-                           </div>
-                        </motion.div>
-                    )
-                })}
-            </motion.div>
-            <motion.div
-                className="relative flex h-56 w-56 flex-col items-center justify-center rounded-full bg-primary/10 text-center p-4"
-                animate={{ scale: hovered ? 1.1 : 1 }}
-            >
-              <div className="flex flex-col items-center justify-center">
-                {hovered ? (
-                     <p className="font-headline text-2xl font-bold text-primary transition-opacity duration-300">
-                        {hovered}
-                    </p>
-                ) : (
-                    <>
-                        <p className="font-headline text-3xl font-bold text-primary">
-                            Full-Stack
-                        </p>
-                        <p className="font-headline text-3xl font-bold text-accent">
-                            Developer
-                        </p>
-                    </>
-                )}
-              </div>
-            </motion.div>
-        </div>
-    )
-}
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+      {academySkills.map((skill, i) => (
+        <motion.div
+          key={skill.name}
+          custom={i}
+          variants={cardVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          whileHover={{ y: -5, scale: 1.05 }}
+          className="group"
+        >
+          <Card className="bg-background/80 backdrop-blur-sm h-full transition-all duration-300 group-hover:bg-primary/10 group-hover:shadow-primary/20 group-hover:shadow-lg">
+            <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
+              <motion.div
+                className="text-primary transition-colors duration-300 group-hover:text-accent"
+                whileHover={{ scale: 1.2, rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 0.4 }}
+              >
+                {skill.icon}
+              </motion.div>
+              <p className="font-headline text-sm font-semibold">{skill.name}</p>
+            </CardContent>
+          </Card>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
+  const academyHeroImage = PlaceHolderImages.find(p => p.id === 'academy-hero');
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -321,15 +306,9 @@ export default function Home() {
                            <Link href="/academy">Explore the Academy <ArrowRight className="ml-2 h-4 w-4" /></Link>
                         </Button>
                     </motion.div>
-                    <motion.div 
-                        className="hidden md:flex justify-center"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <AcademySkillsCircle />
-                    </motion.div>
+                    <div className="hidden md:flex justify-center">
+                       <AcademySkillsGrid />
+                    </div>
                 </div>
             </div>
         </section>
@@ -542,3 +521,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
