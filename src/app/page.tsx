@@ -151,9 +151,16 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const JsIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg width="32" height="32" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <rect width="256" height="256" fill="#F7DF1E"/>
+        <path d="M68.56 205.44C73.28 209.44 79.36 212.8 87.28 212.8C96.32 212.8 103.36 209.92 103.36 203.2C103.36 197.68 99.52 195.04 92.48 191.68L89.68 190.24C79.84 185.32 72.4 178.96 72.4 168.4C72.4 156.4 81.28 147.28 94.48 147.28C106.88 147.28 114.64 154.72 118.48 160.24L102.64 169.36C100.24 165.64 97.28 163.36 93.52 163.36C89.2 163.36 86.48 165.4 86.48 169.24C86.48 174.16 89.2 176.48 95.84 179.68L98.64 181.12C109.36 186.4 118.64 193.36 118.64 204.64C118.64 217.6 107.68 226.72 93.68 226.72C79.68 226.72 69.28 218.44 65.28 212.64L68.56 205.44ZM145.28 224H162.24L162.32 173.2C162.32 166 165.68 163.28 170.8 163.28C175.28 163.28 177.76 165.4 177.76 170.96L177.68 224H194.64L194.72 168.4C194.72 154.88 185.92 147.64 171.68 147.64C158.48 147.64 149.2 153.28 145.28 161.44V224Z" fill="black"/>
+    </svg>
+);
+
 const academySkills = [
     { name: 'HTML & CSS', icon: <Code className="h-8 w-8" /> },
-    { name: 'JavaScript', icon: <Globe className="h-8 w-8" /> },
+    { name: 'JavaScript', icon: <JsIcon /> },
     { name: 'Bootstrap', icon: <LayoutPanelLeft className="h-8 w-8" /> },
     { name: 'Node.js', icon: <Server className="h-8 w-8" /> },
     { name: 'Express.js', icon: <Wind className="h-8 w-8" /> },
@@ -169,33 +176,35 @@ const academySkills = [
 
 const PulsingGrid = () => {
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-4 gap-6 md:gap-8 w-full max-w-lg">
-      {academySkills.map((skill, i) => (
-        <motion.div
-          key={skill.name}
-          className="flex flex-col items-center gap-2 text-center text-foreground group"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: i * 0.1 }}
-        >
+    <div className="w-full max-w-xl mx-auto">
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-6 md:gap-8">
+        {academySkills.map((skill, i) => (
           <motion.div
-            className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
-            whileHover={{ scale: 1.1, boxShadow: '0px 0px 20px hsl(var(--accent))' }}
-            animate={{
-              scale: [1, 1.05, 1],
-              transition: {
-                duration: 2,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: i * 0.2,
-              },
-            }}
+            key={skill.name}
+            className="flex flex-col items-center text-center text-foreground group"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
           >
-            {React.cloneElement(skill.icon, { className: 'h-10 w-10 text-accent group-hover:scale-110 transition-transform' })}
+            <motion.div
+              className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
+              whileHover={{ scale: 1.1, boxShadow: '0px 0px 20px hsl(var(--accent))' }}
+              animate={{
+                scale: [1, 1.05, 1],
+                transition: {
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.2,
+                },
+              }}
+            >
+              {React.cloneElement(skill.icon, { className: 'h-10 w-10 text-accent group-hover:scale-110 transition-transform' })}
+            </motion.div>
+            <span className="text-xs font-semibold mt-2">{skill.name}</span>
           </motion.div>
-          <span className="text-xs font-medium">{skill.name}</span>
-        </motion.div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
@@ -279,7 +288,7 @@ export default function Home() {
         </motion.section>
 
         {/* Academy Section */}
-        <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <motion.div 
@@ -308,7 +317,7 @@ export default function Home() {
                            <Link href="/academy">Explore the Academy <ArrowRight className="ml-2 h-4 w-4" /></Link>
                         </Button>
                     </motion.div>
-                    <div className="flex justify-center items-center min-h-[300px]">
+                    <div className="flex justify-center items-center min-h-[400px]">
                        <PulsingGrid />
                     </div>
                 </div>
@@ -316,7 +325,7 @@ export default function Home() {
         </section>
 
         {/* Services Overview */}
-        <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -362,7 +371,7 @@ export default function Home() {
         </section>
 
         {/* Why Choose Us */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -392,7 +401,7 @@ export default function Home() {
         </section>
         
         {/* Our Process */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -409,7 +418,7 @@ export default function Home() {
                 {processSteps.map((step, index) => (
                   <div key={step.name} className="flex flex-col items-center text-center z-10 group">
                     <motion.div 
-                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-primary/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
+                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       viewport={{ once: true }}
@@ -426,7 +435,7 @@ export default function Home() {
         </section>
 
         {/* Featured Projects */}
-        <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -486,7 +495,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials */}
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-5xl">
               What Our Clients Say
