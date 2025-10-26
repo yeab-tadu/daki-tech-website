@@ -157,10 +157,16 @@ const JsIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const BsIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="16" fontWeight="bold" fill="currentColor">B</text>
+  </svg>
+);
+
 const academySkills = [
     { name: 'HTML & CSS', icon: <Code className="h-8 w-8" /> },
     { name: 'JavaScript', icon: <JsIcon /> },
-    { name: 'Bootstrap', icon: <LayoutPanelLeft className="h-8 w-8" /> },
+    { name: 'Bootstrap', icon: <BsIcon /> },
     { name: 'Node.js', icon: <Server className="h-8 w-8" /> },
     { name: 'Express.js', icon: <Wind className="h-8 w-8" /> },
     { name: 'React.js', icon: <ReactIcon className="h-8 w-8" /> },
@@ -182,7 +188,8 @@ const PulsingGrid = () => {
             key={skill.name}
             className="flex flex-col items-center text-center text-foreground group"
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
           >
             <motion.div
