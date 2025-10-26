@@ -219,7 +219,7 @@ const SkillMarquee = () => {
 
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills), duration: number, direction?: 1 | -1 }) => (
         <motion.div
-            className="flex gap-8"
+            className="flex"
             animate={{ x: [`${direction === 1 ? 0 : -50}%`, `${direction === 1 ? -50 : 0}%`] }}
             transition={{
                 ease: 'linear',
@@ -227,6 +227,7 @@ const SkillMarquee = () => {
                 repeat: Infinity,
             }}
         >
+            <div className="flex gap-8">
             {skills.map((skill, index) => (
                 <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
                      <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
@@ -235,6 +236,7 @@ const SkillMarquee = () => {
                     <span className="text-xs font-semibold mt-2">{skill.name}</span>
                 </div>
             ))}
+            </div>
         </motion.div>
     );
 
