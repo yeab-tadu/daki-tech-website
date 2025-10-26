@@ -28,6 +28,7 @@ import {
   Rocket,
   LayoutPanelLeft,
   Wind,
+  Router,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -44,6 +45,7 @@ import {
 import { projects, services, testimonials } from '@/lib/data';
 import { motion, useTime, useTransform, AnimatePresence } from 'framer-motion';
 import { useState, useMemo, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 const whyChooseUs = [
   {
@@ -150,56 +152,53 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const academySkills = [
-    { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
-    { name: 'JavaScript', icon: <Globe className="h-10 w-10" /> },
-    { name: 'Bootstrap', icon: <LayoutPanelLeft className="h-10 w-10" /> },
-    { name: 'Node.js', icon: <Server className="h-10 w-10" /> },
-    { name: 'Express.js', icon: <Wind className="h-10 w-10" /> },
-    { name: 'React.js', icon: <ReactIcon /> },
-    { name: 'Next.js', icon: <Layers className="h-10 w-10" /> },
-    { name: 'MySQL', icon: <Database className="h-10 w-10" /> },
-    { name: 'Git', icon: <GitBranch className="h-10 w-10" /> },
-    { name: 'jQuery', icon: <DatabaseZap className="h-10 w-10" /> },
-    { name: 'REST API', icon: <PlugZap className="h-10 w-10" /> },
-    { name: 'Deployment', icon: <Rocket className="h-10 w-10" /> },
+    { name: 'HTML & CSS', icon: <Code className="h-8 w-8" /> },
+    { name: 'JavaScript', icon: <Globe className="h-8 w-8" /> },
+    { name: 'Bootstrap', icon: <LayoutPanelLeft className="h-8 w-8" /> },
+    { name: 'Node.js', icon: <Server className="h-8 w-8" /> },
+    { name: 'Express.js', icon: <Wind className="h-8 w-8" /> },
+    { name: 'React.js', icon: <ReactIcon className="h-8 w-8" /> },
+    { name: 'Next.js', icon: <Layers className="h-8 w-8" /> },
+    { name: 'MySQL', icon: <Database className="h-8 w-8" /> },
+    { name: 'Git', icon: <GitBranch className="h-8 w-8" /> },
+    { name: 'jQuery', icon: <DatabaseZap className="h-8 w-8" /> },
+    { name: 'React Router', icon: <Router className="h-8 w-8" /> },
+    { name: 'REST API', icon: <PlugZap className="h-8 w-8" /> },
+    { name: 'Deployment', icon: <Rocket className="h-8 w-8" /> },
 ];
 
-const SkillLauncher = () => {
-    const [index, setIndex] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setIndex(prevIndex => (prevIndex + 1) % academySkills.length);
-        }, 2000); // Change skill every 2 seconds
-        return () => clearInterval(interval);
-    }, []);
-
-    const currentSkill = academySkills[index];
+const SkillMarquee = () => {
+    const duplicatedSkills = [...academySkills, ...academySkills];
 
     return (
-        <div className="relative w-full h-[350px] bg-primary/5 rounded-2xl flex items-center justify-center overflow-hidden">
+        <div className="relative w-full py-12 bg-primary/5 rounded-2xl flex flex-col justify-center overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
             <div className="absolute inset-0 bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 100, scale: 0.5 }}
-                    animate={{ opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 100, damping: 15 } }}
-                    exit={{ opacity: 0, y: -100, scale: 0.5, transition: { duration: 0.3 } }}
-                    className="flex flex-col items-center justify-center text-center space-y-4"
-                >
-                    <div className="text-accent w-24 h-24 flex items-center justify-center">
-                        <motion.div
-                            initial={{ rotate: -90, scale: 0 }}
-                            animate={{ rotate: 0, scale: 1, transition: { delay: 0.2, type: 'spring', stiffness: 120 } }}
-                        >
-                          {React.cloneElement(currentSkill.icon, { className: "h-16 w-16" })}
-                        </motion.div>
+            
+            <motion.div 
+              className="flex gap-8"
+              animate={{ x: ['-100%', '0%'] }}
+              transition={{ ease: 'linear', duration: 30, repeat: Infinity }}
+            >
+                {duplicatedSkills.map((skill, index) => (
+                    <div key={`d1-${index}`} className="flex-shrink-0 w-48 bg-background/80 backdrop-blur-sm rounded-lg shadow-md flex flex-col items-center justify-center p-4 gap-2">
+                        <div className="text-accent">{skill.icon}</div>
+                        <p className="font-headline text-lg font-semibold text-primary text-center">{skill.name}</p>
                     </div>
-                    <p className="font-headline text-2xl font-bold text-primary">{currentSkill.name}</p>
-                </motion.div>
-            </AnimatePresence>
-            {/* Launcher Box */}
-            <div className="absolute bottom-0 h-4 w-24 bg-secondary rounded-t-md" />
+                ))}
+            </motion.div>
+            
+            <motion.div 
+              className="flex gap-8 mt-8"
+              animate={{ x: ['0%', '-100%'] }}
+              transition={{ ease: 'linear', duration: 30, repeat: Infinity }}
+            >
+                {duplicatedSkills.map((skill, index) => (
+                    <div key={`d2-${index}`} className="flex-shrink-0 w-48 bg-background/80 backdrop-blur-sm rounded-lg shadow-md flex flex-col items-center justify-center p-4 gap-2">
+                        <div className="text-secondary">{skill.icon}</div>
+                        <p className="font-headline text-lg font-semibold text-primary text-center">{skill.name}</p>
+                    </div>
+                ))}
+            </motion.div>
         </div>
     );
 };
@@ -313,7 +312,7 @@ export default function Home() {
                         </Button>
                     </motion.div>
                     <div className="flex justify-center">
-                       <SkillLauncher />
+                       <SkillMarquee />
                     </div>
                 </div>
             </div>
