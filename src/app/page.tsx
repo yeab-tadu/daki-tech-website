@@ -218,7 +218,7 @@ export default function Home() {
                         <Badge>Daki Academy</Badge>
                         <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Launch Your Tech Career</h2>
                         <p className="text-foreground/80 text-lg">
-                           Our flagship course is an intensive, project-based program designed to equip you with the in-demand skills needed to become a successful full-stack web developer. Learn by doing, and build a portfolio that stands out.
+                           Our Full-Stack Web Development course is a practical, step-by-step training that teaches you how to build complete websites and web apps from scratch. You’ll learn both front-end and back-end skills through real projects, gaining the confidence and experience needed to work as a professional web developer.
                         </p>
                         <div className="flex items-center gap-4">
                            <div className="flex items-center gap-2">
