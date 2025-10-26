@@ -196,8 +196,7 @@ const SkillMarquee = () => {
     const duplicatedSkills = [...academySkills, ...academySkills];
 
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: typeof academySkills, duration: number, direction?: 1 | -1 }) => (
-        <motion.div
-            className="flex gap-8"
+        <motion.div className="flex"
             animate={{ x: [0, -100 * direction + '%'] }}
             transition={{
                 ease: 'linear',
@@ -205,23 +204,35 @@ const SkillMarquee = () => {
                 repeat: Infinity,
             }}
         >
-            {skills.map((skill, index) => (
-                <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
-                     <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
-                        {skill.icon}
+            <div className="flex gap-8 flex-shrink-0">
+                {skills.map((skill, index) => (
+                    <div key={`${skill.name}-${index}-1`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
+                         <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+                            {skill.icon}
+                        </div>
+                        <span className="text-xs font-semibold mt-2">{skill.name}</span>
                     </div>
-                    <span className="text-xs font-semibold mt-2">{skill.name}</span>
-                </div>
-            ))}
+                ))}
+            </div>
+             <div className="flex gap-8 flex-shrink-0">
+                {skills.map((skill, index) => (
+                    <div key={`${skill.name}-${index}-2`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
+                         <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+                            {skill.icon}
+                        </div>
+                        <span className="text-xs font-semibold mt-2">{skill.name}</span>
+                    </div>
+                ))}
+            </div>
         </motion.div>
     );
 
     return (
         <div className="w-full overflow-hidden relative space-y-4 py-8">
             <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background z-10" />
-            <MarqueeRow skills={duplicatedSkills} duration={60} />
-            <MarqueeRow skills={duplicatedSkills} duration={50} direction={-1} />
-            <MarqueeRow skills={duplicatedSkills} duration={70} />
+            <MarqueeRow skills={academySkills} duration={60} />
+            <MarqueeRow skills={academySkills} duration={50} direction={-1} />
+            <MarqueeRow skills={academySkills} duration={70} />
         </div>
     )
 }
