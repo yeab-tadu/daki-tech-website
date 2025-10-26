@@ -43,8 +43,8 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { projects, services, testimonials } from '@/lib/data';
-import { motion, useTime, useTransform, useMotionValue, useSpring, useAnimationFrame, animate } from 'framer-motion';
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { motion, useTime, useTransform } from 'framer-motion';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 const whyChooseUs = [
@@ -169,7 +169,7 @@ const academySkills = [
 
 const PulsingGrid = () => {
   return (
-    <div className="w-full max-w-lg rounded-2xl p-6 shadow-2xl bg-sidebar/80 backdrop-blur-sm overflow-hidden">
+    <div className="w-full max-w-lg rounded-2xl p-6 shadow-xl bg-background/50 border border-border backdrop-blur-sm overflow-hidden">
       <div className="relative">
         <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
         <div className="absolute top-[-10px] left-[-10px] flex gap-2">
@@ -181,13 +181,13 @@ const PulsingGrid = () => {
           {academySkills.map((skill, i) => (
             <motion.div
               key={skill.name}
-              className="flex flex-col items-center gap-2 text-center text-primary-foreground group"
+              className="flex flex-col items-center gap-2 text-center text-foreground group"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
               <motion.div
-                className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
+                className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
                 whileHover={{ scale: 1.1, boxShadow: '0px 0px 20px hsl(var(--accent))' }}
                 animate={{
                   scale: [1, 1.05, 1],
@@ -213,7 +213,6 @@ const PulsingGrid = () => {
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
-  const academyImage = PlaceHolderImages.find(p => p.id === 'academy-hero');
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -534,5 +533,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
