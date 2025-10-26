@@ -146,15 +146,15 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const JsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">JS</text>
-  </svg>
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">JS</text>
+    </svg>
 );
 
 const BsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">B</text>
-  </svg>
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">B</text>
+    </svg>
 );
 
 const NodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -165,15 +165,15 @@ const NodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const NextIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">N</text>
-  </svg>
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">N</text>
+    </svg>
 );
 
 const JqueryIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">J</text>
-  </svg>
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">J</text>
+    </svg>
 );
 
 const academySkills = [
@@ -214,7 +214,7 @@ const SkillMarquee = () => {
     }, []);
 
 
-    const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: typeof academySkills, duration: number, direction?: 1 | -1 }) => (
+    const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills), duration: number, direction?: 1 | -1 }) => (
         <motion.div
             className="flex gap-8"
             animate={{ x: [`${direction === 1 ? 0 : -50}%`, `${direction === 1 ? -50 : 0}%`] }}
@@ -239,15 +239,33 @@ const SkillMarquee = () => {
         <div className="w-full overflow-hidden relative space-y-4 py-8">
             <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
             <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
-            <MarqueeRow skills={skills1} duration={60} />
-            <MarqueeRow skills={skills2} duration={50} direction={-1} />
-            <MarqueeRow skills={skills3} duration={70} />
+            <MarqueeRow skills={skills1} duration={50} />
+            <MarqueeRow skills={skills2} duration={40} direction={-1} />
+            <MarqueeRow skills={skills3} duration={60} />
         </div>
     )
 }
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+    },
+  };
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -372,32 +390,56 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 pt-12">
+            <motion.div
+              className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 pt-12"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
               {services.slice(0, 6).map((service) => (
                 <motion.div
                   key={service.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
+                  variants={itemVariants}
+                  whileHover="hover"
                 >
-                  <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-2 h-full">
-                    <CardHeader className="flex flex-row items-center gap-4">
-                      <div className="bg-primary/10 p-3 rounded-full text-primary">
-                        {serviceIcons[service.id] || <Code className="h-8 w-8" />}
-                      </div>
-                      <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-foreground/80">{service.description.substring(0, 100)}...</p>
-                      <Button variant="link" asChild className="p-0 h-auto mt-2 group">
-                        <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  <motion.div
+                    className="relative h-full"
+                    variants={{
+                        hover: { y: -8, rotateZ: '1deg', rotateX: '10deg' }
+                    }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <Card className="h-full transition-all duration-300">
+                      <CardHeader className="flex flex-row items-center gap-4">
+                        <motion.div
+                          className="bg-primary/10 p-3 rounded-full text-primary"
+                          variants={{ hover: { rotate: 360 } }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          {serviceIcons[service.id] || <Code className="h-8 w-8" />}
+                        </motion.div>
+                        <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-foreground/80">{service.description.substring(0, 100)}...</p>
+                        <Button variant="link" asChild className="p-0 h-auto mt-2 group">
+                          <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
+                        </Button>
+                      </CardContent>
+                    </Card>
+                    <motion.div 
+                        className="absolute inset-0 rounded-lg -z-10"
+                        style={{
+                            background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.1), transparent 70%)',
+                        }}
+                        initial={{ opacity: 0 }}
+                        variants={{ hover: { opacity: 1 } }}
+                    />
+                  </motion.div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
              <div className="text-center mt-12">
                 <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
                     <Link href="/services">View All Services <ArrowRight className="ml-2 h-4 w-4" /></Link>
