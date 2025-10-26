@@ -182,73 +182,55 @@ const JqueryIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-
 const academySkills = [
-    { name: 'HTML & CSS', icon: <Code className="h-8 w-8" /> },
-    { name: 'JavaScript', icon: <JsIcon /> },
-    { name: 'Bootstrap', icon: <BsIcon /> },
-    { name: 'Node.js', icon: <NodeIcon /> },
-    { name: 'Express.js', icon: <Wind className="h-8 w-8" /> },
-    { name: 'React.js', icon: <ReactIcon /> },
-    { name: 'Next.js', icon: <NextIcon /> },
-    { name: 'MySQL', icon: <Database className="h-8 w-8" /> },
-    { name: 'Git', icon: <GitBranch className="h-8 w-8" /> },
-    { name: 'jQuery', icon: <JqueryIcon /> },
-    { name: 'React Router', icon: <Router className="h-8 w-8" /> },
-    { name: 'REST API', icon: <PlugZap className="h-8 w-8" /> },
-    { name: 'Deployment', icon: <Rocket className="h-8 w-8" /> },
+    { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
+    { name: 'JavaScript', icon: <JsIcon className="h-10 w-10" /> },
+    { name: 'Bootstrap', icon: <BsIcon className="h-10 w-10" /> },
+    { name: 'Node.js', icon: <NodeIcon className="h-10 w-10" /> },
+    { name: 'Express.js', icon: <Wind className="h-10 w-10" /> },
+    { name: 'React.js', icon: <ReactIcon className="h-10 w-10" /> },
+    { name: 'Next.js', icon: <NextIcon className="h-10 w-10" /> },
+    { name: 'MySQL', icon: <Database className="h-10 w-10" /> },
+    { name: 'Git', icon: <GitBranch className="h-10 w-10" /> },
+    { name: 'jQuery', icon: <JqueryIcon className="h-10 w-10" /> },
+    { name: 'React Router', icon: <Router className="h-10 w-10" /> },
+    { name: 'REST API', icon: <PlugZap className="h-10 w-10" /> },
+    { name: 'Deployment', icon: <Rocket className="h-10 w-10" /> },
 ];
 
-const SkillsGrid = () => {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-            },
-        },
-    };
+const SkillMarquee = () => {
+    const duplicatedSkills = [...academySkills, ...academySkills];
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                ease: "easeOut",
-                duration: 0.5,
-            },
-        },
-    };
-
-    return (
-        <motion.div 
-            className="grid grid-cols-4 sm:grid-cols-5 gap-6 md:gap-8 w-full max-w-2xl mx-auto"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+    const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: typeof academySkills, duration: number, direction?: 1 | -1 }) => (
+        <motion.div
+            className="flex gap-8"
+            animate={{ x: [`${-100 * direction}%`, '0%'] }}
+            transition={{
+                ease: 'linear',
+                duration: duration,
+                repeat: Infinity,
+            }}
         >
-            {academySkills.map((skill) => (
-                <motion.div
-                    key={skill.name}
-                    className="flex flex-col items-center text-center text-foreground group"
-                    variants={itemVariants}
-                >
-                    <motion.div
-                        className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center shadow-lg text-accent"
-                        whileHover={{ scale: 1.15, boxShadow: '0px 0px 20px hsl(var(--accent))', transition: { duration: 0.2 } }}
-                    >
-                        {React.cloneElement(skill.icon, { className: 'h-10 w-10 transition-transform group-hover:scale-110' })}
-                    </motion.div>
+            {skills.map((skill, index) => (
+                <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
+                     <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+                        {skill.icon}
+                    </div>
                     <span className="text-xs font-semibold mt-2">{skill.name}</span>
-                </motion.div>
+                </div>
             ))}
         </motion.div>
     );
-};
 
+    return (
+        <div className="w-full overflow-hidden relative space-y-4 py-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 z-10" />
+            <MarqueeRow skills={duplicatedSkills} duration={60} />
+            <MarqueeRow skills={duplicatedSkills} duration={50} direction={-1} />
+            <MarqueeRow skills={duplicatedSkills} duration={70} />
+        </div>
+    )
+}
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
@@ -335,7 +317,7 @@ export default function Home() {
                         className="space-y-6"
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.3 }}
                         transition={{ duration: 0.8 }}
                     >
                         <Badge>Daki Academy</Badge>
@@ -358,7 +340,7 @@ export default function Home() {
                         </Button>
                     </motion.div>
                     <div className="flex justify-center items-center min-h-[400px]">
-                       <SkillsGrid />
+                       <SkillMarquee />
                     </div>
                 </div>
             </div>
