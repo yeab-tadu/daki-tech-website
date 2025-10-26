@@ -40,6 +40,8 @@ import { projects, services, testimonials } from '@/lib/data';
 import { motion, useTime, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import type { Service } from '@/lib/types';
+
 
 const whyChooseUs = [
   {
@@ -208,10 +210,14 @@ const SkillMarquee = () => {
 
   const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => {
     if (!isMounted || skills.length === 0) return null;
+    
+    // Framer Motion's animate property works with string percentages
+    const xAnimation = direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"];
+
     return (
       <motion.div
         className="flex gap-8"
-        animate={{ x: direction === 1 ? ['0%', '-50%'] : ['-50%', '0%'] }}
+        animate={{ x: xAnimation }}
         transition={{
           ease: 'linear',
           duration: duration,
@@ -231,7 +237,7 @@ const SkillMarquee = () => {
   };
 
   if (!isMounted) {
-    return null; // Render nothing on the server
+    return null; // Render nothing on the server to prevent hydration mismatch
   }
 
   return (
@@ -246,10 +252,86 @@ const SkillMarquee = () => {
 };
 
 
+const ServicesMarquee = () => {
+  const [shuffledServices1, setShuffledServices1] = useState<Service[]>([]);
+  const [shuffledServices2, setShuffledServices2] = useState<Service[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const shuffle = (array: Service[]) => [...array].sort(() => Math.random() - 0.5);
+    setShuffledServices1(shuffle(services));
+    setShuffledServices2(shuffle(services));
+  }, []);
+
+  const MarqueeRow = ({ services, duration, direction = 1 }: { services: Service[], duration: number, direction?: 1 | -1 }) => {
+    if (!isMounted || services.length === 0) return null;
+
+    const xAnimation = direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"];
+
+    return (
+      <motion.div
+        className="flex gap-8 py-4"
+        animate={{ x: xAnimation }}
+        transition={{
+          ease: 'linear',
+          duration: duration,
+          repeat: Infinity,
+        }}
+        whileHover={{ animationPlayState: 'paused' }}
+      >
+        {[...services, ...services].map((service, index) => (
+           <div key={`${service.id}-${index}`} className="flex-shrink-0 w-[350px]">
+              <motion.div
+                className="relative h-full"
+                whileHover={{ y: -8, rotateZ: '1deg', rotateX: '10deg' }}
+              >
+                <Card className="h-full transition-all duration-300">
+                  <CardHeader className="flex flex-row items-center gap-4">
+                    <motion.div
+                      className="bg-primary/10 p-3 rounded-full text-primary"
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      {serviceIcons[service.id] || <Code className="h-8 w-8" />}
+                    </motion.div>
+                    <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-foreground/80 h-20 overflow-hidden">{service.description}</p>
+                    <Button variant="link" asChild className="p-0 h-auto mt-2 group">
+                      <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                 <motion.div
+                    className="absolute inset-0 rounded-lg -z-10"
+                    style={{
+                        background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.1), transparent 70%)',
+                    }}
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                />
+              </motion.div>
+            </div>
+        ))}
+      </motion.div>
+    );
+  };
+  
+  if (!isMounted) return null;
+
+  return (
+    <div className="mt-12 w-full overflow-hidden group">
+      <MarqueeRow services={shuffledServices1} duration={60} direction={-1} />
+      <MarqueeRow services={shuffledServices2} duration={70} direction={1} />
+    </div>
+  )
+}
+
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
-  const duplicatedServices = [...services, ...services];
-
+  
   return (
     <div className="flex flex-col min-h-dvh">
       <main className="flex-1">
@@ -374,58 +456,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="mt-12 w-full overflow-hidden group">
-            <motion.div
-                className="flex gap-8 py-4"
-                animate={{ x: ['-100%', '0%'] }}
-                transition={{
-                    ease: 'linear',
-                    duration: 40,
-                    repeat: Infinity,
-                }}
-                 whileHover={{ animationPlayState: 'paused' }}
-            >
-              {duplicatedServices.map((service, index) => (
-                <div key={`${service.id}-${index}`} className="flex-shrink-0 w-[350px]">
-                  <motion.div
-                    className="relative h-full"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ delay: index * 0.1, type: 'spring', stiffness: 100 }}
-                    whileHover={{ y: -8, rotateZ: '1deg', rotateX: '10deg' }}
-                  >
-                    <Card className="h-full transition-all duration-300">
-                      <CardHeader className="flex flex-row items-center gap-4">
-                        <motion.div
-                          className="bg-primary/10 p-3 rounded-full text-primary"
-                          whileHover={{ rotate: 360 }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          {serviceIcons[service.id] || <Code className="h-8 w-8" />}
-                        </motion.div>
-                        <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-foreground/80">{service.description.substring(0, 100)}...</p>
-                        <Button variant="link" asChild className="p-0 h-auto mt-2 group">
-                          <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                     <motion.div
-                        className="absolute inset-0 rounded-lg -z-10"
-                        style={{
-                            background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.1), transparent 70%)',
-                        }}
-                        initial={{ opacity: 0 }}
-                        whileHover={{ opacity: 1 }}
-                    />
-                  </motion.div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
+          <ServicesMarquee />
           <div className="text-center mt-12">
             <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
               <Link href="/services">View All Services <ArrowRight className="ml-2 h-4 w-4" /></Link>
