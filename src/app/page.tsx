@@ -167,84 +167,46 @@ const academySkills = [
     { name: 'Deployment', icon: <Rocket className="h-8 w-8" /> },
 ];
 
-const SkillConstellation = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(Infinity);
-
+const PulsingGrid = () => {
   return (
-    <div
-      ref={containerRef}
-      onMouseMove={e => {
-        if (!containerRef.current) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        mouseX.set(e.clientX - rect.left);
-      }}
-      onMouseLeave={() => mouseX.set(Infinity)}
-      className="relative w-full max-w-lg h-96 bg-sidebar/80 rounded-2xl p-6 flex flex-wrap justify-center items-center gap-4 shadow-2xl backdrop-blur-sm overflow-hidden"
-    >
-      <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
-        <div className="absolute top-4 left-4 flex gap-2">
+    <div className="w-full max-w-lg rounded-2xl p-6 shadow-2xl bg-sidebar/80 backdrop-blur-sm overflow-hidden">
+      <div className="relative">
+        <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
+        <div className="absolute top-[-10px] left-[-10px] flex gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500"></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
         </div>
-      {academySkills.map((skill, i) => (
-        <SkillBubble key={skill.name} mouseX={mouseX} index={i} total={academySkills.length}>
-          <div className="flex flex-col items-center gap-2 text-center text-primary-foreground">
-            {React.cloneElement(skill.icon, { className: "h-10 w-10 text-accent"})}
-            <span className="text-xs font-medium">{skill.name}</span>
-          </div>
-        </SkillBubble>
-      ))}
+        <div className="grid grid-cols-3 gap-6 pt-6">
+          {academySkills.map((skill, i) => (
+            <motion.div
+              key={skill.name}
+              className="flex flex-col items-center gap-2 text-center text-primary-foreground group"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+            >
+              <motion.div
+                className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
+                whileHover={{ scale: 1.1, boxShadow: '0px 0px 20px hsl(var(--accent))' }}
+                animate={{
+                  scale: [1, 1.05, 1],
+                  transition: {
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.2
+                  }
+                }}
+              >
+                {React.cloneElement(skill.icon, { className: 'h-10 w-10 text-accent group-hover:scale-110 transition-transform' })}
+              </motion.div>
+              <span className="text-xs font-medium">{skill.name}</span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </div>
-  );
-};
-
-const SkillBubble = ({ children, mouseX, index, total }: { children: React.ReactNode, mouseX: any, index: number, total: number }) => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  const distance = useTransform(mouseX, (val) => {
-    if (val === Infinity || !ref.current) return 0;
-    const rect = ref.current.getBoundingClientRect();
-    const elementX = rect.left + rect.width / 2;
-    return val - elementX;
-  });
-
-  const widthSync = useTransform(distance, [-200, 0, 200], [40, 100, 40]);
-  const width = useSpring(widthSync, { mass: 0.1, stiffness: 150, damping: 12 });
-  
-  const initialX = useMemo(() => Math.random() * 2 - 1, []);
-  const initialY = useMemo(() => Math.random() * 2 - 1, []);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  useEffect(() => {
-    const duration = 20 + Math.random() * 10;
-    const animateX = animate(x, [0, 40 * initialX, -40 * initialX, 0], {
-      duration,
-      repeat: Infinity,
-      ease: "easeInOut",
-    });
-    const animateY = animate(y, [0, 40 * initialY, -40 * initialY, 0], {
-      duration,
-      repeat: Infinity,
-      ease: "easeInOut",
-      delay: duration / 2,
-    });
-    return () => {
-      animateX.stop();
-      animateY.stop();
-    };
-  }, [x, y, initialX, initialY]);
-
-  return (
-    <motion.div
-      ref={ref}
-      className="p-4 bg-primary/20 rounded-full flex items-center justify-center shadow-lg"
-      style={{ width, x, y }}
-    >
-      {children}
-    </motion.div>
   );
 };
 
@@ -358,7 +320,7 @@ export default function Home() {
                         </Button>
                     </motion.div>
                     <div className="flex justify-center items-center min-h-[300px]">
-                       <SkillConstellation />
+                       <PulsingGrid />
                     </div>
                 </div>
             </div>
