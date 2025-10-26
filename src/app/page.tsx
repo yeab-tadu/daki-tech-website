@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -502,8 +503,8 @@ export default function Home() {
                   viewport={{ once: true, amount: 0.5 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   variants={{
-                    hidden: { opacity: 0, y: 50 },
-                    visible: { opacity: 1, y: 0 }
+                    hidden: { opacity: 0, y: 50, rotate: -10 },
+                    visible: { opacity: 1, y: 0, rotate: 0 }
                   }}
                 >
                   <div className="p-4 bg-primary/10 rounded-full transition-transform hover:scale-110 shadow-md">{reason.icon}</div>
@@ -647,3 +648,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
