@@ -498,13 +498,14 @@ export default function Home() {
                 <motion.div
                   key={reason.title}
                   className="flex flex-col items-center text-center p-6"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  variants={{
-                    hidden: { opacity: 0, y: 50, rotate: -10 },
-                    visible: { opacity: 1, y: 0, rotate: 0 }
+                   animate={{
+                    y: ["0rem", "-1rem", "0rem"],
+                  }}
+                  transition={{
+                    duration: 4,
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                    delay: index * 0.3,
                   }}
                 >
                   <div className="p-4 bg-primary/10 rounded-full transition-transform hover:scale-110 shadow-md">{reason.icon}</div>
