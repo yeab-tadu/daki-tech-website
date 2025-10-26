@@ -193,46 +193,50 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-    const duplicatedSkills = [...academySkills, ...academySkills];
+    const shuffle = (array: typeof academySkills) => {
+        let currentIndex = array.length,  randomIndex;
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+    
+    const skills1 = React.useMemo(() => [...academySkills, ...academySkills], []);
+    const skills2 = React.useMemo(() => shuffle([...academySkills, ...academySkills]), []);
+    const skills3 = React.useMemo(() => shuffle([...academySkills, ...academySkills]), []);
+
 
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: typeof academySkills, duration: number, direction?: 1 | -1 }) => (
-        <motion.div className="flex"
-            animate={{ x: [0, -100 * direction + '%'] }}
+        <motion.div
+            className="flex gap-8"
+            animate={{ x: [`${direction === 1 ? 0 : -50}%`, `${direction === 1 ? -50 : 0}%`] }}
             transition={{
                 ease: 'linear',
                 duration: duration,
                 repeat: Infinity,
             }}
         >
-            <div className="flex gap-8 flex-shrink-0">
-                {skills.map((skill, index) => (
-                    <div key={`${skill.name}-${index}-1`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
-                         <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
-                            {skill.icon}
-                        </div>
-                        <span className="text-xs font-semibold mt-2">{skill.name}</span>
+            {skills.map((skill, index) => (
+                <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
+                     <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+                        {skill.icon}
                     </div>
-                ))}
-            </div>
-             <div className="flex gap-8 flex-shrink-0">
-                {skills.map((skill, index) => (
-                    <div key={`${skill.name}-${index}-2`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
-                         <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
-                            {skill.icon}
-                        </div>
-                        <span className="text-xs font-semibold mt-2">{skill.name}</span>
-                    </div>
-                ))}
-            </div>
+                    <span className="text-xs font-semibold mt-2">{skill.name}</span>
+                </div>
+            ))}
         </motion.div>
     );
 
     return (
         <div className="w-full overflow-hidden relative space-y-4 py-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background z-10" />
-            <MarqueeRow skills={academySkills} duration={60} />
-            <MarqueeRow skills={academySkills} duration={50} direction={-1} />
-            <MarqueeRow skills={academySkills} duration={70} />
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
+            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
+            <MarqueeRow skills={skills1} duration={60} />
+            <MarqueeRow skills={skills2} duration={50} direction={-1} />
+            <MarqueeRow skills={skills3} duration={70} />
         </div>
     )
 }
