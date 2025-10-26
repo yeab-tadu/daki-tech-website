@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import * as React from 'react';
@@ -354,7 +355,8 @@ const WhyChooseUsMarquee = ({ initialItems, direction = 1, duration = 50 }: { in
     useEffect(() => {
         setIsMounted(true);
         // Shuffle only on the client to avoid hydration mismatch
-        setItems([...initialItems].sort(() => Math.random() - 0.5));
+        const shuffled = [...initialItems].sort(() => Math.random() - 0.5);
+        setItems(shuffled);
     }, [initialItems]);
 
     if (!isMounted || items.length === 0) {
@@ -398,16 +400,8 @@ const WhyChooseUsMarquee = ({ initialItems, direction = 1, duration = 50 }: { in
 
 
 const AnimatedProcess = () => {
-    const targetRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-        target: targetRef,
-        offset: ['start end', 'end center']
-    });
-
-    const pathLength = useSpring(scrollYProgress, { stiffness: 400, damping: 90 });
-
     return (
-        <div ref={targetRef} className="relative mt-12 md:mt-24">
+        <div className="relative mt-12 md:mt-24">
             <div className="flex justify-between items-start relative z-10">
                 {processSteps.map((step, index) => (
                     <motion.div
@@ -426,14 +420,33 @@ const AnimatedProcess = () => {
                 ))}
             </div>
             <svg className="absolute top-8 left-0 w-full h-16 z-0" viewBox="0 0 1200 100" preserveAspectRatio="none">
+                 <defs>
+                    <linearGradient id="path-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="hsl(var(--accent))" />
+                        <stop offset="25%" stopColor="hsl(var(--primary))" />
+                        <stop offset="50%" stopColor="hsl(var(--accent))" />
+                        <stop offset="75%" stopColor="hsl(var(--primary))" />
+                        <stop offset="100%" stopColor="hsl(var(--accent))" />
+                    </linearGradient>
+                </defs>
+                <path
+                    d="M 60,50 C 250,10 250,90 500,50 C 750,10 750,90 950,50 C 1150,10 1150,90 1140,50"
+                    fill="transparent"
+                    stroke="hsl(var(--border))"
+                    strokeWidth="3"
+                />
                 <motion.path
                     d="M 60,50 C 250,10 250,90 500,50 C 750,10 750,90 950,50 C 1150,10 1150,90 1140,50"
                     fill="transparent"
-                    stroke="hsl(var(--primary))"
+                    stroke="url(#path-gradient)"
                     strokeWidth="3"
-                    style={{ pathLength }}
-                    strokeDasharray="1"
-                    strokeDashoffset="0"
+                    strokeDasharray="200 1000"
+                    animate={{ strokeDashoffset: [0, -1200] }}
+                    transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: 'linear'
+                    }}
                 />
             </svg>
         </div>
@@ -590,9 +603,9 @@ export default function Home() {
                 </div>
 
                 <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]">
-                    <WhyChooseUsMarquee initialItems={whyChooseUs} duration={40} direction={1} />
-                    <WhyChooseUsMarquee initialItems={whyChooseUs} duration={50} direction={-1} />
-                    <WhyChooseUsMarquee initialItems={whyChooseUs} duration={45} direction={1} />
+                    <WhyChooseUsMarquee initialItems={whyChooseUs.slice(0, 2)} duration={40} direction={1} />
+                    <WhyChooseUsMarquee initialItems={whyChooseUs.slice(2, 4)} duration={50} direction={-1} />
+                    <WhyChooseUsMarquee initialItems={whyChooseUs.slice(4, 6)} duration={45} direction={1} />
                 </div>
             </div>
         </section>
