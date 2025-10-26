@@ -198,13 +198,12 @@ const SkillMarquee = () => {
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: typeof academySkills, duration: number, direction?: 1 | -1 }) => (
         <motion.div
             className="flex gap-8"
-            animate={{ x: [`${-100 * direction}%`, '0%'] }}
+            animate={{ x: [0, -100 * direction + '%'] }}
             transition={{
                 ease: 'linear',
                 duration: duration,
                 repeat: Infinity,
             }}
-            style={{ x: direction === 1 ? '0%' : '-100%' }}
         >
             {skills.map((skill, index) => (
                 <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
@@ -219,7 +218,7 @@ const SkillMarquee = () => {
 
     return (
         <div className="w-full overflow-hidden relative space-y-4 py-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background z-10" />
             <MarqueeRow skills={duplicatedSkills} duration={60} />
             <MarqueeRow skills={duplicatedSkills} duration={50} direction={-1} />
             <MarqueeRow skills={duplicatedSkills} duration={70} />
@@ -305,7 +304,7 @@ export default function Home() {
         </motion.section>
 
         {/* Academy Section */}
-        <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <motion.div 
