@@ -43,8 +43,8 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { projects, services, testimonials } from '@/lib/data';
-import { motion, useTime, useTransform, AnimatePresence } from 'framer-motion';
-import { useState, useMemo, useEffect } from 'react';
+import { motion, useTime, useTransform, useMotionValue, useSpring, useAnimationFrame, animate } from 'framer-motion';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
 const whyChooseUs = [
@@ -167,91 +167,85 @@ const academySkills = [
     { name: 'Deployment', icon: <Rocket className="h-8 w-8" /> },
 ];
 
-const CodeTypeAnimation = () => {
-    const [index, setIndex] = useState(0);
+const SkillConstellation = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(Infinity);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setIndex(prevIndex => (prevIndex + 1) % academySkills.length);
-        }, 3000); // Change skill every 3 seconds
-
-        return () => clearInterval(interval);
-    }, []);
-
-    const currentSkill = academySkills[index];
-    const letters = currentSkill.name.split('');
-
-    const containerVariants = {
-        hidden: {},
-        visible: {
-            transition: {
-                staggerChildren: 0.05,
-            },
-        },
-    };
-
-    const letterVariants = {
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0 },
-    };
-    
-    const iconVariants = {
-        hidden: { scale: 0, opacity: 0, rotate: -180 },
-        visible: { 
-            scale: 1, 
-            opacity: 1, 
-            rotate: 0,
-            transition: { delay: letters.length * 0.05 + 0.2, type: 'spring', damping: 15, stiffness: 300 } 
-        },
-    }
-
-    return (
-        <div className="w-full max-w-lg h-64 bg-sidebar/80 rounded-2xl p-6 flex flex-col justify-center items-center font-code shadow-2xl backdrop-blur-sm relative overflow-hidden">
-             <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
-             <div className="absolute top-4 left-4 flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={index}
-                    className="flex flex-col items-center justify-center gap-4"
-                    initial="hidden"
-                    animate="visible"
-                    exit="hidden"
-                    transition={{ duration: 0.3 }}
-                >
-                     <motion.div 
-                        className="text-accent"
-                        variants={iconVariants}
-                     >
-                        {React.cloneElement(currentSkill.icon, { className: "h-12 w-12" })}
-                     </motion.div>
-                     
-                    <motion.h3
-                        className="font-headline text-3xl text-primary-foreground font-bold flex items-center"
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        {letters.map((letter, i) => (
-                            <motion.span key={i} variants={letterVariants}>
-                                {letter}
-                            </motion.span>
-                        ))}
-                        <motion.span 
-                          className="w-1.5 h-8 bg-accent ml-2"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ repeat: Infinity, duration: 0.8, ease: "easeInOut" }}
-                        />
-                    </motion.h3>
-                </motion.div>
-            </AnimatePresence>
+  return (
+    <div
+      ref={containerRef}
+      onMouseMove={e => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        mouseX.set(e.clientX - rect.left);
+      }}
+      onMouseLeave={() => mouseX.set(Infinity)}
+      className="relative w-full max-w-lg h-96 bg-sidebar/80 rounded-2xl p-6 flex flex-wrap justify-center items-center gap-4 shadow-2xl backdrop-blur-sm overflow-hidden"
+    >
+      <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
+        <div className="absolute top-4 left-4 flex gap-2">
+            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
         </div>
-    );
+      {academySkills.map((skill, i) => (
+        <SkillBubble key={skill.name} mouseX={mouseX} index={i} total={academySkills.length}>
+          <div className="flex flex-col items-center gap-2 text-center text-primary-foreground">
+            {React.cloneElement(skill.icon, { className: "h-10 w-10 text-accent"})}
+            <span className="text-xs font-medium">{skill.name}</span>
+          </div>
+        </SkillBubble>
+      ))}
+    </div>
+  );
+};
+
+const SkillBubble = ({ children, mouseX, index, total }: { children: React.ReactNode, mouseX: any, index: number, total: number }) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const distance = useTransform(mouseX, (val) => {
+    if (val === Infinity || !ref.current) return 0;
+    const rect = ref.current.getBoundingClientRect();
+    const elementX = rect.left + rect.width / 2;
+    return val - elementX;
+  });
+
+  const widthSync = useTransform(distance, [-200, 0, 200], [40, 100, 40]);
+  const width = useSpring(widthSync, { mass: 0.1, stiffness: 150, damping: 12 });
+  
+  const initialX = useMemo(() => Math.random() * 2 - 1, []);
+  const initialY = useMemo(() => Math.random() * 2 - 1, []);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  useEffect(() => {
+    const duration = 20 + Math.random() * 10;
+    const animateX = animate(x, [0, 40 * initialX, -40 * initialX, 0], {
+      duration,
+      repeat: Infinity,
+      ease: "easeInOut",
+    });
+    const animateY = animate(y, [0, 40 * initialY, -40 * initialY, 0], {
+      duration,
+      repeat: Infinity,
+      ease: "easeInOut",
+      delay: duration / 2,
+    });
+    return () => {
+      animateX.stop();
+      animateY.stop();
+    };
+  }, [x, y, initialX, initialY]);
+
+  return (
+    <motion.div
+      ref={ref}
+      className="p-4 bg-primary/20 rounded-full flex items-center justify-center shadow-lg"
+      style={{ width, x, y }}
+    >
+      {children}
+    </motion.div>
+  );
 };
 
 
@@ -364,7 +358,7 @@ export default function Home() {
                         </Button>
                     </motion.div>
                     <div className="flex justify-center items-center min-h-[300px]">
-                       <CodeTypeAnimation />
+                       <SkillConstellation />
                     </div>
                 </div>
             </div>
@@ -578,3 +572,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
