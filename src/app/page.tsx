@@ -147,7 +147,7 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const JsIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="18" fontWeight="bold" fill="currentColor">JS</text>
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">JS</text>
   </svg>
 );
 
@@ -193,20 +193,25 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-    const shuffle = (array: typeof academySkills) => {
-        let currentIndex = array.length,  randomIndex;
-        while (currentIndex != 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex], array[currentIndex]];
-        }
-        return array;
-    }
-    
     const skills1 = React.useMemo(() => [...academySkills, ...academySkills], []);
-    const skills2 = React.useMemo(() => shuffle([...academySkills, ...academySkills]), []);
-    const skills3 = React.useMemo(() => shuffle([...academySkills, ...academySkills]), []);
+    
+    const [skills2, setSkills2] = useState([...academySkills, ...academySkills]);
+    const [skills3, setSkills3] = useState([...academySkills, ...academySkills]);
+
+    useEffect(() => {
+        const shuffle = (array: typeof academySkills) => {
+            let currentIndex = array.length,  randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+        setSkills2(shuffle([...academySkills, ...academySkills]));
+        setSkills3(shuffle([...academySkills, ...academySkills]));
+    }, []);
 
 
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: typeof academySkills, duration: number, direction?: 1 | -1 }) => (
