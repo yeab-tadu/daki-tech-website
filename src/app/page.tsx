@@ -128,7 +128,7 @@ const InteractiveCircle = () => {
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
-  const academyImage = PlaceHolderImages.find(p => p.id === 'home-academy');
+  const academyImage = PlaceHolderImages.find(p => p.id === 'academy-hero');
 
   return (
     <div className="flex flex-col min-h-dvh">
