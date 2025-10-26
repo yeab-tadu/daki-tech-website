@@ -23,6 +23,9 @@ import {
   PlugZap,
   Wind,
   Router,
+  HeartHandshake,
+  Users,
+  MessagesSquare,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -58,6 +61,21 @@ const whyChooseUs = [
     icon: <LifeBuoy className="h-10 w-10 text-primary" />,
     title: 'Support',
     description: 'We provide ongoing support and maintenance to ensure your systems run smoothly.',
+  },
+  {
+    icon: <HeartHandshake className="h-10 w-10 text-primary" />,
+    title: 'Client-Centric',
+    description: 'Your success is our priority. We work closely with you to understand your goals and deliver tailored solutions.',
+  },
+  {
+    icon: <Users className="h-10 w-10 text-primary" />,
+    title: 'Expert Team',
+    description: 'Our team of skilled professionals brings years of industry experience and passion to every project.',
+  },
+  {
+    icon: <MessagesSquare className="h-10 w-10 text-primary" />,
+    title: 'Transparent Communication',
+    description: 'We believe in open and honest communication, keeping you informed every step of the way.',
   },
 ];
 
@@ -211,7 +229,6 @@ const SkillMarquee = () => {
   const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => {
     if (!isMounted || skills.length === 0) return null;
     
-    // Framer Motion's animate property works with string percentages
     const xAnimation = direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"];
 
     return (
@@ -237,7 +254,7 @@ const SkillMarquee = () => {
   };
 
   if (!isMounted) {
-    return null; // Render nothing on the server to prevent hydration mismatch
+    return null;
   }
 
   return (
@@ -475,15 +492,19 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-              {whyChooseUs.map((reason) => (
+            <div className="mx-auto grid items-start gap-8 py-12 sm:grid-cols-2 md:grid-cols-3">
+              {whyChooseUs.map((reason, index) => (
                 <motion.div
                   key={reason.title}
                   className="flex flex-col items-center text-center p-6"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  variants={{
+                    hidden: { opacity: 0, y: 50 },
+                    visible: { opacity: 1, y: 0 }
+                  }}
                 >
                   <div className="p-4 bg-primary/10 rounded-full transition-transform hover:scale-110 shadow-md">{reason.icon}</div>
                   <h3 className="font-headline text-xl font-bold mt-4">{reason.title}</h3>
