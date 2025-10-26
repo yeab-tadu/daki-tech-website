@@ -347,16 +347,16 @@ const ServicesMarquee = () => {
   )
 }
 
-const WhyChooseUsMarquee = () => {
-    const duplicatedItems = [...whyChooseUs, ...whyChooseUs];
-    const duration = whyChooseUs.length * 5; // Adjust speed here
+const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: typeof whyChooseUs; direction?: 1 | -1, duration?: number }) => {
+    const duplicatedItems = [...items, ...items];
+    const yAnimation = direction === 1 ? ['0%', '-50%'] : ['-50%', '0%'];
 
     return (
         <div className="relative h-96 w-full max-w-sm overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]">
             <motion.div
                 className="w-full"
                 animate={{
-                    y: ['0%', '-50%'],
+                    y: yAnimation,
                 }}
                 transition={{
                     ease: 'linear',
@@ -519,21 +519,22 @@ export default function Home() {
         </section>
 
         {/* Why Choose Us */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
-                    <div className="space-y-4">
-                        <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Why Choose DakiTechs?</h2>
-                        <p className="max-w-[600px] text-foreground/80 md:text-xl/relaxed">
-                          We are committed to delivering excellence and building long-term partnerships with our clients through innovation, reliability, and dedicated support.
-                        </p>
-                         <Button size="lg" asChild>
-                            <Link href="/about">Learn More About Us</Link>
-                        </Button>
-                    </div>
-                    <div className="flex justify-center">
-                        <WhyChooseUsMarquee />
-                    </div>
+                <div className="flex flex-col items-center text-center mb-12">
+                    <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Why Choose DakiTechs?</h2>
+                    <p className="max-w-[600px] text-foreground/80 md:text-xl/relaxed mt-4">
+                        We are committed to delivering excellence and building long-term partnerships with our clients through innovation, reliability, and dedicated support.
+                    </p>
+                    <Button size="lg" asChild className="mt-6">
+                        <Link href="/about">Learn More About Us</Link>
+                    </Button>
+                </div>
+
+                <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]">
+                    <WhyChooseUsMarquee items={[...whyChooseUs].sort(() => 0.5 - Math.random())} duration={40} direction={1} />
+                    <WhyChooseUsMarquee items={[...whyChooseUs].sort(() => Math.random() - 0.5)} duration={50} direction={-1} />
+                    <WhyChooseUsMarquee items={[...whyChooseUs].sort(() => 0.5 - Math.random())} duration={45} direction={1} />
                 </div>
             </div>
         </section>
@@ -588,7 +589,7 @@ export default function Home() {
               className="w-full max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto mt-12"
             >
               <CarouselContent>
-                {featuredProjects.map((project) => {
+                {projects.map((project) => {
                   const projectImage = PlaceHolderImages.find(p => p.id === project.imageId);
                   return (
                     <CarouselItem key={project.id} className="md:basis-1/2 lg:basis-1/3">
@@ -670,7 +671,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
