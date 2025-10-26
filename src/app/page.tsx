@@ -1,5 +1,6 @@
 
 
+
 'use client';
 
 import * as React from 'react';
@@ -412,9 +413,21 @@ const AnimatedProcess = () => {
                         viewport={{ once: true, amount: 0.8 }}
                         transition={{ duration: 0.5, delay: index * 0.2 }}
                     >
-                        <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent">
+                        <motion.div
+                            className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
+                            animate={{
+                                scale: [1, 1.1, 1],
+                            }}
+                            transition={{
+                                duration: 2,
+                                ease: "easeInOut",
+                                repeat: Infinity,
+                                repeatType: "mirror",
+                                delay: index * 0.3,
+                            }}
+                        >
                             {index + 1}
-                        </div>
+                        </motion.div>
                         <p className="font-headline mt-3 font-semibold text-sm md:text-base">{step.name}</p>
                     </motion.div>
                 ))}
