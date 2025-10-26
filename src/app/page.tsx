@@ -347,6 +347,42 @@ const ServicesMarquee = () => {
   )
 }
 
+const WhyChooseUsMarquee = () => {
+    const duplicatedItems = [...whyChooseUs, ...whyChooseUs];
+    const duration = whyChooseUs.length * 5; // Adjust speed here
+
+    return (
+        <div className="relative h-96 w-full max-w-sm overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]">
+            <motion.div
+                className="w-full"
+                animate={{
+                    y: ['0%', '-50%'],
+                }}
+                transition={{
+                    ease: 'linear',
+                    duration: duration,
+                    repeat: Infinity,
+                }}
+                whileHover={{ animationPlayState: 'paused' }}
+            >
+                {duplicatedItems.map((reason, index) => (
+                    <div
+                        key={`${reason.title}-${index}`}
+                        className="flex flex-col items-center text-center p-6 space-y-4 my-4"
+                    >
+                        <div className="p-4 bg-primary/10 rounded-full shadow-md">
+                            {reason.icon}
+                        </div>
+                        <h3 className="font-headline text-xl font-bold">{reason.title}</h3>
+                        <p className="text-foreground/80">{reason.description}</p>
+                    </div>
+                ))}
+            </motion.div>
+        </div>
+    );
+};
+
+
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
   
@@ -484,37 +520,22 @@ export default function Home() {
 
         {/* Why Choose Us */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Why Choose DakiTechs?</h2>
-                <p className="max-w-[900px] text-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  We are committed to delivering excellence and building long-term partnerships with our clients.
-                </p>
-              </div>
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="grid lg:grid-cols-2 gap-16 items-center">
+                    <div className="space-y-4">
+                        <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Why Choose DakiTechs?</h2>
+                        <p className="max-w-[600px] text-foreground/80 md:text-xl/relaxed">
+                          We are committed to delivering excellence and building long-term partnerships with our clients through innovation, reliability, and dedicated support.
+                        </p>
+                         <Button size="lg" asChild>
+                            <Link href="/about">Learn More About Us</Link>
+                        </Button>
+                    </div>
+                    <div className="flex justify-center">
+                        <WhyChooseUsMarquee />
+                    </div>
+                </div>
             </div>
-            <div className="mx-auto grid items-start gap-8 py-12 sm:grid-cols-2 md:grid-cols-3">
-              {whyChooseUs.map((reason, index) => (
-                <motion.div
-                  key={reason.title}
-                  className="flex flex-col items-center text-center p-6"
-                   animate={{
-                    y: ["0rem", "-1rem", "0rem"],
-                  }}
-                  transition={{
-                    duration: 4,
-                    ease: "easeInOut",
-                    repeat: Infinity,
-                    delay: index * 0.3,
-                  }}
-                >
-                  <div className="p-4 bg-primary/10 rounded-full transition-transform hover:scale-110 shadow-md">{reason.icon}</div>
-                  <h3 className="font-headline text-xl font-bold mt-4">{reason.title}</h3>
-                  <p className="mt-2 text-foreground/80">{reason.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
         </section>
 
         {/* Our Process */}
@@ -649,5 +670,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
