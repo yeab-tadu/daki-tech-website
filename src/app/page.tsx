@@ -18,15 +18,9 @@ import {
   UserCheck,
   BarChart,
   Database,
-  GitMerge,
-  Server,
-  TerminalSquare,
-  Globe,
   GitBranch,
-  DatabaseZap,
-  PlugZap,
   Rocket,
-  LayoutPanelLeft,
+  PlugZap,
   Wind,
   Router,
 } from 'lucide-react';
@@ -210,10 +204,11 @@ const SkillMarquee = () => {
                 duration: duration,
                 repeat: Infinity,
             }}
+            style={{ x: direction === 1 ? '0%' : '-100%' }}
         >
             {skills.map((skill, index) => (
                 <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
-                     <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+                     <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
                         {skill.icon}
                     </div>
                     <span className="text-xs font-semibold mt-2">{skill.name}</span>
