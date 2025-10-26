@@ -42,7 +42,7 @@ import {
 } from '@/components/ui/carousel';
 import { projects, services, testimonials } from '@/lib/data';
 import { motion, useTime, useTransform } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 const whyChooseUs = [
   {
@@ -148,13 +148,6 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const RouterIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-        <path d="M12.0002 2.99988C12.0002 2.99988 15.0002 3.45388 16.5002 6.00088C17.4362 7.64488 17.1682 9.77888 15.9322 11.0159L19.0002 14.0839V15.0009H15.0002V19.0009H14.0002L12.0002 21.0009L10.0002 19.0009H9.0002V15.0009H5.0002V14.0839L8.06822 11.0159C6.83222 9.77888 6.56422 7.64488 7.50022 6.00088C9.00022 3.45388 12.0002 2.99988 12.0002 2.99988ZM12.0002 4.99988C10.5002 4.99988 9.50022 5.58388 9.00022 7.00088C8.68622 7.84288 8.94022 8.78488 9.61022 9.45488L12.0002 11.8449L14.3902 9.45488C15.0602 8.78488 15.3142 7.84288 15.0002 8.00088C15.0002 7.00088 14.5002 5.58388 13.5002 4.99988C13.0002 4.99988 12.0002 4.99988 12.0002 4.99988Z" fill="currentColor"/>
-    </svg>
-);
-
-
 const academySkills = [
     { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
     { name: 'JavaScript', icon: <Globe className="h-10 w-10" /> },
@@ -171,52 +164,55 @@ const academySkills = [
 ];
 
 const AcademySkillsGrid = () => {
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
-      {academySkills.map((skill, i) => (
-        <motion.div
-          key={skill.name}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{
-            opacity: 1,
-            y: ["0%", "-5%", "0%"],
-          }}
-          transition={{
-            duration: 0.5, // Entry animation duration
-            delay: i * 0.1, // Staggered entry
-            // Continuous floating animation
-            y: {
-              duration: 2.5,
-              ease: "easeInOut",
-              repeat: Infinity,
-              repeatType: "loop",
-              delay: i * 0.2 + 0.5, // Staggered start for floating
-            },
-          }}
-          viewport={{ once: true }}
-          whileHover={{ y: -10, scale: 1.05 }}
-          className="group"
-        >
-          <Card className="bg-background/80 backdrop-blur-sm h-full transition-all duration-300 group-hover:bg-primary/10 group-hover:shadow-primary/20 group-hover:shadow-lg">
-            <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
-              <motion.div
-                className="text-primary transition-colors duration-300 group-hover:text-accent"
-                whileHover={{ scale: 1.2, rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 0.4 }}
-              >
-                {skill.icon}
-              </motion.div>
-              <p className="font-headline text-sm font-semibold">{skill.name}</p>
-            </CardContent>
-          </Card>
-        </motion.div>
-      ))}
-    </div>
-  );
-};
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        {academySkills.map((skill, i) => (
+           <motion.div
+              key={skill.name}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1,
+              }}
+              whileHover={{ y: -10, scale: 1.05 }}
+              transition={{
+                opacity: { duration: 0.5, delay: i * 0.1 },
+                scale: { duration: 0.5, delay: i * 0.1 },
+              }}
+              viewport={{ once: true }}
+              className="group"
+            >
+             <motion.div
+              animate={{
+                x: [0, -5, 5, -5, 0],
+                y: [0, 5, -5, 5, 0],
+              }}
+              transition={{
+                duration: Math.random() * 5 + 5,
+                ease: "linear",
+                repeat: Infinity,
+                repeatType: "mirror",
+                delay: Math.random() * 2,
+              }}
+             >
+                <Card className="bg-background/80 backdrop-blur-sm h-full transition-all duration-300 group-hover:bg-primary/10 group-hover:shadow-primary/20 group-hover:shadow-lg">
+                    <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
+                    <div className="text-primary transition-colors duration-300 group-hover:text-accent">
+                        {skill.icon}
+                    </div>
+                    <p className="font-headline text-sm font-semibold">{skill.name}</p>
+                    </CardContent>
+                </Card>
+            </motion.div>
+          </motion.div>
+        ))}
+      </div>
+    );
+  };
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
+  const academyImage = PlaceHolderImages.find(p => p.id === 'academy-hero');
 
   return (
     <div className="flex flex-col min-h-dvh">
