@@ -152,28 +152,48 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const JsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="16" fontWeight="bold" fill="currentColor">JS</text>
+  <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="18" fontWeight="bold" fill="currentColor">JS</text>
   </svg>
 );
 
 const BsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="16" fontWeight="bold" fill="currentColor">B</text>
+  <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="20" fontWeight="bold" fill="currentColor">B</text>
   </svg>
 );
+
+const NodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none"/>
+        <text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text>
+    </svg>
+);
+
+const NextIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">N</text>
+  </svg>
+);
+
+const JqueryIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">J</text>
+  </svg>
+);
+
 
 const academySkills = [
     { name: 'HTML & CSS', icon: <Code className="h-8 w-8" /> },
     { name: 'JavaScript', icon: <JsIcon /> },
     { name: 'Bootstrap', icon: <BsIcon /> },
-    { name: 'Node.js', icon: <Server className="h-8 w-8" /> },
+    { name: 'Node.js', icon: <NodeIcon /> },
     { name: 'Express.js', icon: <Wind className="h-8 w-8" /> },
     { name: 'React.js', icon: <ReactIcon className="h-8 w-8" /> },
-    { name: 'Next.js', icon: <Layers className="h-8 w-8" /> },
+    { name: 'Next.js', icon: <NextIcon /> },
     { name: 'MySQL', icon: <Database className="h-8 w-8" /> },
     { name: 'Git', icon: <GitBranch className="h-8 w-8" /> },
-    { name: 'jQuery', icon: <DatabaseZap className="h-8 w-8" /> },
+    { name: 'jQuery', icon: <JqueryIcon /> },
     { name: 'React Router', icon: <Router className="h-8 w-8" /> },
     { name: 'REST API', icon: <PlugZap className="h-8 w-8" /> },
     { name: 'Deployment', icon: <Rocket className="h-8 w-8" /> },
