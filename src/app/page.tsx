@@ -44,7 +44,7 @@ import {
 } from '@/components/ui/carousel';
 import { projects, services, testimonials } from '@/lib/data';
 import { motion, useTime, useTransform } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
 const whyChooseUs = [
@@ -152,14 +152,14 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const JsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="18" fontWeight="bold" fill="currentColor">JS</text>
   </svg>
 );
 
 const BsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="20" fontWeight="bold" fill="currentColor">B</text>
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">B</text>
   </svg>
 );
 
@@ -171,13 +171,13 @@ const NodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const NextIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">N</text>
   </svg>
 );
 
 const JqueryIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">J</text>
   </svg>
 );
@@ -189,7 +189,7 @@ const academySkills = [
     { name: 'Bootstrap', icon: <BsIcon /> },
     { name: 'Node.js', icon: <NodeIcon /> },
     { name: 'Express.js', icon: <Wind className="h-8 w-8" /> },
-    { name: 'React.js', icon: <ReactIcon className="h-8 w-8" /> },
+    { name: 'React.js', icon: <ReactIcon /> },
     { name: 'Next.js', icon: <NextIcon /> },
     { name: 'MySQL', icon: <Database className="h-8 w-8" /> },
     { name: 'Git', icon: <GitBranch className="h-8 w-8" /> },
@@ -207,21 +207,21 @@ const PulsingGrid = () => {
           <motion.div
             key={skill.name}
             className="flex flex-col items-center text-center text-foreground group"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
+            transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
           >
             <motion.div
-              className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
-              whileHover={{ scale: 1.1, boxShadow: '0px 0px 20px hsl(var(--accent))' }}
+              className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center shadow-lg"
+              whileHover={{ scale: 1.15, boxShadow: '0px 0px 25px hsl(var(--accent))', transition: { duration: 0.2 } }}
               animate={{
-                scale: [1, 1.05, 1],
+                scale: [1, 1.07, 1],
                 transition: {
-                  duration: 2,
+                  duration: 2.5,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: i * 0.2,
+                  delay: i * 0.15,
                 },
               }}
             >
