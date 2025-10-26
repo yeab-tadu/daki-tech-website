@@ -21,6 +21,12 @@ import {
   Server,
   TerminalSquare,
   Globe,
+  GitBranch,
+  DatabaseZap,
+  PlugZap,
+  Rocket,
+  LayoutPanelLeft,
+  Wind,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -143,14 +149,18 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const academySkills = [
-    { name: 'HTML/CSS', icon: <Code className="h-10 w-10" /> },
+    { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
     { name: 'JavaScript', icon: <Globe className="h-10 w-10" /> },
-    { name: 'React/Next.js', icon: <ReactIcon /> },
+    { name: 'Bootstrap', icon: <LayoutPanelLeft className="h-10 w-10" /> },
     { name: 'Node.js', icon: <Server className="h-10 w-10" /> },
-    { name: 'Databases', icon: <Database className="h-10 w-10" /> },
-    { name: 'Git/Version Control', icon: <GitMerge className="h-10 w-10" /> },
-    { name: 'APIs', icon: <Layers className="h-10 w-10" /> },
-    { name: 'DevOps', icon: <TerminalSquare className="h-10 w-10" /> },
+    { name: 'Express.js', icon: <Wind className="h-10 w-10" /> },
+    { name: 'React.js', icon: <ReactIcon /> },
+    { name: 'Next.js', icon: <Layers className="h-10 w-10" /> },
+    { name: 'MySQL', icon: <Database className="h-10 w-10" /> },
+    { name: 'Git', icon: <GitBranch className="h-10 w-10" /> },
+    { name: 'jQuery', icon: <DatabaseZap className="h-10 w-10" /> },
+    { name: 'REST API', icon: <PlugZap className="h-10 w-10" /> },
+    { name: 'Deployment', icon: <Rocket className="h-10 w-10" /> },
 ];
 
 const AcademySkillsGrid = () => {
@@ -168,7 +178,7 @@ const AcademySkillsGrid = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
       {academySkills.map((skill, i) => (
         <motion.div
           key={skill.name}
@@ -306,7 +316,7 @@ export default function Home() {
                            <Link href="/academy">Explore the Academy <ArrowRight className="ml-2 h-4 w-4" /></Link>
                         </Button>
                     </motion.div>
-                    <div className="hidden md:flex justify-center">
+                    <div className="flex justify-center">
                        <AcademySkillsGrid />
                     </div>
                 </div>
@@ -521,5 +531,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
