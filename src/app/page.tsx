@@ -194,31 +194,33 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-    const skills1 = React.useMemo(() => [...academySkills, ...academySkills], []);
-    
-    const [skills2, setSkills2] = useState([...academySkills, ...academySkills]);
-    const [skills3, setSkills3] = useState([...academySkills, ...academySkills]);
+    const [skills1, setSkills1] = useState<(typeof academySkills)>([]);
+    const [skills2, setSkills2] = useState<(typeof academySkills)>([]);
+    const [skills3, setSkills3] = useState<(typeof academySkills)>([]);
 
     useEffect(() => {
         const shuffle = (array: typeof academySkills) => {
-            let currentIndex = array.length,  randomIndex;
-            while (currentIndex != 0) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
                 randomIndex = Math.floor(Math.random() * currentIndex);
                 currentIndex--;
-                [array[currentIndex], array[randomIndex]] = [
-                array[randomIndex], array[currentIndex]];
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
             }
             return array;
         }
+
+        setSkills1([...academySkills, ...academySkills]);
         setSkills2(shuffle([...academySkills, ...academySkills]));
         setSkills3(shuffle([...academySkills, ...academySkills]));
     }, []);
+
+    if (skills1.length === 0) return null;
 
 
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills), duration: number, direction?: 1 | -1 }) => (
         <motion.div
             className="flex gap-8"
-            animate={{ x: [`${direction === 1 ? 0 : -50}%`, `${direction === 1 ? -50 : 0}%`] }}
+            animate={{ x: [`${direction === 1 ? 0 : '-50%'}`, `${direction === 1 ? '-50%' : '0%'}`] }}
             transition={{
                 ease: 'linear',
                 duration: duration,
