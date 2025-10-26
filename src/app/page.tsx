@@ -41,8 +41,8 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { projects, services, testimonials } from '@/lib/data';
-import { motion, useTime, useTransform } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion, useTime, useTransform, useScroll, useSpring } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import type { Service } from '@/lib/types';
 
@@ -348,16 +348,17 @@ const ServicesMarquee = () => {
 }
 
 const WhyChooseUsMarquee = ({ initialItems, direction = 1, duration = 50 }: { initialItems: typeof whyChooseUs; direction?: 1 | -1, duration?: number }) => {
-    const [items, setItems] = useState(initialItems);
+    const [items, setItems] = useState<typeof whyChooseUs>([]);
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
         setIsMounted(true);
-        const shuffled = [...initialItems].sort(() => Math.random() - 0.5);
-        setItems(shuffled);
+        // Shuffle only on the client to avoid hydration mismatch
+        setItems([...initialItems].sort(() => Math.random() - 0.5));
     }, [initialItems]);
 
-    if (!isMounted) {
+    if (!isMounted || items.length === 0) {
+      // Render a static placeholder or nothing on the server
       return null;
     }
 
@@ -391,6 +392,50 @@ const WhyChooseUsMarquee = ({ initialItems, direction = 1, duration = 50 }: { in
                     </div>
                 ))}
             </motion.div>
+        </div>
+    );
+};
+
+
+const AnimatedProcess = () => {
+    const targetRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: targetRef,
+        offset: ['start end', 'end center']
+    });
+
+    const pathLength = useSpring(scrollYProgress, { stiffness: 400, damping: 90 });
+
+    return (
+        <div ref={targetRef} className="relative mt-12 md:mt-24">
+            <div className="flex justify-between items-start relative z-10">
+                {processSteps.map((step, index) => (
+                    <motion.div
+                        key={step.name}
+                        className="flex flex-col items-center text-center w-24"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.8 }}
+                        transition={{ duration: 0.5, delay: index * 0.2 }}
+                    >
+                        <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent">
+                            {index + 1}
+                        </div>
+                        <p className="font-headline mt-3 font-semibold text-sm md:text-base">{step.name}</p>
+                    </motion.div>
+                ))}
+            </div>
+            <svg className="absolute top-8 left-0 w-full h-16 z-0" viewBox="0 0 1200 100" preserveAspectRatio="none">
+                <motion.path
+                    d="M 60,50 C 250,10 250,90 500,50 C 750,10 750,90 950,50 C 1150,10 1150,90 1140,50"
+                    fill="transparent"
+                    stroke="hsl(var(--primary))"
+                    strokeWidth="3"
+                    style={{ pathLength }}
+                    strokeDasharray="1"
+                    strokeDashoffset="0"
+                />
+            </svg>
         </div>
     );
 };
@@ -564,25 +609,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="relative mt-12">
-              <div className="absolute left-0 top-1/2 w-full h-0.5 bg-border -translate-y-1/2" />
-              <div className="relative flex justify-between">
-                {processSteps.map((step, index) => (
-                  <div key={step.name} className="flex flex-col items-center text-center z-10 group">
-                    <motion.div
-                      className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                      {index + 1}
-                    </motion.div>
-                    <p className="font-headline mt-3 font-semibold">{step.name}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <AnimatedProcess />
           </div>
         </section>
 
