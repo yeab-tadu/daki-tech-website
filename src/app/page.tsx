@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -41,8 +42,8 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { projects, services, testimonials } from '@/lib/data';
-import { motion, useTime, useTransform } from 'framer-motion';
-import { useState, useMemo } from 'react';
+import { motion, useTime, useTransform, AnimatePresence } from 'framer-motion';
+import { useState, useMemo, useEffect } from 'react';
 
 const whyChooseUs = [
   {
@@ -163,52 +164,45 @@ const academySkills = [
     { name: 'Deployment', icon: <Rocket className="h-10 w-10" /> },
 ];
 
-const AcademySkillsGrid = () => {
+const SkillLauncher = () => {
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex(prevIndex => (prevIndex + 1) % academySkills.length);
+        }, 2000); // Change skill every 2 seconds
+        return () => clearInterval(interval);
+    }, []);
+
+    const currentSkill = academySkills[index];
+
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
-        {academySkills.map((skill, i) => (
-           <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1,
-              }}
-              whileHover={{ y: -10, scale: 1.05 }}
-              transition={{
-                opacity: { duration: 0.5, delay: i * 0.1 },
-                scale: { duration: 0.5, delay: i * 0.1 },
-              }}
-              viewport={{ once: true }}
-              className="group"
-            >
-             <motion.div
-              animate={{
-                x: [0, -5, 5, -5, 0],
-                y: [0, 5, -5, 5, 0],
-              }}
-              transition={{
-                duration: Math.random() * 5 + 5,
-                ease: "linear",
-                repeat: Infinity,
-                repeatType: "mirror",
-                delay: Math.random() * 2,
-              }}
-             >
-                <Card className="bg-background/80 backdrop-blur-sm h-full transition-all duration-300 group-hover:bg-primary/10 group-hover:shadow-primary/20 group-hover:shadow-lg">
-                    <CardContent className="flex flex-col items-center justify-center p-6 text-center space-y-3">
-                    <div className="text-primary transition-colors duration-300 group-hover:text-accent">
-                        {skill.icon}
+        <div className="relative w-full h-[350px] bg-primary/5 rounded-2xl flex items-center justify-center overflow-hidden">
+            <div className="absolute inset-0 bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 100, scale: 0.5 }}
+                    animate={{ opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 100, damping: 15 } }}
+                    exit={{ opacity: 0, y: -100, scale: 0.5, transition: { duration: 0.3 } }}
+                    className="flex flex-col items-center justify-center text-center space-y-4"
+                >
+                    <div className="text-accent w-24 h-24 flex items-center justify-center">
+                        <motion.div
+                            initial={{ rotate: -90, scale: 0 }}
+                            animate={{ rotate: 0, scale: 1, transition: { delay: 0.2, type: 'spring', stiffness: 120 } }}
+                        >
+                          {React.cloneElement(currentSkill.icon, { className: "h-16 w-16" })}
+                        </motion.div>
                     </div>
-                    <p className="font-headline text-sm font-semibold">{skill.name}</p>
-                    </CardContent>
-                </Card>
-            </motion.div>
-          </motion.div>
-        ))}
-      </div>
+                    <p className="font-headline text-2xl font-bold text-primary">{currentSkill.name}</p>
+                </motion.div>
+            </AnimatePresence>
+            {/* Launcher Box */}
+            <div className="absolute bottom-0 h-4 w-24 bg-secondary rounded-t-md" />
+        </div>
     );
-  };
+};
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
@@ -319,7 +313,7 @@ export default function Home() {
                         </Button>
                     </motion.div>
                     <div className="flex justify-center">
-                       <AcademySkillsGrid />
+                       <SkillLauncher />
                     </div>
                 </div>
             </div>
@@ -533,5 +527,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
