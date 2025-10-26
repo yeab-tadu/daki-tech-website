@@ -194,51 +194,52 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-    const [shuffledSkills1, setShuffledSkills1] = useState<(typeof academySkills)[]>([]);
-    const [shuffledSkills2, setShuffledSkills2] = useState<(typeof academySkills)[]>([]);
-    const [shuffledSkills3, setShuffledSkills3] = useState<(typeof academySkills)[]>([]);
+  const [shuffledSkills1, setShuffledSkills1] = useState<(typeof academySkills)[]>([]);
+  const [shuffledSkills2, setShuffledSkills2] = useState<(typeof academySkills)[]>([]);
+  const [shuffledSkills3, setShuffledSkills3] = useState<(typeof academySkills)[]>([]);
 
-    useEffect(() => {
-        const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
-        
-        setShuffledSkills1(shuffle(academySkills));
-        setShuffledSkills2(shuffle(academySkills));
-        setShuffledSkills3(shuffle(academySkills));
-    }, []);
+  useEffect(() => {
+    const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
+    setShuffledSkills1(shuffle(academySkills));
+    setShuffledSkills2(shuffle(academySkills));
+    setShuffledSkills3(shuffle(academySkills));
+  }, []);
 
-    if (shuffledSkills1.length === 0) return null;
-
-    const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => (
-        <motion.div
-            animate={{ x: [`${direction === 1 ? 0 : -50}%`, `${direction === 1 ? -50 : 0}%`] }}
-            transition={{
-                ease: 'linear',
-                duration: duration,
-                repeat: Infinity,
-            }}
-        >
-            <div className="flex gap-8">
-            {[...skills, ...skills].map((skill, index) => (
-                <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
-                     <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
-                        {skill.icon}
-                    </div>
-                    <span className="text-xs font-semibold mt-2">{skill.name}</span>
-                </div>
-            ))}
-            </div>
-        </motion.div>
-    );
-
+  const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => {
+    if (skills.length === 0) return null;
     return (
-        <div className="w-full overflow-hidden relative space-y-4 py-8">
-            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
-            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
-            <MarqueeRow skills={shuffledSkills1} duration={40} />
-            <MarqueeRow skills={shuffledSkills2} duration={30} direction={-1} />
-            <MarqueeRow skills={shuffledSkills3} duration={50} />
+      <motion.div
+        className="flex gap-8"
+        animate={{ x: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }}
+        transition={{
+          ease: 'linear',
+          duration: duration,
+          repeat: Infinity,
+        }}
+      >
+        <div className="flex gap-8">
+          {[...skills, ...skills].map((skill, index) => (
+            <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
+              <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+                {skill.icon}
+              </div>
+              <span className="text-xs font-semibold mt-2">{skill.name}</span>
+            </div>
+          ))}
         </div>
-    )
+      </motion.div>
+    );
+  };
+
+  return (
+    <div className="w-full overflow-hidden relative space-y-4 py-8">
+      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
+      <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
+      <MarqueeRow skills={shuffledSkills1} duration={40} />
+      <MarqueeRow skills={shuffledSkills2} duration={30} direction={-1} />
+      <MarqueeRow skills={shuffledSkills3} duration={50} />
+    </div>
+  )
 }
 
 export default function Home() {
