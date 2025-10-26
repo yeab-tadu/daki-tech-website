@@ -167,41 +167,93 @@ const academySkills = [
     { name: 'Deployment', icon: <Rocket className="h-8 w-8" /> },
 ];
 
-const SkillMarquee = () => {
-    const duplicatedSkills = [...academySkills, ...academySkills];
+const CodeTypeAnimation = () => {
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex(prevIndex => (prevIndex + 1) % academySkills.length);
+        }, 3000); // Change skill every 3 seconds
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const currentSkill = academySkills[index];
+    const letters = currentSkill.name.split('');
+
+    const containerVariants = {
+        hidden: {},
+        visible: {
+            transition: {
+                staggerChildren: 0.05,
+            },
+        },
+    };
+
+    const letterVariants = {
+        hidden: { opacity: 0, y: 10 },
+        visible: { opacity: 1, y: 0 },
+    };
+    
+    const iconVariants = {
+        hidden: { scale: 0, opacity: 0, rotate: -180 },
+        visible: { 
+            scale: 1, 
+            opacity: 1, 
+            rotate: 0,
+            transition: { delay: letters.length * 0.05 + 0.2, type: 'spring', damping: 15, stiffness: 300 } 
+        },
+    }
 
     return (
-        <div className="relative w-full py-12 bg-primary/5 rounded-2xl flex flex-col justify-center overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
-            <div className="absolute inset-0 bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
+        <div className="w-full max-w-lg h-64 bg-sidebar/80 rounded-2xl p-6 flex flex-col justify-center items-center font-code shadow-2xl backdrop-blur-sm relative overflow-hidden">
+             <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
+             <div className="absolute top-4 left-4 flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
             
-            <motion.div 
-              className="flex gap-8"
-              animate={{ x: ['-100%', '0%'] }}
-              transition={{ ease: 'linear', duration: 30, repeat: Infinity }}
-            >
-                {duplicatedSkills.map((skill, index) => (
-                    <div key={`d1-${index}`} className="flex-shrink-0 w-48 bg-background/80 backdrop-blur-sm rounded-lg shadow-md flex flex-col items-center justify-center p-4 gap-2">
-                        <div className="text-accent">{skill.icon}</div>
-                        <p className="font-headline text-lg font-semibold text-primary text-center">{skill.name}</p>
-                    </div>
-                ))}
-            </motion.div>
-            
-            <motion.div 
-              className="flex gap-8 mt-8"
-              animate={{ x: ['0%', '-100%'] }}
-              transition={{ ease: 'linear', duration: 30, repeat: Infinity }}
-            >
-                {duplicatedSkills.map((skill, index) => (
-                    <div key={`d2-${index}`} className="flex-shrink-0 w-48 bg-background/80 backdrop-blur-sm rounded-lg shadow-md flex flex-col items-center justify-center p-4 gap-2">
-                        <div className="text-secondary">{skill.icon}</div>
-                        <p className="font-headline text-lg font-semibold text-primary text-center">{skill.name}</p>
-                    </div>
-                ))}
-            </motion.div>
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={index}
+                    className="flex flex-col items-center justify-center gap-4"
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    transition={{ duration: 0.3 }}
+                >
+                     <motion.div 
+                        className="text-accent"
+                        variants={iconVariants}
+                     >
+                        {React.cloneElement(currentSkill.icon, { className: "h-12 w-12" })}
+                     </motion.div>
+                     
+                    <motion.h3
+                        className="font-headline text-3xl text-primary-foreground font-bold flex items-center"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        {letters.map((letter, i) => (
+                            <motion.span key={i} variants={letterVariants}>
+                                {letter}
+                            </motion.span>
+                        ))}
+                        <motion.span 
+                          className="w-1.5 h-8 bg-accent ml-2"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ repeat: Infinity, duration: 0.8, ease: "easeInOut" }}
+                        />
+                    </motion.h3>
+                </motion.div>
+            </AnimatePresence>
         </div>
     );
 };
+
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
@@ -311,8 +363,8 @@ export default function Home() {
                            <Link href="/academy">Explore the Academy <ArrowRight className="ml-2 h-4 w-4" /></Link>
                         </Button>
                     </motion.div>
-                    <div className="flex justify-center">
-                       <SkillMarquee />
+                    <div className="flex justify-center items-center min-h-[300px]">
+                       <CodeTypeAnimation />
                     </div>
                 </div>
             </div>
