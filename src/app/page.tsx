@@ -169,43 +169,33 @@ const academySkills = [
 
 const PulsingGrid = () => {
   return (
-    <div className="w-full max-w-lg rounded-2xl p-6 shadow-xl bg-background/50 border border-border backdrop-blur-sm overflow-hidden">
-      <div className="relative">
-        <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10" style={{ backgroundSize: '20px 20px' }}/>
-        <div className="absolute top-[-10px] left-[-10px] flex gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-        </div>
-        <div className="grid grid-cols-3 gap-6 pt-6">
-          {academySkills.map((skill, i) => (
-            <motion.div
-              key={skill.name}
-              className="flex flex-col items-center gap-2 text-center text-foreground group"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-            >
-              <motion.div
-                className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
-                whileHover={{ scale: 1.1, boxShadow: '0px 0px 20px hsl(var(--accent))' }}
-                animate={{
-                  scale: [1, 1.05, 1],
-                  transition: {
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.2
-                  }
-                }}
-              >
-                {React.cloneElement(skill.icon, { className: 'h-10 w-10 text-accent group-hover:scale-110 transition-transform' })}
-              </motion.div>
-              <span className="text-xs font-medium">{skill.name}</span>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+    <div className="grid grid-cols-3 sm:grid-cols-4 gap-6 md:gap-8 w-full max-w-lg">
+      {academySkills.map((skill, i) => (
+        <motion.div
+          key={skill.name}
+          className="flex flex-col items-center gap-2 text-center text-foreground group"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: i * 0.1 }}
+        >
+          <motion.div
+            className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300"
+            whileHover={{ scale: 1.1, boxShadow: '0px 0px 20px hsl(var(--accent))' }}
+            animate={{
+              scale: [1, 1.05, 1],
+              transition: {
+                duration: 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: i * 0.2,
+              },
+            }}
+          >
+            {React.cloneElement(skill.icon, { className: 'h-10 w-10 text-accent group-hover:scale-110 transition-transform' })}
+          </motion.div>
+          <span className="text-xs font-medium">{skill.name}</span>
+        </motion.div>
+      ))}
     </div>
   );
 };
