@@ -152,10 +152,9 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const JsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-        <rect width="32" height="32" rx="4" fill="#F7DF1E"/>
-        <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="16" fontWeight="bold" fill="black">JS</text>
-    </svg>
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="16" fontWeight="bold" fill="currentColor">JS</text>
+  </svg>
 );
 
 const academySkills = [
@@ -176,14 +175,14 @@ const academySkills = [
 
 const PulsingGrid = () => {
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <div className="grid grid-cols-3 sm:grid-cols-4 gap-6 md:gap-8">
+    <div className="w-full max-w-2xl mx-auto">
+      <div className="grid grid-cols-4 sm:grid-cols-5 gap-6 md:gap-8">
         {academySkills.map((skill, i) => (
           <motion.div
             key={skill.name}
             className="flex flex-col items-center text-center text-foreground group"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
           >
             <motion.div
