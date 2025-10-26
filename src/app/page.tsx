@@ -194,32 +194,24 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-    const [skills1, setSkills1] = useState<(typeof academySkills)>([]);
-    const [skills2, setSkills2] = useState<(typeof academySkills)>([]);
-    const [skills3, setSkills3] = useState<(typeof academySkills)>([]);
+    const [shuffledSkills1, setShuffledSkills1] = useState<(typeof academySkills)[]>([]);
+    const [shuffledSkills2, setShuffledSkills2] = useState<(typeof academySkills)[]>([]);
+    const [shuffledSkills3, setShuffledSkills3] = useState<(typeof academySkills)[]>([]);
 
     useEffect(() => {
-        const shuffle = (array: typeof academySkills) => {
-            let currentIndex = array.length, randomIndex;
-            while (currentIndex !== 0) {
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex--;
-                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-            }
-            return array;
-        }
-
-        setSkills1([...academySkills, ...academySkills]);
-        setSkills2(shuffle([...academySkills, ...academySkills]));
-        setSkills3(shuffle([...academySkills, ...academySkills]));
+        const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
+        
+        setShuffledSkills1([...shuffle(academySkills), ...shuffle(academySkills)]);
+        setShuffledSkills2([...shuffle(academySkills), ...shuffle(academySkills)]);
+        setShuffledSkills3([...shuffle(academySkills), ...shuffle(academySkills)]);
     }, []);
 
-    if (skills1.length === 0) return null;
+    if (shuffledSkills1.length === 0) return null;
 
 
-    const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills), duration: number, direction?: 1 | -1 }) => (
+    const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => (
         <motion.div
-            className="flex"
+            className="flex gap-8"
             animate={{ x: [`${direction === 1 ? 0 : -50}%`, `${direction === 1 ? -50 : 0}%`] }}
             transition={{
                 ease: 'linear',
@@ -227,7 +219,6 @@ const SkillMarquee = () => {
                 repeat: Infinity,
             }}
         >
-            <div className="flex gap-8">
             {skills.map((skill, index) => (
                 <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
                      <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
@@ -236,7 +227,6 @@ const SkillMarquee = () => {
                     <span className="text-xs font-semibold mt-2">{skill.name}</span>
                 </div>
             ))}
-            </div>
         </motion.div>
     );
 
@@ -244,9 +234,9 @@ const SkillMarquee = () => {
         <div className="w-full overflow-hidden relative space-y-4 py-8">
             <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
             <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
-            <MarqueeRow skills={skills1} duration={30} />
-            <MarqueeRow skills={skills2} duration={25} direction={-1} />
-            <MarqueeRow skills={skills3} duration={40} />
+            <MarqueeRow skills={shuffledSkills1} duration={30} />
+            <MarqueeRow skills={shuffledSkills2} duration={25} direction={-1} />
+            <MarqueeRow skills={shuffledSkills3} duration={40} />
         </div>
     )
 }
