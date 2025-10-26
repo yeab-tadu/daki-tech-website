@@ -168,36 +168,33 @@ const academySkills = [
     { name: 'jQuery', icon: <DatabaseZap className="h-10 w-10" /> },
     { name: 'REST API', icon: <PlugZap className="h-10 w-10" /> },
     { name: 'Deployment', icon: <Rocket className="h-10 w-10" /> },
-    { name: 'React Router', icon: <RouterIcon /> },
 ];
 
 const AcademySkillsGrid = () => {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 100, scale: 0.5 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        delay: i * 0.07,
-        type: 'spring',
-        stiffness: 100,
-        damping: 10,
-      },
-    }),
-  };
-
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
       {academySkills.map((skill, i) => (
         <motion.div
           key={skill.name}
-          custom={i}
-          variants={cardVariants}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{
+            opacity: 1,
+            y: ["0%", "-5%", "0%"],
+          }}
+          transition={{
+            duration: 0.5, // Entry animation duration
+            delay: i * 0.1, // Staggered entry
+            // Continuous floating animation
+            y: {
+              duration: 2.5,
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatType: "loop",
+              delay: i * 0.2 + 0.5, // Staggered start for floating
+            },
+          }}
           viewport={{ once: true }}
-          whileHover={{ y: -5, scale: 1.05 }}
+          whileHover={{ y: -10, scale: 1.05 }}
           className="group"
         >
           <Card className="bg-background/80 backdrop-blur-sm h-full transition-all duration-300 group-hover:bg-primary/10 group-hover:shadow-primary/20 group-hover:shadow-lg">
@@ -220,7 +217,6 @@ const AcademySkillsGrid = () => {
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
-  const academyHeroImage = PlaceHolderImages.find(p => p.id === 'academy-hero');
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -541,3 +537,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
