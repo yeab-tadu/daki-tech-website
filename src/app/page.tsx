@@ -220,7 +220,7 @@ const SkillMarquee = () => {
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills), duration: number, direction?: 1 | -1 }) => (
         <motion.div
             className="flex gap-8"
-            animate={{ x: [`${direction === 1 ? 0 : '-50%'}`, `${direction === 1 ? '-50%' : '0%'}`] }}
+            animate={{ x: [`${direction === 1 ? 0 : -50}%`, `${direction === 1 ? -50 : 0}%`] }}
             transition={{
                 ease: 'linear',
                 duration: duration,
