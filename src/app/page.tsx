@@ -194,11 +194,13 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-  const [shuffledSkills1, setShuffledSkills1] = useState<(typeof academySkills)[]>([]);
+  const [shuffledSkills1, setShuffledSkills1] = useState<(typeof academySkills)>([]);
   const [shuffledSkills2, setShuffledSkills2] = useState<(typeof academySkills)[]>([]);
   const [shuffledSkills3, setShuffledSkills3] = useState<(typeof academySkills)[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
     setShuffledSkills1(shuffle(academySkills));
     setShuffledSkills2(shuffle(academySkills));
@@ -217,19 +219,21 @@ const SkillMarquee = () => {
           repeat: Infinity,
         }}
       >
-        <div className="flex gap-8">
-          {[...skills, ...skills].map((skill, index) => (
-            <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
-              <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
-                {skill.icon}
-              </div>
-              <span className="text-xs font-semibold mt-2">{skill.name}</span>
+        {[...skills, ...skills].map((skill, index) => (
+          <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
+            <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+              {skill.icon}
             </div>
-          ))}
-        </div>
+            <span className="text-xs font-semibold mt-2">{skill.name}</span>
+          </div>
+        ))}
       </motion.div>
     );
   };
+
+  if (!isMounted) {
+    return null; // Render nothing on the server
+  }
 
   return (
     <div className="w-full overflow-hidden relative space-y-4 py-8">
@@ -241,6 +245,7 @@ const SkillMarquee = () => {
     </div>
   )
 }
+
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
