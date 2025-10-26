@@ -347,7 +347,20 @@ const ServicesMarquee = () => {
   )
 }
 
-const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: typeof whyChooseUs; direction?: 1 | -1, duration?: number }) => {
+const WhyChooseUsMarquee = ({ initialItems, direction = 1, duration = 50 }: { initialItems: typeof whyChooseUs; direction?: 1 | -1, duration?: number }) => {
+    const [items, setItems] = useState(initialItems);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+        const shuffled = [...initialItems].sort(() => Math.random() - 0.5);
+        setItems(shuffled);
+    }, [initialItems]);
+
+    if (!isMounted) {
+      return null;
+    }
+
     const duplicatedItems = [...items, ...items];
     const yAnimation = direction === 1 ? ['0%', '-50%'] : ['-50%', '0%'];
 
@@ -532,9 +545,9 @@ export default function Home() {
                 </div>
 
                 <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]">
-                    <WhyChooseUsMarquee items={[...whyChooseUs].sort(() => 0.5 - Math.random())} duration={40} direction={1} />
-                    <WhyChooseUsMarquee items={[...whyChooseUs].sort(() => Math.random() - 0.5)} duration={50} direction={-1} />
-                    <WhyChooseUsMarquee items={[...whyChooseUs].sort(() => 0.5 - Math.random())} duration={45} direction={1} />
+                    <WhyChooseUsMarquee initialItems={whyChooseUs} duration={40} direction={1} />
+                    <WhyChooseUsMarquee initialItems={whyChooseUs} duration={50} direction={-1} />
+                    <WhyChooseUsMarquee initialItems={whyChooseUs} duration={45} direction={1} />
                 </div>
             </div>
         </section>
