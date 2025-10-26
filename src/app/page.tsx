@@ -148,7 +148,7 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const JsIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-        <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">JS</text>
+        <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text>
     </svg>
 );
 
@@ -382,7 +382,7 @@ export default function Home() {
         </section>
 
         {/* Services Overview */}
-        <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -452,7 +452,7 @@ export default function Home() {
         </section>
 
         {/* Why Choose Us */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -482,7 +482,7 @@ export default function Home() {
         </section>
         
         {/* Our Process */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -516,7 +516,7 @@ export default function Home() {
         </section>
 
         {/* Featured Projects */}
-        <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -576,7 +576,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials */}
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-5xl">
               What Our Clients Say
