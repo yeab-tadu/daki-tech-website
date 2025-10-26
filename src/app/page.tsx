@@ -16,6 +16,11 @@ import {
   Briefcase,
   UserCheck,
   BarChart,
+  Database,
+  GitMerge,
+  Server,
+  TerminalSquare,
+  Globe,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -126,9 +131,91 @@ const InteractiveCircle = () => {
     )
 }
 
+const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <circle cx="0" cy="0" r="2.05" fill="currentColor"/>
+    <g stroke="currentColor" strokeWidth="1" fill="none">
+      <ellipse rx="11" ry="4.2"/>
+      <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+      <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+    </g>
+  </svg>
+);
+
+const academySkills = [
+    { name: 'HTML/CSS', icon: <Code className="h-10 w-10" /> },
+    { name: 'JavaScript', icon: <Globe className="h-10 w-10" /> },
+    { name: 'React/Next.js', icon: <ReactIcon /> },
+    { name: 'Node.js', icon: <Server className="h-10 w-10" /> },
+    { name: 'Databases', icon: <Database className="h-10 w-10" /> },
+    { name: 'Git/Version Control', icon: <GitMerge className="h-10 w-10" /> },
+    { name: 'APIs', icon: <Layers className="h-10 w-10" /> },
+    { name: 'DevOps', icon: <TerminalSquare className="h-10 w-10" /> },
+];
+
+
+const AcademySkillsCircle = () => {
+    const [hovered, setHovered] = useState<string | null>(null);
+    const radius = 200;
+    const center = 225;
+    const time = useTime();
+    const rotate = useTransform(time, [0, 50000], [360, 0], { clamp: false });
+
+
+    return (
+        <div className="relative w-[450px] h-[450px] flex items-center justify-center">
+            <motion.div
+                className="absolute top-0 left-0 w-full h-full"
+                style={{ rotate }}
+            >
+                {academySkills.map((skill, i) => {
+                    const angle = (i / academySkills.length) * 2 * Math.PI;
+                    const x = center + radius * Math.cos(angle);
+                    const y = center + radius * Math.sin(angle);
+                    
+                    return (
+                        <motion.div
+                            key={skill.name}
+                            className="absolute w-24 h-24 flex flex-col items-center justify-center"
+                            style={{ top: y - 48, left: x - 48 }}
+                            onMouseEnter={() => setHovered(skill.name)}
+                            onMouseLeave={() => setHovered(null)}
+                            whileHover={{ scale: 1.2 }}
+                        >
+                            <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
+                               {skill.icon}
+                           </div>
+                        </motion.div>
+                    )
+                })}
+            </motion.div>
+            <motion.div
+                className="relative flex h-56 w-56 flex-col items-center justify-center rounded-full bg-primary/10 text-center p-4"
+                animate={{ scale: hovered ? 1.1 : 1 }}
+            >
+              <div className="flex flex-col items-center justify-center">
+                {hovered ? (
+                     <p className="font-headline text-2xl font-bold text-primary transition-opacity duration-300">
+                        {hovered}
+                    </p>
+                ) : (
+                    <>
+                        <p className="font-headline text-3xl font-bold text-primary">
+                            Full-Stack
+                        </p>
+                        <p className="font-headline text-3xl font-bold text-accent">
+                            Developer
+                        </p>
+                    </>
+                )}
+              </div>
+            </motion.div>
+        </div>
+    )
+}
+
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
-  const academyImage = PlaceHolderImages.find(p => p.id === 'academy-hero');
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -235,22 +322,13 @@ export default function Home() {
                         </Button>
                     </motion.div>
                     <motion.div 
-                        className="flex justify-center"
+                        className="hidden md:flex justify-center"
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
-                        {academyImage && (
-                          <Image
-                            src={academyImage.imageUrl}
-                            alt={academyImage.description}
-                            width={550}
-                            height={400}
-                            className="rounded-xl shadow-2xl object-cover"
-                            data-ai-hint={academyImage.imageHint}
-                          />
-                        )}
+                        <AcademySkillsCircle />
                     </motion.div>
                 </div>
             </div>
