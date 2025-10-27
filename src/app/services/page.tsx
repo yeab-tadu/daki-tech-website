@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from 'react';
-import { motion, useTime, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { services } from '@/lib/data';
@@ -45,78 +45,73 @@ const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
 )
 
 const ServicesHeroAnimation = () => {
-    const time = useTime();
-    const rotate = useTransform(time, [0, 25000], [0, 360], { clamp: false });
-    const counterRotate = useTransform(time, [0, 25000], [0, -360], { clamp: false });
+    const [positions, setPositions] = useState<{ x: number; y: number }[]>([]);
+    const containerSize = 500;
+    const iconSize = 96; // Corresponds to w-24 h-24
+    const minDistance = 140; // Increased distance between icons
 
-    const triangleServices = services.slice(0, 9);
-    const sideLength = 3;
-    const numSides = 3;
-    
-    const radius = 160;
-    const center = 180;
+    useEffect(() => {
+        const generatePositions = () => {
+            const newPositions: { x: number; y: number }[] = [];
+            const servicesToDisplay = services.slice(0, 9);
+            
+            const isTooClose = (newPos: { x: number; y: number }, existingPositions: { x: number; y: number }[]) => {
+                for (const pos of existingPositions) {
+                    const dx = newPos.x - pos.x;
+                    const dy = newPos.y - pos.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < minDistance) {
+                        return true;
+                    }
+                }
+                return false;
+            };
 
-    const vertices = Array.from({ length: numSides }, (_, i) => {
-        const angle = (i / numSides) * 2 * Math.PI - Math.PI / 2;
-        return {
-            x: center + radius * Math.cos(angle),
-            y: center + radius * Math.sin(angle)
+            for (let i = 0; i < servicesToDisplay.length; i++) {
+                let newPos;
+                let attempts = 0;
+                do {
+                    newPos = {
+                        x: Math.random() * (containerSize - iconSize),
+                        y: Math.random() * (containerSize - iconSize),
+                    };
+                    attempts++;
+                } while (isTooClose(newPos, newPositions) && attempts < 100);
+                newPositions.push(newPos);
+            }
+            setPositions(newPositions);
         };
-    });
 
-    const getPosition = (index: number) => {
-        const sideIndex = Math.floor(index / sideLength);
-        const indexOnSide = index % sideLength;
+        generatePositions();
+    }, []);
 
-        const startVertex = vertices[sideIndex];
-        const endVertex = vertices[(sideIndex + 1) % numSides];
-        
-        // Distribute points along the side, including endpoints.
-        const t = (indexOnSide) / (sideLength -1);
-        const x = startVertex.x + t * (endVertex.x - startVertex.x);
-        const y = startVertex.y + t * (endVertex.y - startVertex.y);
-
-        return { x, y };
-    }
+    const servicesToDisplay = services.slice(0, 9);
 
     return (
-        <div className="relative w-[360px] h-[360px] flex items-center justify-center">
-            <motion.div
-                className="absolute w-full h-full"
-                style={{ rotate }}
-            >
-                {triangleServices.map((service, index) => {
-                    const {x, y} = getPosition(index);
-                    
-                    return (
-                        <motion.div
-                            key={service.id}
-                            className="absolute p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary w-24 h-24"
-                            style={{
-                                top: y - 48,
-                                left: x - 48,
-                            }}
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.1, type: 'spring', stiffness: 100 }}
-                        >
-                            <motion.div style={{ rotate: counterRotate }} className="w-full h-full">
-                                {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full" })}
-                            </motion.div>
-                        </motion.div>
-                    );
-                })}
-            </motion.div>
-            <motion.div
-              className="relative flex h-32 w-32 items-center justify-center rounded-full bg-primary/10 text-center"
-              initial={{scale: 0}}
-              animate={{scale: 1}}
-              transition={{delay: 0.5}}
-            >
-                <div className="flex flex-col items-center justify-center text-primary font-headline text-3xl font-bold">
-                    Services
-                </div>
-            </motion.div>
+        <div className="relative flex items-center justify-center" style={{ width: containerSize, height: containerSize }}>
+            {servicesToDisplay.map((service, index) => {
+                const pos = positions[index];
+                if (!pos) return null;
+
+                return (
+                    <motion.div
+                        key={service.id}
+                        className="absolute p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary w-24 h-24"
+                        style={{
+                            top: pos.y,
+                            left: pos.x,
+                        }}
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: index * 0.1, type: 'spring', stiffness: 100 }}
+                        whileHover={{ scale: 1.1, zIndex: 10 }}
+                    >
+                       <Link href={`#${service.id}`} title={service.title} className="w-full h-full">
+                         {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full" })}
+                       </Link>
+                    </motion.div>
+                );
+            })}
         </div>
     );
 }
