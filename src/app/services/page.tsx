@@ -50,16 +50,14 @@ const ServicesHeroAnimation = () => {
     const counterRotate = useTransform(time, [0, 25000], [0, -360], { clamp: false });
 
     const triangleServices = services.slice(0, 9);
-    const numServices = triangleServices.length;
-    const sideLength = 3; // Icons per side
+    const sideLength = 3;
     const numSides = 3;
     
     const radius = 160;
-    const center = 180; // center of a 360x360 container
+    const center = 180;
 
-    // Calculate vertices of the equilateral triangle
     const vertices = Array.from({ length: numSides }, (_, i) => {
-        const angle = (i / numSides) * 2 * Math.PI - Math.PI / 2; // Start from top
+        const angle = (i / numSides) * 2 * Math.PI - Math.PI / 2;
         return {
             x: center + radius * Math.cos(angle),
             y: center + radius * Math.sin(angle)
@@ -72,9 +70,7 @@ const ServicesHeroAnimation = () => {
 
         const startVertex = vertices[sideIndex];
         const endVertex = vertices[(sideIndex + 1) % numSides];
-
-        // Interpolate position along the side
-        // We use indexOnSide + 1 and sideLength + 1 to create space from vertices
+        
         const t = (indexOnSide + 1) / (sideLength + 1);
         const x = startVertex.x + t * (endVertex.x - startVertex.x);
         const y = startVertex.y + t * (endVertex.y - startVertex.y);
@@ -157,7 +153,7 @@ export default function ServicesPage() {
             {services.map((service, index) => {
               const isReversed = index % 2 !== 0;
               return (
-                <div key={service.id} id={service.id} className={`grid gap-12 lg:grid-cols-2 lg:gap-16 items-center scroll-mt-20`}>
+                <div key={service.id} id={service.id} className={'grid gap-12 lg:grid-cols-2 lg:gap-16 items-center scroll-mt-20'}>
                   <div className={`space-y-6 ${isReversed ? 'lg:order-2' : ''}`}>
                     <div className="flex items-center gap-4">
                       <div className="bg-primary/10 p-3 rounded-full hidden">
