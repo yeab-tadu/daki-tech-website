@@ -16,7 +16,6 @@ const coursePhases = [
         phase: 1,
         title: "HTML, CSS & Bootstrap",
         description: "Master the fundamental building blocks of the web. You'll learn to structure web pages with HTML and style them with modern CSS and Bootstrap.",
-        teacher: "Admin User",
         icons: [
             <svg key="html" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 42L9.2 6H38.8L35.6 42L24 48L6 42Z" fill="#E34F26"/><path d="M24 9V44.5L35.6 41.5L38.4 9H24Z" fill="#F16529"/><path d="M24 22V15.5H32.4L32 22H24Z" fill="#EBEBEB"/><path d="M24 33.5V27H31.6L31.1 33.5L24 35.5V33.5Z" fill="#EBEBEB"/><path d="M16.4 15.5H24V22H15.6L16.4 15.5Z" fill="#EBEBEB"/><path d="M17.2 31.5L16.8 27H24V33.5L17.2 31.5Z" fill="#EBEBEB"/></svg>,
             <svg key="css" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.2 6L6 42L24 48L42 42L38.8 6H9.2Z" fill="#1572B6"/><path d="M24 9V44.5L35.6 41.5L38.4 9H24Z" fill="#33A9DC"/><path d="M24 15.5H32L31.6 22H24V15.5Z" fill="white"/><path d="M24 27H31.2L30.7 33.5L24 35.5V27Z" fill="white"/><path d="M16.4 15.5H24V22H15.6L16.4 15.5Z" fill="#EBEBEB"/><path d="M16.8 27H24V33.5L17.2 31.5L16.8 27Z" fill="#EBEBEB"/></svg>,
@@ -27,7 +26,6 @@ const coursePhases = [
         phase: 2,
         title: "Programming with JavaScript and DOM Manipulation",
         description: "Dive deep into the web's most popular language. Master variables, functions, async programming, and how to dynamically interact with web pages.",
-        teacher: "Admin User",
         icons: [
             <svg key="js" width="64" height="64" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" fill="#F7DF1E"/><path d="M22.5 34.5H28.5V30H22.5V34.5ZM22.5 25.5H28.5V21H22.5V25.5ZM33 34.5C33.8 34.5 34.5 33.8 34.5 33V22.5C34.5 21.7 33.8 21 33 21H30L33 18H28.5V13.5H22.5V21H25.5L22.5 24H18C17.2 24 16.5 24.7 16.5 25.5V30C16.5 30.8 17.2 31.5 18 31.5H22.5V34.5H18C17.2 34.5 16.5 35.2 16.5 36V37.5H34.5V36C34.5 35.2 33.8 34.5 33 34.5Z" fill="#000000"/></svg>
         ]
@@ -36,7 +34,6 @@ const coursePhases = [
         phase: 3,
         title: "React(Vite), Node, MySQL, Express",
         description: "Build powerful full-stack applications. You'll learn to create interactive frontends with React and robust backends with Node.js, Express, and MySQL.",
-        teacher: "Admin User",
         icons: [
             <svg key="react" width="48" height="48" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="#61DAFB" /><g stroke="#61DAFB" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg>,
             <svg key="node" width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="#68A063" strokeWidth="5" fill="#8CC84B" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="#3C873A">JS</text></svg>,
@@ -48,7 +45,6 @@ const coursePhases = [
         phase: 4,
         title: "Fullstack Projects",
         description: "Apply everything you've learned by building complete, portfolio-ready projects from scratch, simulating a real-world development environment.",
-        teacher: "Admin User",
         icons: [ <Projector key="projects" className="w-16 h-16 text-primary" /> ]
     }
 ];
@@ -254,52 +250,67 @@ const WhyChooseUsMarquee = () => {
 };
 
 const CoursePhases = () => {
+    const [activeTab, setActiveTab] = useState(0);
+    const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+    const activePhase = coursePhases[activeTab];
+
     return (
         <section className="py-12 md:py-24 lg:py-32 bg-background">
             <div className="container mx-auto px-4 md:px-6">
-                 <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">What You'll Learn</h2>
-                 <div className="max-w-4xl mx-auto space-y-8">
-                     {coursePhases.map((phase, index) => (
-                        <motion.div 
-                            key={phase.phase}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
+                <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">What You'll Learn</h2>
+                <div className="grid md:grid-cols-3 gap-12">
+                    <div className="relative">
+                        <div className="flex flex-col gap-2">
+                            {coursePhases.map((phase, index) => (
+                                <button
+                                    key={phase.phase}
+                                    ref={(el) => (tabRefs.current[index] = el)}
+                                    onClick={() => setActiveTab(index)}
+                                    className={`text-left p-4 rounded-lg transition-colors duration-300 relative ${
+                                        activeTab === index ? 'bg-primary/10' : 'hover:bg-primary/5'
+                                    }`}
+                                >
+                                    <p className="font-bold text-lg font-headline text-primary">Phase {phase.phase}</p>
+                                    <p className={`font-semibold ${activeTab === index ? 'text-foreground' : 'text-foreground/80'}`}>{phase.title}</p>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="md:col-span-2">
+                        <motion.div
+                            key={activeTab}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                            className="p-6 rounded-lg bg-primary/5 min-h-[300px]"
                         >
-                            <Card className="overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300">
-                                <CardContent className="p-6 grid md:grid-cols-3 gap-6 items-center">
-                                    <div className="md:col-span-2">
-                                        <Badge variant="outline">Phase {phase.phase}</Badge>
-                                        <h3 className="font-headline text-2xl font-bold mt-2">{phase.title}</h3>
-                                        <p className="text-foreground/80 mt-2">{phase.description}</p>
-                                        <div className="flex items-center gap-2 mt-4 text-sm text-foreground/70">
-                                            <User className="h-4 w-4 text-accent" />
-                                            <span>Teacher: {phase.teacher}</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-center md:justify-end items-center gap-4">
-                                        {phase.icons.map((icon, i) => (
-                                            <motion.div
-                                                key={i}
-                                                initial={{ scale: 0, opacity: 0 }}
-                                                whileInView={{ scale: 1, opacity: 1 }}
-                                                viewport={{ once: true, amount: 0.8 }}
-                                                transition={{ duration: 0.5, delay: (index * 0.1) + (i * 0.1) + 0.3 }}
-                                            >
-                                                {icon}
-                                            </motion.div>
-                                        ))}
-                                    </div>
-                                </CardContent>
-                            </Card>
+                            <Badge variant="default" className="mb-4">Phase {activePhase.phase}</Badge>
+                            <h3 className="font-headline text-2xl font-bold text-primary">{activePhase.title}</h3>
+                            <p className="text-foreground/80 mt-2 mb-6">{activePhase.description}</p>
+                            
+                            <h4 className="font-semibold text-lg mb-4">Technologies Covered:</h4>
+                             <div className="flex items-center gap-4 flex-wrap">
+                                {activePhase.icons.map((icon, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        animate={{ scale: 1, opacity: 1 }}
+                                        transition={{ duration: 0.4, delay: i * 0.1 }}
+                                        className="bg-background p-3 rounded-full shadow-md"
+                                    >
+                                        {icon}
+                                    </motion.div>
+                                ))}
+                            </div>
                         </motion.div>
-                     ))}
-                 </div>
+                    </div>
+                </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
 export default function AcademyPage() {
   const academyTestimonials = testimonials.filter(t => t.role.includes('Student') || t.id === 'test-2');
@@ -360,7 +371,14 @@ export default function AcademyPage() {
                  <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">Is This Program For You?</h2>
                  <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                     {whoIsThisFor.map(person => (
-                         <div key={person.title} className="flex items-start gap-4">
+                         <motion.div 
+                            key={person.title} 
+                            className="flex items-start gap-4"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.5 }}
+                            transition={{ duration: 0.5 }}
+                         >
                             <div className="bg-background p-3 rounded-full shadow-md mt-1">
                                 {person.icon}
                             </div>
@@ -368,7 +386,7 @@ export default function AcademyPage() {
                                 <h3 className="font-headline text-xl font-bold">{person.title}</h3>
                                 <p className="text-foreground/80 mt-1">{person.description}</p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                  </div>
             </div>
