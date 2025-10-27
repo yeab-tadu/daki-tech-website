@@ -636,15 +636,14 @@ export default function Home() {
                 </div>
                 <div className={cn(
                     "relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]",
-                    isMobile && "grid-cols-1"
                 )}>
-                    <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
-                    <div className={cn("hidden", !isMobile && "md:block")}>
-                      <WhyChooseUsMarquee items={whyChooseUs.slice(2).concat(whyChooseUs.slice(0, 2))} duration={50} direction={-1} />
-                    </div>
-                     <div className={cn("hidden", !isMobile && "md:block")}>
-                      <WhyChooseUsMarquee items={whyChooseUs.slice(4).concat(whyChooseUs.slice(0, 4))} duration={45} direction={1} />
-                    </div>
+                     <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
+                     <div className="hidden md:block">
+                       <WhyChooseUsMarquee items={whyChooseUs.slice(2).concat(whyChooseUs.slice(0, 2))} duration={50} direction={-1} />
+                     </div>
+                      <div className="hidden md:block">
+                       <WhyChooseUsMarquee items={whyChooseUs.slice(4).concat(whyChooseUs.slice(0, 4))} duration={45} direction={1} />
+                     </div>
                 </div>
             </div>
         </section>
