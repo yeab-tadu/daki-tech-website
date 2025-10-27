@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -140,7 +141,7 @@ export default function ServicesPage() {
                   </div>
                   <div className={`flex items-center justify-center min-h-[250px] ${isReversed ? 'lg:order-1' : ''}`}>
                       <AnimatedIcon>
-                        {serviceIcons[service.id] || <Code className="h-16 w-16 text-primary" />}
+                        {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-16 w-16 text-primary" })}
                       </AnimatedIcon>
                   </div>
                 </div>
