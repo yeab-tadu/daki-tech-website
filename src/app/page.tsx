@@ -69,17 +69,17 @@ const serviceIcons: { [key: string]: React.ReactNode } = {
 };
 
 const whyChooseUsIcons: { [key: string]: React.ReactNode } = {
-  Innovation: <Lightbulb className="h-10 w-10 text-primary" />,
-  Reliability: <ShieldCheck className="h-10 w-10 text-primary" />,
-  Support: <LifeBuoy className="h-10 w-10 text-primary" />,
-  'Client-Centric': <HeartHandshake className="h-10 w-10 text-primary" />,
-  'Expert Team': <Users className="h-10 w-10 text-primary" />,
-  'Transparent Communication': <MessagesSquare className="h-10 w-10 text-primary" />,
+    'Innovation': <Lightbulb className="h-10 w-10 text-primary" />,
+    'Reliability': <ShieldCheck className="h-10 w-10 text-primary" />,
+    'Support': <LifeBuoy className="h-10 w-10 text-primary" />,
+    'Client-Centric': <HeartHandshake className="h-10 w-10 text-primary" />,
+    'Expert Team': <Users className="h-10 w-10 text-primary" />,
+    'Transparent Communication': <MessagesSquare className="h-10 w-10 text-primary" />,
 };
 
 const whyChooseUs = initialWhyChooseUs.map(item => ({
-  ...item,
-  icon: whyChooseUsIcons[item.title],
+    ...item,
+    icon: whyChooseUsIcons[item.title],
 }));
 
 type WhyChooseUsItem = (typeof whyChooseUs)[0];
@@ -567,7 +567,7 @@ export default function Home() {
         {/* Academy Section */}
         <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
               <motion.div
                 className="space-y-6"
                 initial={{ opacity: 0, x: -50 }}
@@ -639,10 +639,10 @@ export default function Home() {
                     isMobile && "grid-cols-1"
                 )}>
                      <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
-                     <div className="hidden md:block">
+                     <div className={cn("hidden", isMobile ? "hidden" : "block")}>
                        <WhyChooseUsMarquee items={whyChooseUs.slice(2).concat(whyChooseUs.slice(0, 2))} duration={50} direction={-1} />
                      </div>
-                      <div className="hidden md:block">
+                      <div className={cn("hidden", isMobile ? "hidden" : "block")}>
                        <WhyChooseUsMarquee items={whyChooseUs.slice(4).concat(whyChooseUs.slice(0, 4))} duration={45} direction={1} />
                      </div>
                 </div>
