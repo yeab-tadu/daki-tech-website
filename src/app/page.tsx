@@ -232,7 +232,6 @@ const SkillMarquee = () => {
     );
 };
 
-
 const ServicesMarquee = () => {
   const [shuffledServices1, setShuffledServices1] = useState<Service[]>([]);
   const [shuffledServices2, setShuffledServices2] = useState<Service[]>([]);
@@ -338,6 +337,7 @@ const ServicesMarquee = () => {
 
 const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: WhyChooseUsItem[]; direction?: 1 | -1, duration?: number }) => {
     const [shuffledItems, setShuffledItems] = useState<WhyChooseUsItem[]>([]);
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         const shuffle = (array: WhyChooseUsItem[]) => [...array].sort(() => Math.random() - 0.5);
@@ -346,6 +346,25 @@ const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: Wh
 
     if (shuffledItems.length === 0) {
       return null;
+    }
+
+    if (isMobile) {
+        return (
+            <div className="w-full">
+                {items.map((reason, index) => (
+                     <div
+                        key={`${reason.title}-${index}`}
+                        className="flex flex-col items-center text-center p-6 space-y-4 my-4"
+                    >
+                        <div className="p-4 bg-primary/10 rounded-full shadow-md">
+                            {reason.icon}
+                        </div>
+                        <h3 className="font-headline text-xl font-bold">{reason.title}</h3>
+                        <p className="text-foreground/80">{reason.description}</p>
+                    </div>
+                ))}
+            </div>
+        )
     }
 
     const duplicatedItems = [...shuffledItems, ...shuffledItems];
@@ -544,7 +563,7 @@ export default function Home() {
         {/* Academy Section */}
         <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
                 className="space-y-6"
                 initial={{ opacity: 0, x: -50 }}
@@ -613,7 +632,7 @@ export default function Home() {
                 </div>
                 <div className={cn(
                     "relative flex justify-center",
-                    isMobile ? "h-96" : "h-[450px] gap-8"
+                    isMobile ? "flex-col items-center" : "h-[450px] gap-8"
                 )}>
                      <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
                      <div className={cn("hidden", isMobile ? "hidden" : "md:block")}>
@@ -740,7 +759,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
