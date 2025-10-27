@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useTime, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { services } from '@/lib/data';
@@ -44,79 +44,56 @@ const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
 )
 
 const ServicesHeroAnimation = () => {
-    const [positions, setPositions] = useState<{ top: number; left: number; }[]>([]);
+    const time = useTime();
+    const rotate = useTransform(time, [0, 20000], [0, 360], { clamp: false });
+    const counterRotate = useTransform(time, [0, 20000], [0, -360], { clamp: false });
 
-    useEffect(() => {
-        const generatePositions = () => {
-            const newPositions: { top: number; left: number; }[] = [];
-            const containerSize = 400; // Corresponds to min-h-[400px]
-            const iconSize = 100; // Approximate size of the icon container (w-16 h-16 + padding)
-            const minDistance = iconSize * 1.5; // Minimum distance between centers of icons
-
-            const isOverlapping = (newPos: { top: number; left: number; }) => {
-                for (const pos of newPositions) {
-                    const dx = newPos.left - pos.left;
-                    const dy = newPos.top - pos.top;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < minDistance) {
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-            for (let i = 0; i < Math.min(services.length, 9); i++) {
-                let newPos;
-                let attempts = 0;
-                do {
-                    newPos = {
-                        top: Math.random() * (containerSize - iconSize),
-                        left: Math.random() * (containerSize - iconSize),
-                    };
-                    attempts++;
-                } while (isOverlapping(newPos) && attempts < 100);
-                newPositions.push(newPos);
-            }
-            
-            setPositions(newPositions);
-        };
-        generatePositions();
-    }, []);
-
-    if (positions.length === 0) {
-        return null;
-    }
+    const octagonServices = services.slice(0, 8);
+    const radius = 180;
+    const center = 180; // center of a 360x360 container
 
     return (
-        <div className="relative w-full h-full min-h-[400px]">
-            {services.slice(0, 9).map((service, index) => (
-                <motion.div
-                    key={service.id}
-                    className="absolute p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary"
-                    style={{
-                       top: positions[index]?.top,
-                       left: positions[index]?.left,
-                    }}
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.15, type: 'spring', stiffness: 100 }}
-                >
-                    <motion.div
-                         animate={{ y: [0, -10, 0] }}
-                         transition={{
-                           duration: 3 + Math.random() * 2,
-                           repeat: Infinity,
-                           repeatType: 'mirror',
-                           ease: 'easeInOut',
-                         }}
-                         className="w-16 h-16"
-                    >
-                         {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full" })}
-                    </motion.div>
-                </motion.div>
-            ))}
+        <div className="relative w-[360px] h-[360px] flex items-center justify-center">
+            <motion.div
+                className="absolute w-full h-full"
+                style={{ rotate }}
+            >
+                {octagonServices.map((service, index) => {
+                    const angle = (index / octagonServices.length) * 2 * Math.PI - Math.PI / 8;
+                    const x = center + radius * Math.cos(angle);
+                    const y = center + radius * Math.sin(angle);
+                    
+                    return (
+                        <motion.div
+                            key={service.id}
+                            className="absolute p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary w-24 h-24"
+                            style={{
+                                top: y - 48,
+                                left: x - 48,
+                            }}
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.1, type: 'spring', stiffness: 100 }}
+                        >
+                            <motion.div style={{ rotate: counterRotate }} className="w-full h-full">
+                                {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full" })}
+                            </motion.div>
+                        </motion.div>
+                    );
+                })}
+            </motion.div>
+            <motion.div
+              className="relative flex h-32 w-32 items-center justify-center rounded-full bg-primary/10 text-center"
+              initial={{scale: 0}}
+              animate={{scale: 1}}
+              transition={{delay: 0.5}}
+            >
+                <div className="flex flex-col items-center justify-center text-primary font-headline text-3xl font-bold">
+                    Services
+                </div>
+            </motion.div>
         </div>
-    )
+    );
 }
 
 
