@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -207,14 +205,22 @@ export default function AcademyPage() {
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">Why Choose Daki Academy?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {whyChooseUs.map(item => (
-                <Card key={item.title} className="text-center p-6 border-0 shadow-lg hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300">
-                  <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
-                    {item.icon}
-                  </div>
-                  <h3 className="font-headline text-xl font-bold">{item.title}</h3>
-                  <p className="mt-2 text-foreground/80 text-sm">{item.description}</p>
-                </Card>
+              {whyChooseUs.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <Card className="text-center p-6 border-0 shadow-lg hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300 h-full">
+                    <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
+                      {item.icon}
+                    </div>
+                    <h3 className="font-headline text-xl font-bold">{item.title}</h3>
+                    <p className="mt-2 text-foreground/80 text-sm">{item.description}</p>
+                  </Card>
+                </motion.div>
               ))}
             </div>
           </div>
