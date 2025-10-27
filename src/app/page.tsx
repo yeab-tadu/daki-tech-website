@@ -197,18 +197,19 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-    const [skills1, setSkills1] = useState(academySkills);
-    const [skills2, setSkills2] = useState(academySkills);
-    const [skills3, setSkills3] = useState(academySkills);
+    const [shuffledSkills1, setShuffledSkills1] = useState<(typeof academySkills)>([]);
+    const [shuffledSkills2, setShuffledSkills2] = useState<(typeof academySkills)>([]);
+    const [shuffledSkills3, setShuffledSkills3] = useState<(typeof academySkills)>([]);
 
     useEffect(() => {
         const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
-        setSkills1(shuffle(academySkills));
-        setSkills2(shuffle(academySkills));
-        setSkills3(shuffle(academySkills));
+        setShuffledSkills1(shuffle(academySkills));
+        setShuffledSkills2(shuffle(academySkills));
+        setShuffledSkills3(shuffle(academySkills));
     }, []);
 
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => {
+        if (!skills || skills.length === 0) return null;
         return (
         <motion.div
             className="flex gap-8"
@@ -233,9 +234,9 @@ const SkillMarquee = () => {
 
     return (
         <div className="w-full overflow-hidden relative space-y-4 py-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-            <MarqueeRow skills={skills1} duration={60} />
-            <MarqueeRow skills={skills2} duration={45} direction={-1} />
-            <MarqueeRow skills={skills3} duration={55} />
+            <MarqueeRow skills={shuffledSkills1} duration={60} />
+            <MarqueeRow skills={shuffledSkills2} duration={45} direction={-1} />
+            <MarqueeRow skills={shuffledSkills3} duration={55} />
         </div>
     );
 };
@@ -306,31 +307,9 @@ const ServicesMarquee = () => {
   };
 
   return (
-    <div className="mt-12 w-full">
-      <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-8">
-        {services.slice(0, 6).map((service) => (
-           <div key={service.id} className="w-full">
-            <Card className="h-full">
-              <CardHeader className="flex flex-row items-center gap-4">
-                <div className="bg-primary/10 p-3 rounded-full text-primary">
-                  {serviceIcons[service.id] || <Code className="h-8 w-8" />}
-                </div>
-                <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-foreground/80 h-20 overflow-hidden">{service.description}</p>
-                <Button variant="link" asChild className="p-0 h-auto mt-2 group">
-                  <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
-      </div>
-       <div className="hidden md:block overflow-hidden group">
-          <MarqueeRow services={shuffledServices1} duration={60} direction={-1} />
-          <MarqueeRow services={shuffledServices2} duration={70} direction={1} />
-       </div>
+    <div className="mt-12 w-full overflow-hidden group">
+      <MarqueeRow services={shuffledServices1} duration={60} direction={-1} />
+      <MarqueeRow services={shuffledServices2} duration={70} direction={1} />
     </div>
   )
 }
