@@ -1,13 +1,13 @@
+
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Testimonials from '@/components/Testimonials';
 import { testimonials } from '@/lib/data';
-import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, User, BrainCircuit, Projector } from 'lucide-react';
+import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, BrainCircuit, Projector } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 
@@ -48,7 +48,6 @@ const coursePhases = [
         icons: [ <Projector key="projects" className="w-16 h-16 text-primary" /> ]
     }
 ];
-
 
 const initialWhyChooseUs = [
   {
@@ -121,11 +120,27 @@ const academySkills = [
 ];
 
 const AcademyHero = () => {
-    const containerRef = React.useRef<HTMLDivElement>(null);
-    const [isMounted, setIsMounted] = useState(false);
+    const [icons, setIcons] = useState<React.ReactNode[]>([]);
 
     useEffect(() => {
-        setIsMounted(true);
+        const generatedIcons = [...academySkills, ...academySkills, ...academySkills].map((skill, index) => {
+            const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
+            const leftPosition = `${(index * (100 / academySkills.length) + (Math.random() - 0.5) * 5) % 95}%`;
+            const delay = Math.random() * 10;
+            const duration = 5 + Math.random() * 5;
+            
+            return (
+                <FloatingIcon 
+                    key={`${skill.name}-${index}`}
+                    icon={React.cloneElement(skill.icon as React.ReactElement, { className: "w-full h-full" })}
+                    className={sizeClass}
+                    delay={delay}
+                    duration={duration}
+                    style={{ left: leftPosition, top: '-20%' }}
+                />
+            )
+        });
+        setIcons(generatedIcons);
     }, []);
 
     const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
@@ -154,26 +169,10 @@ const AcademyHero = () => {
         <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
             <div className="absolute inset-0 z-10 top-[-20%]">
-                {isMounted && [...academySkills, ...academySkills, ...academySkills].map((skill, index) => {
-                    const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
-                    const leftPosition = `${(index * (100 / academySkills.length) + (Math.random() - 0.5) * 5) % 95}%`;
-                    const delay = Math.random() * 10;
-                    const duration = 5 + Math.random() * 5;
-                    
-                    return (
-                        <FloatingIcon 
-                            key={`${skill.name}-${index}`}
-                            icon={React.cloneElement(skill.icon as React.ReactElement, { className: "w-full h-full" })}
-                            className={sizeClass}
-                            delay={delay}
-                            duration={duration}
-                            style={{ left: leftPosition, top: '-20%' }}
-                        />
-                    )
-                })}
+                {icons}
             </div>
 
-            <div ref={containerRef} className="container mx-auto px-4 md:px-6 relative z-20 text-center">
+            <div className="container mx-auto px-4 md:px-6 relative z-20 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -250,62 +249,43 @@ const WhyChooseUsMarquee = () => {
 };
 
 const CoursePhases = () => {
-    const [activeTab, setActiveTab] = useState(0);
-    const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-    const activePhase = coursePhases[activeTab];
-
     return (
         <section className="py-12 md:py-24 lg:py-32 bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">What You'll Learn</h2>
-                <div className="grid md:grid-cols-3 gap-12">
-                    <div className="relative">
-                        <div className="flex flex-col gap-2">
-                            {coursePhases.map((phase, index) => (
-                                <button
-                                    key={phase.phase}
-                                    ref={(el) => (tabRefs.current[index] = el)}
-                                    onClick={() => setActiveTab(index)}
-                                    className={`text-left p-4 rounded-lg transition-colors duration-300 relative ${
-                                        activeTab === index ? 'bg-primary/10' : 'hover:bg-primary/5'
-                                    }`}
-                                >
-                                    <p className="font-bold text-lg font-headline text-primary">Phase {phase.phase}</p>
-                                    <p className={`font-semibold ${activeTab === index ? 'text-foreground' : 'text-foreground/80'}`}>{phase.title}</p>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="md:col-span-2">
+                <div className="max-w-4xl mx-auto space-y-8">
+                    {coursePhases.map((phase, index) => (
                         <motion.div
-                            key={activeTab}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3 }}
-                            className="p-6 rounded-lg bg-primary/5 min-h-[300px]"
+                            key={phase.phase}
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
                         >
-                            <Badge variant="default" className="mb-4">Phase {activePhase.phase}</Badge>
-                            <h3 className="font-headline text-2xl font-bold text-primary">{activePhase.title}</h3>
-                            <p className="text-foreground/80 mt-2 mb-6">{activePhase.description}</p>
-                            
-                            <h4 className="font-semibold text-lg mb-4">Technologies Covered:</h4>
-                             <div className="flex items-center gap-4 flex-wrap">
-                                {activePhase.icons.map((icon, i) => (
-                                    <motion.div
-                                        key={i}
-                                        initial={{ scale: 0.8, opacity: 0 }}
-                                        animate={{ scale: 1, opacity: 1 }}
-                                        transition={{ duration: 0.4, delay: i * 0.1 }}
-                                        className="bg-background p-3 rounded-full shadow-md"
-                                    >
-                                        {icon}
-                                    </motion.div>
-                                ))}
-                            </div>
+                            <Card className="overflow-hidden">
+                                <CardContent className="p-6 grid md:grid-cols-3 gap-6 items-center">
+                                    <div className="md:col-span-2">
+                                        <Badge variant="default">Phase {phase.phase}</Badge>
+                                        <h3 className="font-headline text-2xl font-bold mt-2">{phase.title}</h3>
+                                        <p className="text-foreground/80 mt-2">{phase.description}</p>
+                                    </div>
+                                    <div className="flex items-center justify-center md:justify-end gap-4 flex-wrap">
+                                        {phase.icons.map((icon, i) => (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ scale: 0.8, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                transition={{ duration: 0.4, delay: (i * 0.1) + (index * 0.1) + 0.3 }}
+                                                className="bg-primary/5 p-3 rounded-full shadow-md"
+                                            >
+                                                {icon}
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
                         </motion.div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </section>
@@ -353,7 +333,7 @@ export default function AcademyPage() {
             </div>
           </div>
         </section>
-        
+
         {/* Why Daki Academy Section */}
         <section className="py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
@@ -463,3 +443,5 @@ export default function AcademyPage() {
     </div>
   );
 }
+
+    
