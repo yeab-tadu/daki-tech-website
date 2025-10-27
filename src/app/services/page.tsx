@@ -44,26 +44,47 @@ const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
 )
 
 const ServicesHeroAnimation = () => {
-    const [positions, setPositions] = useState<{ top: string; left: string; }[]>([]);
+    const [positions, setPositions] = useState<{ top: number; left: number; }[]>([]);
 
     useEffect(() => {
         const generatePositions = () => {
-            const newPositions = services.slice(0, 9).map(() => {
-                // These values define the 'safe' area for the icons to appear in, preventing them from going off-screen.
-                const top = Math.random() * 80; // 0% to 80% from top
-                const left = Math.random() * 80; // 0% to 80% from left
-                return {
-                    top: `${top}%`,
-                    left: `${left}%`,
-                };
-            });
+            const newPositions: { top: number; left: number; }[] = [];
+            const containerSize = 400; // Corresponds to min-h-[400px]
+            const iconSize = 100; // Approximate size of the icon container (w-16 h-16 + padding)
+            const minDistance = iconSize * 1.5; // Minimum distance between centers of icons
+
+            const isOverlapping = (newPos: { top: number; left: number; }) => {
+                for (const pos of newPositions) {
+                    const dx = newPos.left - pos.left;
+                    const dy = newPos.top - pos.top;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < minDistance) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            for (let i = 0; i < Math.min(services.length, 9); i++) {
+                let newPos;
+                let attempts = 0;
+                do {
+                    newPos = {
+                        top: Math.random() * (containerSize - iconSize),
+                        left: Math.random() * (containerSize - iconSize),
+                    };
+                    attempts++;
+                } while (isOverlapping(newPos) && attempts < 100);
+                newPositions.push(newPos);
+            }
+            
             setPositions(newPositions);
         };
         generatePositions();
     }, []);
 
     if (positions.length === 0) {
-        return null; // Or a loading skeleton
+        return null;
     }
 
     return (
@@ -83,14 +104,14 @@ const ServicesHeroAnimation = () => {
                     <motion.div
                          animate={{ y: [0, -10, 0] }}
                          transition={{
-                           duration: 3 + Math.random() * 2, // Random duration for each
+                           duration: 3 + Math.random() * 2,
                            repeat: Infinity,
                            repeatType: 'mirror',
                            ease: 'easeInOut',
                          }}
                          className="w-16 h-16"
                     >
-                         {serviceIcons[service.id]}
+                         {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full" })}
                     </motion.div>
                 </motion.div>
             ))}
