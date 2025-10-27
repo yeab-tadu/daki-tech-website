@@ -8,22 +8,23 @@ import { Code, MonitorSmartphone, Cloud, Layers, Briefcase, PenTool, UserCheck, 
 import { useEffect, useState } from 'react';
 
 const serviceIcons: { [key: string]: React.ReactNode } = {
-  'web-development': <Code className="h-10 w-10 text-primary" />,
-  'mobile-app-development': <MonitorSmartphone className="h-10 w-10 text-primary" />,
-  'cloud-solutions': <Cloud className="h-10 w-10 text-primary" />,
-  'custom-systems': <Layers className="h-10 w-10 text-primary" />,
-  'digital-business-card': <Briefcase className="h-10 w-10 text-primary" />,
-  'graphics-design': <PenTool className="h-10 w-10 text-primary" />,
-  'training-workshops': <UserCheck className="h-10 w-10 text-primary" />,
-  'ux-ui-design': <BarChart className="h-10 w-10 text-primary" />,
-  'it-support': <LifeBuoy className="h-10 w-10 text-primary" />,
+  'web-development': <Code className="h-16 w-16 text-primary" />,
+  'mobile-app-development': <MonitorSmartphone className="h-16 w-16 text-primary" />,
+  'cloud-solutions': <Cloud className="h-16 w-16 text-primary" />,
+  'custom-systems': <Layers className="h-16 w-16 text-primary" />,
+  'digital-business-card': <Briefcase className="h-16 w-16 text-primary" />,
+  'graphics-design': <PenTool className="h-16 w-16 text-primary" />,
+  'training-workshops': <UserCheck className="h-16 w-16 text-primary" />,
+  'ux-ui-design': <BarChart className="h-16 w-16 text-primary" />,
+  'it-support': <LifeBuoy className="h-16 w-16 text-primary" />,
 };
 
 const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
     <motion.div
-      className="bg-background/80 backdrop-blur-sm rounded-full p-6 shadow-lg"
+      className="bg-background/80 backdrop-blur-sm rounded-full p-8 shadow-lg"
       animate={{ 
-        y: [0, -10, 0],
+        y: [0, -15, 0],
+        rotate: [0, 5, -5, 0],
         boxShadow: [
           '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
           '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
@@ -31,7 +32,7 @@ const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
         ]
       }}
       transition={{ 
-        duration: 3, 
+        duration: 4, 
         repeat: Infinity, 
         repeatType: 'mirror',
         ease: 'easeInOut'
@@ -79,7 +80,7 @@ const ServicesHeroAnimation = () => {
                             }}
                          >
                              <div className="p-4 bg-background/80 backdrop-blur-sm rounded-full shadow-lg">
-                                {serviceIcons[service.id]}
+                                {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-10 w-10 text-primary" })}
                              </div>
                          </motion.div>
                     </motion.div>
@@ -125,7 +126,7 @@ export default function ServicesPage() {
                 <div key={service.id} id={service.id} className={`grid gap-12 lg:grid-cols-2 lg:gap-16 items-center scroll-mt-20`}>
                   <div className={`space-y-6 ${isReversed ? 'lg:order-2' : ''}`}>
                     <div className="flex items-center gap-4">
-                      <div className="bg-primary/10 p-3 rounded-full">
+                      <div className="bg-primary/10 p-3 rounded-full hidden">
                         {serviceIcons[service.id]}
                       </div>
                       <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">{service.title}</h2>
@@ -139,7 +140,7 @@ export default function ServicesPage() {
                   </div>
                   <div className={`flex items-center justify-center min-h-[250px] ${isReversed ? 'lg:order-1' : ''}`}>
                       <AnimatedIcon>
-                        {serviceIcons[service.id] || <Code className="h-10 w-10 text-primary" />}
+                        {serviceIcons[service.id] || <Code className="h-16 w-16 text-primary" />}
                       </AnimatedIcon>
                   </div>
                 </div>
