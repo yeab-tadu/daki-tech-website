@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Testimonials from '@/components/Testimonials';
 import { testimonials } from '@/lib/data';
-import { CheckCircle, Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router } from 'lucide-react';
+import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const courseModules = [
@@ -116,15 +116,15 @@ const academySkills = [
 const AcademyHero = () => {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    const FloatingIcon = ({ icon, className, delay, duration }: { icon: React.ReactNode, className: string, delay: number, duration: number }) => {
+    const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
         return (
              <motion.div
                 className={`absolute rounded-full bg-background/60 backdrop-blur-sm shadow-lg text-primary p-2 md:p-3 ${className}`}
-                initial={{ opacity: 0, scale: 0 }}
+                style={style}
+                initial={{ opacity: 0, y: 100 }}
                 animate={{ 
                     opacity: [0, 0.8, 0.8, 0],
-                    scale: 1,
-                    y: ["0%", "400%"]
+                    y: -400
                 }}
                 transition={{
                     delay,
@@ -141,7 +141,7 @@ const AcademyHero = () => {
     return (
         <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-            <div className="absolute inset-0 z-10">
+            <div className="absolute inset-0 z-10 bottom-0">
                 {academySkills.map((skill, index) => {
                     const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
                     const leftPosition = `${(index * 9) % 95}%`;
@@ -155,7 +155,7 @@ const AcademyHero = () => {
                             className={sizeClass}
                             delay={delay}
                             duration={duration}
-                            style={{ left: leftPosition, top: '-20%' }}
+                            style={{ left: leftPosition, bottom: '-20%' }}
                         />
                     )
                 })}
