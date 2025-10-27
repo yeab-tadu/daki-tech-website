@@ -198,19 +198,15 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-    const MarqueeRow = ({ skills, duration, direction = 1, isVertical = false }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1, isVertical?: boolean }) => {
-        const animation = isVertical 
-        ? { y: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }
-        : { x: direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"] };
-
+    const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => {
         return (
         <motion.div
-            className={cn("flex gap-8", isVertical && "flex-col")}
-            animate={animation}
+            className="flex gap-8"
+            animate={{ x: direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"] }}
             transition={{
-            ease: 'linear',
-            duration: duration,
-            repeat: Infinity,
+                ease: 'linear',
+                duration: duration,
+                repeat: Infinity,
             }}
         >
             {[...skills, ...skills].map((skill, index) => (
@@ -227,33 +223,12 @@ const SkillMarquee = () => {
 
     const skills1 = [...academySkills].sort(() => Math.random() - 0.5);
     const skills2 = [...academySkills].sort(() => Math.random() - 0.5);
-    const skills3 = [...academySkills].sort(() => Math.random() - 0.5);
 
     return (
-        <>
-            {/* Mobile View: Simple Grid */}
-            <div className="grid grid-cols-2 gap-8 md:hidden">
-                {academySkills.slice(0,6).map((skill) => (
-                    <div key={skill.name} className="flex flex-col items-center text-center text-foreground group">
-                        <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
-                            {skill.icon}
-                        </div>
-                        <span className="text-sm font-semibold mt-2">{skill.name}</span>
-                    </div>
-                ))}
-            </div>
-
-            {/* Desktop View: Animated Marquee */}
-            <div className="hidden md:block w-full overflow-hidden relative space-y-4 py-8 h-[400px] [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]">
-                <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent z-10" />
-                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent z-10" />
-                <div className="flex justify-center gap-8">
-                    <MarqueeRow skills={skills1} duration={40} isVertical={true} />
-                    <MarqueeRow skills={skills2} duration={30} direction={-1} isVertical={true} />
-                    <MarqueeRow skills={skills3} duration={50} isVertical={true} />
-                </div>
-            </div>
-        </>
+        <div className="w-full overflow-hidden relative space-y-4 py-8 h-auto md:h-[250px] flex flex-col justify-center [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <MarqueeRow skills={skills1} duration={60} />
+            <MarqueeRow skills={skills2} duration={45} direction={-1} />
+        </div>
     );
 };
 
@@ -363,15 +338,13 @@ const ServicesMarquee = () => {
 
 const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: WhyChooseUsItem[]; direction?: 1 | -1, duration?: number }) => {
     const [shuffledItems, setShuffledItems] = useState<WhyChooseUsItem[]>([]);
-    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        setIsMounted(true);
         const shuffle = (array: WhyChooseUsItem[]) => [...array].sort(() => Math.random() - 0.5);
         setShuffledItems(shuffle(items));
     }, [items]);
 
-    if (!isMounted || shuffledItems.length === 0) {
+    if (shuffledItems.length === 0) {
       return null;
     }
 
@@ -767,5 +740,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
