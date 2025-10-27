@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { testimonials } from '@/lib/data';
 import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, BrainCircuit, Projector, Phone, Send, CheckCircle, Handshake, BriefcaseBusiness, Server, MonitorSmartphone, CodeXml, Layers, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
@@ -214,7 +213,7 @@ const CoursePhases = () => {
                             <Card className="overflow-hidden">
                                 <CardContent className="p-6 grid md:grid-cols-3 gap-6 items-center">
                                     <div className="md:col-span-2">
-                                        <Badge variant="default">Phase {phase.phase}</Badge>
+                                        <Badge variant="outline">Phase {phase.phase}</Badge>
                                         <h3 className="font-headline text-2xl font-bold mt-2">{phase.title}</h3>
                                         <p className="text-foreground/80 mt-2">{phase.description}</p>
                                     </div>
@@ -329,46 +328,26 @@ const CareerPathSection = () => {
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-12 items-center">
-                    <div className="space-y-8">
-                        <div>
-                            <h3 className="font-headline text-2xl font-bold mb-4">Potential Roles</h3>
-                            <div className="grid grid-cols-2 gap-4">
-                                {careerPaths.map(path => (
-                                    <div key={path.name} className="flex items-center gap-3 p-3 bg-background rounded-lg shadow-sm">
-                                        <div className="text-accent">{path.icon}</div>
-                                        <span className="font-semibold">{path.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                         <div>
-                            <h3 className="font-headline text-2xl font-bold mb-4">Dedicated Career Support</h3>
-                             <div className="grid grid-cols-2 gap-4">
-                                {careerServices.map(service => (
-                                    <div key={service.name} className="flex items-center gap-3 p-3 bg-background rounded-lg shadow-sm">
-                                        <div className="text-accent">{service.icon}</div>
-                                        <span className="font-semibold">{service.name}</span>
-                                    </div>
-                                ))}
-                            </div>
+                <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                    <div>
+                        <h3 className="font-headline text-2xl font-bold mb-4">Potential Roles</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                            {careerPaths.map(path => (
+                                <div key={path.name} className="flex items-center gap-3 p-3 bg-background rounded-lg shadow-sm">
+                                    <div className="text-accent">{path.icon}</div>
+                                    <span className="font-semibold">{path.name}</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
                      <div>
-                        <h3 className="font-headline text-2xl font-bold mb-4 text-center md:text-left">Our Hiring Partners</h3>
-                        <p className="text-foreground/80 mb-6 text-center md:text-left">We have a strong network of companies looking to hire our graduates.</p>
-                        <div className="grid grid-cols-3 gap-4 justify-items-center">
-                            {hiringPartners.map((partner) => (
-                                <motion.div 
-                                    key={partner.name} 
-                                    className="p-4 bg-background rounded-full shadow-lg flex items-center justify-center w-24 h-24"
-                                    whileHover={{ scale: 1.1 }}
-                                >
-                                    <div className="text-primary text-center">
-                                       {React.cloneElement(partner.logo, { className: "h-8 w-8"})}
-                                       <p className="text-xs font-bold mt-1">{partner.name}</p>
-                                    </div>
-                                </motion.div>
+                        <h3 className="font-headline text-2xl font-bold mb-4">Dedicated Career Support</h3>
+                         <div className="grid grid-cols-2 gap-4">
+                            {careerServices.map(service => (
+                                <div key={service.name} className="flex items-center gap-3 p-3 bg-background rounded-lg shadow-sm">
+                                    <div className="text-accent">{service.icon}</div>
+                                    <span className="font-semibold">{service.name}</span>
+                                </div>
                             ))}
                         </div>
                     </div>
