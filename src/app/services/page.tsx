@@ -83,7 +83,7 @@ const ServicesHeroAnimation = () => {
             </motion.div>
             <div className="relative z-10 text-center">
                  <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-primary">
-                    What We Offer
+                    Services
                 </h1>
             </div>
         </div>
