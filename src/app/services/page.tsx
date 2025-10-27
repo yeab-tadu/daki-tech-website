@@ -9,15 +9,15 @@ import { Code, MonitorSmartphone, Cloud, Layers, Briefcase, PenTool, UserCheck, 
 import { useEffect, useState } from 'react';
 
 const serviceIcons: { [key: string]: React.ReactNode } = {
-  'web-development': <Code className="h-24 w-24 text-primary" />,
-  'mobile-app-development': <MonitorSmartphone className="h-24 w-24 text-primary" />,
-  'cloud-solutions': <Cloud className="h-24 w-24 text-primary" />,
-  'custom-systems': <Layers className="h-24 w-24 text-primary" />,
-  'digital-business-card': <Briefcase className="h-24 w-24 text-primary" />,
-  'graphics-design': <PenTool className="h-24 w-24 text-primary" />,
-  'training-workshops': <UserCheck className="h-24 w-24 text-primary" />,
-  'ux-ui-design': <BarChart className="h-24 w-24 text-primary" />,
-  'it-support': <LifeBuoy className="h-24 w-24 text-primary" />,
+  'web-development': <Code className="h-40 w-40 text-primary" />,
+  'mobile-app-development': <MonitorSmartphone className="h-40 w-40 text-primary" />,
+  'cloud-solutions': <Cloud className="h-40 w-40 text-primary" />,
+  'custom-systems': <Layers className="h-40 w-40 text-primary" />,
+  'digital-business-card': <Briefcase className="h-40 w-40 text-primary" />,
+  'graphics-design': <PenTool className="h-40 w-40 text-primary" />,
+  'training-workshops': <UserCheck className="h-40 w-40 text-primary" />,
+  'ux-ui-design': <BarChart className="h-40 w-40 text-primary" />,
+  'it-support': <LifeBuoy className="h-40 w-40 text-primary" />,
 };
 
 const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
@@ -81,7 +81,7 @@ const ServicesHeroAnimation = () => {
                             }}
                          >
                              <div className="p-4 bg-background/80 backdrop-blur-sm rounded-full shadow-lg">
-                                {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-12 w-12 text-primary" })}
+                                {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-16 w-16 text-primary" })}
                              </div>
                          </motion.div>
                     </motion.div>
@@ -141,7 +141,7 @@ export default function ServicesPage() {
                   </div>
                   <div className={`flex items-center justify-center min-h-[250px] ${isReversed ? 'lg:order-1' : ''}`}>
                       <AnimatedIcon>
-                        {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-24 w-24 text-primary" })}
+                        {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-40 w-40 text-primary" })}
                       </AnimatedIcon>
                   </div>
                 </div>
