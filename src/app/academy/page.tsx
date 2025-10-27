@@ -142,15 +142,15 @@ const AcademyHero = () => {
         <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
             <div className="absolute inset-0 z-10 top-0">
-                {academySkills.map((skill, index) => {
+                {[...academySkills, ...academySkills, ...academySkills].map((skill, index) => {
                     const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
-                    const leftPosition = `${(index * 9) % 95}%`;
+                    const leftPosition = `${(index * (100 / academySkills.length) + (Math.random() - 0.5) * 5) % 95}%`;
                     const delay = Math.random() * 10;
-                    const duration = 10 + Math.random() * 10;
+                    const duration = 5 + Math.random() * 5;
                     
                     return (
                         <FloatingIcon 
-                            key={skill.name} 
+                            key={`${skill.name}-${index}`}
                             icon={React.cloneElement(skill.icon as React.ReactElement, { className: "w-full h-full" })}
                             className={sizeClass}
                             delay={delay}
