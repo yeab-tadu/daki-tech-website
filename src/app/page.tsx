@@ -197,6 +197,15 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
+    const [skills1, setSkills1] = useState(academySkills);
+    const [skills2, setSkills2] = useState(academySkills);
+
+    useEffect(() => {
+        const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
+        setSkills1(shuffle(academySkills));
+        setSkills2(shuffle(academySkills));
+    }, []);
+
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => {
         return (
         <motion.div
@@ -219,9 +228,6 @@ const SkillMarquee = () => {
         </motion.div>
         );
     };
-
-    const skills1 = [...academySkills].sort(() => Math.random() - 0.5);
-    const skills2 = [...academySkills].sort(() => Math.random() - 0.5);
 
     return (
         <div className="w-full overflow-hidden relative space-y-4 py-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
@@ -742,5 +748,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
