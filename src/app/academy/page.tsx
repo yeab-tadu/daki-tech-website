@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -17,9 +18,10 @@ const coursePhases = [
         title: "HTML, CSS & Bootstrap",
         description: "Master the fundamental building blocks of the web. You'll learn to structure web pages with HTML and style them with modern CSS and Bootstrap.",
         icons: [
-            <svg key="html" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 42L9.2 6H38.8L35.6 42L24 48L6 42Z" fill="#E34F26"/><path d="M24 9V44.5L35.6 41.5L38.4 9H24Z" fill="#F16529"/><path d="M24 22V15.5H32.4L32 22H24Z" fill="#EBEBEB"/><path d="M24 33.5V27H31.6L31.1 33.5L24 35.5V33.5Z" fill="#EBEBEB"/><path d="M16.4 15.5H24V22H15.6L16.4 15.5Z" fill="#EBEBEB"/><path d="M17.2 31.5L16.8 27H24V33.5L17.2 31.5Z" fill="#EBEBEB"/></svg>,
-            <svg key="css" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.2 6L6 42L24 48L42 42L38.8 6H9.2Z" fill="#1572B6"/><path d="M24 9V44.5L35.6 41.5L38.4 9H24Z" fill="#33A9DC"/><path d="M24 15.5H32L31.6 22H24V15.5Z" fill="white"/><path d="M24 27H31.2L30.7 33.5L24 35.5V27Z" fill="white"/><path d="M16.4 15.5H24V22H15.6L16.4 15.5Z" fill="#EBEBEB"/><path d="M16.8 27H24V33.5L17.2 31.5L16.8 27Z" fill="#EBEBEB"/></svg>,
-            <svg key="bootstrap" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="8" fill="#7952B3"/><path d="M34 16.5V31.5C34 33 33 34 31.5 34H16.5C15 34 14 33 14 31.5V16.5C14 15 15 14 16.5 14H31.5C33 14 34 15 34 16.5ZM22.5 19.5C22.5 18.5 23.5 18 24.5 18H28.5C29.5 18 30.5 18.5 30.5 19.5V21C30.5 22 29.5 22.5 28.5 22.5H24.5C23.5 22.5 22.5 22 22.5 21V19.5ZM22.5 25.5C22.5 24.5 23.5 24 24.5 24H28.5C29.5 24 30.5 24.5 30.5 25.5V27C30.5 28 29.5 28.5 28.5 28.5H24.5C23.5 28.5 22.5 28 22.5 27V25.5Z" fill="white"/></svg>
+            <Code key="html-css" className="w-12 h-12 text-pink-500" />,
+            <svg key="bootstrap" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor" className="text-pink-500">B</text>
+            </svg>
         ]
     },
     {
@@ -27,25 +29,30 @@ const coursePhases = [
         title: "Programming with JavaScript and DOM Manipulation",
         description: "Dive deep into the web's most popular language. Master variables, functions, async programming, and how to dynamically interact with web pages.",
         icons: [
-            <svg key="js" width="64" height="64" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" fill="#F7DF1E"/><path d="M22.5 34.5H28.5V30H22.5V34.5ZM22.5 25.5H28.5V21H22.5V25.5ZM33 34.5C33.8 34.5 34.5 33.8 34.5 33V22.5C34.5 21.7 33.8 21 33 21H30L33 18H28.5V13.5H22.5V21H25.5L22.5 24H18C17.2 24 16.5 24.7 16.5 25.5V30C16.5 30.8 17.2 31.5 18 31.5H22.5V34.5H18C17.2 34.5 16.5 35.2 16.5 36V37.5H34.5V36C34.5 35.2 33.8 34.5 33 34.5Z" fill="#000000"/></svg>
+             <svg key="js" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor" className="text-pink-500">JS</text>
+            </svg>,
+            <GitBranch key="git" className="w-12 h-12 text-pink-500" />
         ]
     },
     {
         phase: 3,
-        title: "React(Vite), Node, MySQL, Express",
+        title: "React, Node, MySQL, Express & Next.js",
         description: "Build powerful full-stack applications. You'll learn to create interactive frontends with React and robust backends with Node.js, Express, and MySQL.",
         icons: [
-            <svg key="react" width="48" height="48" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="#61DAFB" /><g stroke="#61DAFB" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg>,
-            <svg key="node" width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="#68A063" strokeWidth="5" fill="#8CC84B" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="#3C873A">JS</text></svg>,
-            <Database key="mysql" className="w-12 h-12 text-[#00758F]" />,
-            <Wind key="express" className="w-12 h-12 text-foreground" />
+            <svg key="react" width="48" height="48" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" className="text-pink-500" /><g stroke="currentColor" strokeWidth="1" fill="none" className="text-pink-500"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg>,
+            <Database key="mysql" className="w-12 h-12 text-pink-500" />,
+            <Wind key="express" className="w-12 h-12 text-pink-500" />,
+            <svg key="nextjs" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor" className="text-pink-500">N</text>
+            </svg>,
         ]
     },
     {
         phase: 4,
-        title: "Fullstack Projects",
-        description: "Apply everything you've learned by building complete, portfolio-ready projects from scratch, simulating a real-world development environment.",
-        icons: [ <Projector key="projects" className="w-16 h-16 text-primary" /> ]
+        title: "Fullstack Projects & Deployment",
+        description: "Apply everything you've learned by building complete, portfolio-ready projects from scratch and deploying them to the web.",
+        icons: [ <Rocket key="projects" className="w-16 h-16 text-pink-500" /> ]
     }
 ];
 
@@ -199,6 +206,51 @@ const AcademyHero = () => {
     )
 }
 
+const CoursePhases = () => {
+    return (
+        <section className="py-12 md:py-24 lg:py-32 bg-background">
+            <div className="container mx-auto px-4 md:px-6">
+                <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">What You'll Learn</h2>
+                <div className="max-w-4xl mx-auto space-y-8">
+                    {coursePhases.map((phase, index) => (
+                        <motion.div
+                            key={phase.phase}
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                        >
+                            <Card className="overflow-hidden">
+                                <CardContent className="p-6 grid md:grid-cols-3 gap-6 items-center">
+                                    <div className="md:col-span-2">
+                                        <Badge variant="default">Phase {phase.phase}</Badge>
+                                        <h3 className="font-headline text-2xl font-bold mt-2">{phase.title}</h3>
+                                        <p className="text-foreground/80 mt-2">{phase.description}</p>
+                                    </div>
+                                    <div className="flex items-center justify-center md:justify-end gap-4 flex-wrap">
+                                        {phase.icons.map((icon, i) => (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ scale: 0.8, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                transition={{ duration: 0.4, delay: (i * 0.1) + (index * 0.1) + 0.3 }}
+                                                className="bg-primary/5 p-3 rounded-full shadow-md"
+                                            >
+                                                {icon}
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
+
 const WhyChooseUsMarquee = () => {
   const [shuffledItems1, setShuffledItems1] = useState<WhyChooseUsItem[]>([]);
   const [shuffledItems2, setShuffledItems2] = useState<WhyChooseUsItem[]>([]);
@@ -248,49 +300,6 @@ const WhyChooseUsMarquee = () => {
   );
 };
 
-const CoursePhases = () => {
-    return (
-        <section className="py-12 md:py-24 lg:py-32 bg-background">
-            <div className="container mx-auto px-4 md:px-6">
-                <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">What You'll Learn</h2>
-                <div className="max-w-4xl mx-auto space-y-8">
-                    {coursePhases.map((phase, index) => (
-                        <motion.div
-                            key={phase.phase}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                        >
-                            <Card className="overflow-hidden">
-                                <CardContent className="p-6 grid md:grid-cols-3 gap-6 items-center">
-                                    <div className="md:col-span-2">
-                                        <Badge variant="default">Phase {phase.phase}</Badge>
-                                        <h3 className="font-headline text-2xl font-bold mt-2">{phase.title}</h3>
-                                        <p className="text-foreground/80 mt-2">{phase.description}</p>
-                                    </div>
-                                    <div className="flex items-center justify-center md:justify-end gap-4 flex-wrap">
-                                        {phase.icons.map((icon, i) => (
-                                            <motion.div
-                                                key={i}
-                                                initial={{ scale: 0.8, opacity: 0 }}
-                                                animate={{ scale: 1, opacity: 1 }}
-                                                transition={{ duration: 0.4, delay: (i * 0.1) + (index * 0.1) + 0.3 }}
-                                                className="bg-primary/5 p-3 rounded-full shadow-md"
-                                            >
-                                                {icon}
-                                            </motion.div>
-                                        ))}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
-};
 
 export default function AcademyPage() {
   const academyTestimonials = testimonials.filter(t => t.role.includes('Student') || t.id === 'test-2');
@@ -447,3 +456,4 @@ export default function AcademyPage() {
     
 
     
+
