@@ -44,20 +44,46 @@ const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
 )
 
 const ServicesHeroAnimation = () => {
+    const [positions, setPositions] = useState<{ top: string; left: string; }[]>([]);
+
+    useEffect(() => {
+        const generatePositions = () => {
+            const newPositions = services.slice(0, 9).map(() => {
+                // These values define the 'safe' area for the icons to appear in, preventing them from going off-screen.
+                const top = Math.random() * 80; // 0% to 80% from top
+                const left = Math.random() * 80; // 0% to 80% from left
+                return {
+                    top: `${top}%`,
+                    left: `${left}%`,
+                };
+            });
+            setPositions(newPositions);
+        };
+        generatePositions();
+    }, []);
+
+    if (positions.length === 0) {
+        return null; // Or a loading skeleton
+    }
+
     return (
-        <div className="grid grid-cols-3 gap-8">
+        <div className="relative w-full h-full min-h-[400px]">
             {services.slice(0, 9).map((service, index) => (
                 <motion.div
                     key={service.id}
-                    className="p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
+                    className="absolute p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary"
+                    style={{
+                       top: positions[index]?.top,
+                       left: positions[index]?.left,
+                    }}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.15, type: 'spring', stiffness: 100 }}
                 >
                     <motion.div
                          animate={{ y: [0, -10, 0] }}
                          transition={{
-                           duration: 3 + index * 0.5,
+                           duration: 3 + Math.random() * 2, // Random duration for each
                            repeat: Infinity,
                            repeatType: 'mirror',
                            ease: 'easeInOut',
