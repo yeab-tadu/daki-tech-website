@@ -1,6 +1,8 @@
 
 
 
+
+
 'use client';
 
 import * as React from 'react';
@@ -42,45 +44,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { projects, services, testimonials } from '@/lib/data';
-import { motion, useTime, useTransform, useScroll, useSpring } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
+import { projects, services, testimonials, whyChooseUs as initialWhyChooseUs } from '@/lib/data';
+import { motion, useTime, useTransform } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import type { Service } from '@/lib/types';
 
-
-const whyChooseUs = [
-  {
-    icon: <Lightbulb className="h-10 w-10 text-primary" />,
-    title: 'Innovation',
-    description: 'We leverage the latest technologies to deliver cutting-edge solutions that drive growth and efficiency.',
-  },
-  {
-    icon: <ShieldCheck className="h-10 w-10 text-primary" />,
-    title: 'Reliability',
-    description: 'Our robust development process ensures high-quality, dependable products you can count on.',
-  },
-  {
-    icon: <LifeBuoy className="h-10 w-10 text-primary" />,
-    title: 'Support',
-    description: 'We provide ongoing support and maintenance to ensure your systems run smoothly.',
-  },
-  {
-    icon: <HeartHandshake className="h-10 w-10 text-primary" />,
-    title: 'Client-Centric',
-    description: 'Your success is our priority. We work closely with you to understand your goals and deliver tailored solutions.',
-  },
-  {
-    icon: <Users className="h-10 w-10 text-primary" />,
-    title: 'Expert Team',
-    description: 'Our team of skilled professionals brings years of industry experience and passion to every project.',
-  },
-  {
-    icon: <MessagesSquare className="h-10 w-10 text-primary" />,
-    title: 'Transparent Communication',
-    description: 'We believe in open and honest communication, keeping you informed every step of the way.',
-  },
-];
 
 const processSteps = [
   { name: 'Discover' },
@@ -349,23 +318,37 @@ const ServicesMarquee = () => {
   )
 }
 
-const WhyChooseUsMarquee = ({ initialItems, direction = 1, duration = 50 }: { initialItems: typeof whyChooseUs; direction?: 1 | -1, duration?: number }) => {
-    const [items, setItems] = useState<typeof whyChooseUs>([]);
+const whyChooseUsIcons: { [key: string]: React.ReactNode } = {
+  Innovation: <Lightbulb className="h-10 w-10 text-primary" />,
+  Reliability: <ShieldCheck className="h-10 w-10 text-primary" />,
+  Support: <LifeBuoy className="h-10 w-10 text-primary" />,
+  'Client-Centric': <HeartHandshake className="h-10 w-10 text-primary" />,
+  'Expert Team': <Users className="h-10 w-10 text-primary" />,
+  'Transparent Communication': <MessagesSquare className="h-10 w-10 text-primary" />,
+};
+
+const whyChooseUs = initialWhyChooseUs.map(item => ({
+  ...item,
+  icon: whyChooseUsIcons[item.title],
+}));
+
+type WhyChooseUsItem = (typeof whyChooseUs)[0];
+
+const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: WhyChooseUsItem[]; direction?: 1 | -1, duration?: number }) => {
     const [isMounted, setIsMounted] = useState(false);
+    const [shuffledItems, setShuffledItems] = useState<WhyChooseUsItem[]>([]);
 
     useEffect(() => {
         setIsMounted(true);
-        // Shuffle only on the client to avoid hydration mismatch
-        const shuffled = [...initialItems].sort(() => Math.random() - 0.5);
-        setItems(shuffled);
-    }, [initialItems]);
+        // Shuffle only on the client
+        setShuffledItems([...items].sort(() => Math.random() - 0.5));
+    }, [items]);
 
-    if (!isMounted || items.length === 0) {
-      // Render a static placeholder or nothing on the server
+    if (!isMounted || shuffledItems.length === 0) {
       return null;
     }
 
-    const duplicatedItems = [...items, ...items];
+    const duplicatedItems = [...shuffledItems, ...shuffledItems];
     const yAnimation = direction === 1 ? ['0%', '-50%'] : ['-50%', '0%'];
 
     return (
@@ -457,6 +440,19 @@ const AnimatedProcess = () => {
                     animate={{ strokeDashoffset: [0, -1200] }}
                     transition={{
                         duration: 8,
+                        repeat: Infinity,
+                        ease: 'linear'
+                    }}
+                />
+                 <motion.path
+                    d="M 60,50 C 250,10 250,90 500,50 C 750,10 750,90 950,50 C 1150,10 1150,90 1140,50"
+                    fill="transparent"
+                    stroke="hsl(var(--primary))"
+                    strokeWidth="2"
+                    strokeDasharray="10 20"
+                    animate={{ strokeDashoffset: [0, 1200] }}
+                    transition={{
+                        duration: 12,
                         repeat: Infinity,
                         ease: 'linear'
                     }}
@@ -614,11 +610,10 @@ export default function Home() {
                         <Link href="/about">Learn More About Us</Link>
                     </Button>
                 </div>
-
                 <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]">
-                    <WhyChooseUsMarquee initialItems={whyChooseUs.slice(0, 2)} duration={40} direction={1} />
-                    <WhyChooseUsMarquee initialItems={whyChooseUs.slice(2, 4)} duration={50} direction={-1} />
-                    <WhyChooseUsMarquee initialItems={whyChooseUs.slice(4, 6)} duration={45} direction={1} />
+                    <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
+                    <WhyChooseUsMarquee items={whyChooseUs} duration={50} direction={-1} />
+                    <WhyChooseUsMarquee items={whyChooseUs} duration={45} direction={1} />
                 </div>
             </div>
         </section>

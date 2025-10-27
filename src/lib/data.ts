@@ -114,6 +114,33 @@ export const testimonials: Testimonial[] = [
   },
 ];
 
+export const whyChooseUs: { title: string; description: string }[] = [
+  {
+    title: 'Innovation',
+    description: 'We leverage the latest technologies to deliver cutting-edge solutions that drive growth and efficiency.',
+  },
+  {
+    title: 'Reliability',
+    description: 'Our robust development process ensures high-quality, dependable products you can count on.',
+  },
+  {
+    title: 'Support',
+    description: 'We provide ongoing support and maintenance to ensure your systems run smoothly.',
+  },
+  {
+    title: 'Client-Centric',
+    description: 'Your success is our priority. We work closely with you to understand your goals and deliver tailored solutions.',
+  },
+  {
+    title: 'Expert Team',
+    description: 'Our team of skilled professionals brings years of industry experience and passion to every project.',
+  },
+  {
+    title: 'Transparent Communication',
+    description: 'We believe in open and honest communication, keeping you informed every step of the way.',
+  },
+];
+
 export const team: TeamMember[] = [
   {
     id: 'team-1',
