@@ -1,14 +1,11 @@
-
-
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Testimonials from '@/components/Testimonials';
 import { testimonials } from '@/lib/data';
-import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, BrainCircuit, Projector, Phone, Send } from 'lucide-react';
+import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, BrainCircuit, Projector, Phone, Send, CheckCircle, Handshake, BriefcaseBusiness, Server, MonitorSmartphone, CodeXml, Layers, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 
@@ -295,9 +292,95 @@ const WhyChooseUsMarquee = () => {
 };
 
 
-export default function AcademyPage() {
-  const academyTestimonials = testimonials.filter(t => t.role.includes('Student') || t.id === 'test-2');
+const careerPaths = [
+    { name: 'Frontend Developer', icon: <MonitorSmartphone className="h-8 w-8" /> },
+    { name: 'Backend Developer', icon: <Server className="h-8 w-8" /> },
+    { name: 'Full-Stack Developer', icon: <Layers className="h-8 w-8" /> },
+    { name: 'Software Engineer', icon: <CodeXml className="h-8 w-8" /> },
+];
 
+const hiringPartners = [
+    { name: 'Innovate Inc.', logo: <Sparkles /> },
+    { name: 'Creative Co.', logo: <Sparkles /> },
+    { name: 'GrowthWell', logo: <Sparkles /> },
+    { name: 'Tech Solutions', logo: <Sparkles /> },
+    { name: 'Web Weavers', logo: <Sparkles /> },
+    { name: 'Data Driven Co.', logo: <Sparkles /> },
+];
+
+const careerServices = [
+    { name: 'Portfolio Review', icon: <BriefcaseBusiness /> },
+    { name: 'Resume Building', icon: <FileText /> },
+    { name: 'Interview Prep', icon: <MessageSquare /> },
+    { name: 'Networking Events', icon: <Handshake /> },
+];
+
+
+const CareerPathSection = () => {
+    return (
+        <section id="career-path" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="max-w-3xl mx-auto text-center mb-12">
+                    <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">
+                        Your Career Path after Daki Academy
+                    </h2>
+                    <p className="mt-4 text-lg text-foreground/80">
+                        Our program is designed to launch you into a successful tech career. We provide the skills, portfolio, and support to get you hired.
+                    </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-8">
+                        <div>
+                            <h3 className="font-headline text-2xl font-bold mb-4">Potential Roles</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                {careerPaths.map(path => (
+                                    <div key={path.name} className="flex items-center gap-3 p-3 bg-background rounded-lg shadow-sm">
+                                        <div className="text-accent">{path.icon}</div>
+                                        <span className="font-semibold">{path.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                         <div>
+                            <h3 className="font-headline text-2xl font-bold mb-4">Dedicated Career Support</h3>
+                             <div className="grid grid-cols-2 gap-4">
+                                {careerServices.map(service => (
+                                    <div key={service.name} className="flex items-center gap-3 p-3 bg-background rounded-lg shadow-sm">
+                                        <div className="text-accent">{service.icon}</div>
+                                        <span className="font-semibold">{service.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                     <div>
+                        <h3 className="font-headline text-2xl font-bold mb-4 text-center md:text-left">Our Hiring Partners</h3>
+                        <p className="text-foreground/80 mb-6 text-center md:text-left">We have a strong network of companies looking to hire our graduates.</p>
+                        <div className="grid grid-cols-3 gap-4 justify-items-center">
+                            {hiringPartners.map((partner) => (
+                                <motion.div 
+                                    key={partner.name} 
+                                    className="p-4 bg-background rounded-full shadow-lg flex items-center justify-center w-24 h-24"
+                                    whileHover={{ scale: 1.1 }}
+                                >
+                                    <div className="text-primary text-center">
+                                       {React.cloneElement(partner.logo, { className: "h-8 w-8"})}
+                                       <p className="text-xs font-bold mt-1">{partner.name}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+
+export default function AcademyPage() {
+  
   return (
     <div>
       <AcademyHero />
@@ -433,20 +516,7 @@ export default function AcademyPage() {
             </div>
         </section>
 
-        {/* Testimonials */}
-        {academyTestimonials.length > 0 && (
-          <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-background">
-            <div className="container mx-auto px-4 md:px-6">
-              <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl">
-                Success Stories from Our Graduates
-              </h2>
-              <div className="mt-12">
-                <Testimonials testimonials={academyTestimonials} />
-              </div>
-            </div>
-          </section>
-        )}
-
+        <CareerPathSection />
       </main>
     </div>
   );
