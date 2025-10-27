@@ -71,7 +71,8 @@ const ServicesHeroAnimation = () => {
         const startVertex = vertices[sideIndex];
         const endVertex = vertices[(sideIndex + 1) % numSides];
         
-        const t = (indexOnSide + 1) / (sideLength + 1);
+        // Distribute points along the side, including endpoints.
+        const t = (indexOnSide) / (sideLength -1);
         const x = startVertex.x + t * (endVertex.x - startVertex.x);
         const y = startVertex.y + t * (endVertex.y - startVertex.y);
 
