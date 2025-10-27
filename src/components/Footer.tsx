@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <footer className="bg-background border-t">
       <div className="container mx-auto px-4 md:px-6 py-12">
-        <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
           <div className="space-y-4">
             <Link href="/">
@@ -56,7 +56,7 @@ const Footer = () => {
           <div>
             <h3 className="font-headline font-semibold text-foreground">Stay Updated</h3>
             <p className="mt-4 text-sm text-foreground/80">Subscribe to our newsletter for the latest tech insights and company news.</p>
-            <form className="mt-4 flex gap-2">
+            <form className="mt-4 flex flex-col sm:flex-row gap-2">
               <Input type="email" placeholder="Enter your email" className="flex-1" />
               <Button type="submit">Subscribe</Button>
             </form>

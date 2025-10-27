@@ -1,8 +1,4 @@
 
-
-
-
-
 'use client';
 
 import * as React from 'react';
@@ -44,7 +40,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { projects, services, testimonials, whyChooseUs as initialWhyChooseUs } from '@/lib/data';
+import { projects, services, whyChooseUs as initialWhyChooseUs, testimonials } from '@/lib/data';
 import { motion, useTime, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
@@ -70,6 +66,22 @@ const serviceIcons: { [key: string]: React.ReactNode } = {
   'ux-ui-design': <BarChart className="h-10 w-10" />,
   'it-support': <LifeBuoy className="h-10 w-10" />,
 };
+
+const whyChooseUsIcons: { [key: string]: React.ReactNode } = {
+  Innovation: <Lightbulb className="h-10 w-10 text-primary" />,
+  Reliability: <ShieldCheck className="h-10 w-10 text-primary" />,
+  Support: <LifeBuoy className="h-10 w-10 text-primary" />,
+  'Client-Centric': <HeartHandshake className="h-10 w-10 text-primary" />,
+  'Expert Team': <Users className="h-10 w-10 text-primary" />,
+  'Transparent Communication': <MessagesSquare className="h-10 w-10 text-primary" />,
+};
+
+const whyChooseUs = initialWhyChooseUs.map(item => ({
+  ...item,
+  icon: whyChooseUsIcons[item.title],
+}));
+
+type WhyChooseUsItem = (typeof whyChooseUs)[0];
 
 const heroServices = services.slice(0, 8);
 
@@ -318,30 +330,14 @@ const ServicesMarquee = () => {
   )
 }
 
-const whyChooseUsIcons: { [key: string]: React.ReactNode } = {
-  Innovation: <Lightbulb className="h-10 w-10 text-primary" />,
-  Reliability: <ShieldCheck className="h-10 w-10 text-primary" />,
-  Support: <LifeBuoy className="h-10 w-10 text-primary" />,
-  'Client-Centric': <HeartHandshake className="h-10 w-10 text-primary" />,
-  'Expert Team': <Users className="h-10 w-10 text-primary" />,
-  'Transparent Communication': <MessagesSquare className="h-10 w-10 text-primary" />,
-};
-
-const whyChooseUs = initialWhyChooseUs.map(item => ({
-  ...item,
-  icon: whyChooseUsIcons[item.title],
-}));
-
-type WhyChooseUsItem = (typeof whyChooseUs)[0];
-
 const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: WhyChooseUsItem[]; direction?: 1 | -1, duration?: number }) => {
-    const [isMounted, setIsMounted] = useState(false);
     const [shuffledItems, setShuffledItems] = useState<WhyChooseUsItem[]>([]);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
         setIsMounted(true);
-        // Shuffle only on the client
-        setShuffledItems([...items].sort(() => Math.random() - 0.5));
+        const shuffle = (array: WhyChooseUsItem[]) => [...array].sort(() => Math.random() - 0.5);
+        setShuffledItems(shuffle(items));
     }, [items]);
 
     if (!isMounted || shuffledItems.length === 0) {
@@ -390,14 +386,14 @@ const AnimatedProcess = () => {
                 {processSteps.map((step, index) => (
                     <motion.div
                         key={step.name}
-                        className="flex flex-col items-center text-center w-24"
+                        className="flex flex-col items-center text-center w-12 md:w-24"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, amount: 0.8 }}
                         transition={{ duration: 0.5, delay: index * 0.2 }}
                     >
                         <motion.div
-                            className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
+                            className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
                             animate={{
                                 scale: [1, 1.1, 1],
                             }}
@@ -411,11 +407,11 @@ const AnimatedProcess = () => {
                         >
                             {index + 1}
                         </motion.div>
-                        <p className="font-headline mt-3 font-semibold text-sm md:text-base">{step.name}</p>
+                        <p className="font-headline mt-3 font-semibold text-xs md:text-base">{step.name}</p>
                     </motion.div>
                 ))}
             </div>
-            <svg className="absolute top-8 left-0 w-full h-16 z-0" viewBox="0 0 1200 100" preserveAspectRatio="none">
+            <svg className="absolute top-6 md:top-8 left-0 w-full h-16 z-0" viewBox="0 0 1200 100" preserveAspectRatio="none">
                  <defs>
                     <linearGradient id="path-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="hsl(var(--accent))" />
@@ -556,7 +552,7 @@ export default function Home() {
                 <p className="text-foreground/80 text-lg">
                   Our Full-Stack Web Development course is a practical, step-by-step training that teaches you how to build complete websites and web apps from scratch. You’ll learn both front-end and back-end skills through real projects, gaining the confidence and experience needed to work as a professional web developer.
                 </p>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-6 w-6 text-accent" />
                     <span>6-Month Program</span>
@@ -612,8 +608,12 @@ export default function Home() {
                 </div>
                 <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]">
                     <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
-                    <WhyChooseUsMarquee items={whyChooseUs} duration={50} direction={-1} />
-                    <WhyChooseUsMarquee items={whyChooseUs} duration={45} direction={1} />
+                    <div className="hidden md:block">
+                      <WhyChooseUsMarquee items={whyChooseUs.slice(2).concat(whyChooseUs.slice(0, 2))} duration={50} direction={-1} />
+                    </div>
+                    <div className="hidden md:block">
+                      <WhyChooseUsMarquee items={whyChooseUs.slice(4).concat(whyChooseUs.slice(0, 4))} duration={45} direction={1} />
+                    </div>
                 </div>
             </div>
         </section>
