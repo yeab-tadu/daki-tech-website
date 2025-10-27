@@ -663,18 +663,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Testimonials */}
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-5xl">
-              What Our Clients Say
-            </h2>
-            <div className="mt-12">
-              <Testimonials testimonials={testimonials} />
-            </div>
-          </div>
-        </section>
-
         {/* CTA Banner */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-primary to-accent text-primary-foreground">
           <div className="container mx-auto grid items-center justify-center gap-4 px-4 text-center md:px-6">
