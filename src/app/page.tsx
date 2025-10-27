@@ -139,79 +139,39 @@ const InteractiveCircle = () => {
   );
 };
 
-const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <circle cx="0" cy="0" r="2.05" fill="currentColor" />
-    <g stroke="currentColor" strokeWidth="1" fill="none">
-      <ellipse rx="11" ry="4.2" />
-      <ellipse rx="11" ry="4.2" transform="rotate(60)" />
-      <ellipse rx="11" ry="4.2" transform="rotate(120)" />
-    </g>
-  </svg>
-);
-
-const JsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text>
-  </svg>
-);
-
-const BsIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">B</text>
-  </svg>
-);
-
-const NodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" />
-    <text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text>
-  </svg>
-);
-
-const NextIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">N</text>
-  </svg>
-);
-
-const JqueryIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">J</text>
-  </svg>
-);
-
-const academySkills = [
+const initialAcademySkills = [
   { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
-  { name: 'JavaScript', icon: <JsIcon className="h-10 w-10" /> },
-  { name: 'Bootstrap', icon: <BsIcon className="h-10 w-10" /> },
-  { name: 'Node.js', icon: <NodeIcon className="h-10 w-10" /> },
+  { name: 'JavaScript', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
+  { name: 'Bootstrap', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">B</text></svg> },
+  { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
   { name: 'Express.js', icon: <Wind className="h-10 w-10" /> },
-  { name: 'React.js', icon: <ReactIcon className="h-10 w-10" /> },
-  { name: 'Next.js', icon: <NextIcon className="h-10 w-10" /> },
+  { name: 'React.js', icon: <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg> },
+  { name: 'Next.js', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">N</text></svg> },
   { name: 'MySQL', icon: <Database className="h-10 w-10" /> },
   { name: 'Git', icon: <GitBranch className="h-10 w-10" /> },
-  { name: 'jQuery', icon: <JqueryIcon className="h-10 w-10" /> },
+  { name: 'jQuery', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">J</text></svg> },
   { name: 'React Router', icon: <Router className="h-10 w-10" /> },
   { name: 'REST API', icon: <PlugZap className="h-10 w-10" /> },
   { name: 'Deployment', icon: <Rocket className="h-10 w-10" /> },
 ];
 
+type AcademySkill = typeof initialAcademySkills[0];
+
+
 const SkillMarquee = () => {
-    const [shuffledSkills1, setShuffledSkills1] = useState<(typeof academySkills)>([]);
-    const [shuffledSkills2, setShuffledSkills2] = useState<(typeof academySkills)>([]);
-    const [shuffledSkills3, setShuffledSkills3] = useState<(typeof academySkills)>([]);
+    const [shuffledSkills1, setShuffledSkills1] = useState<AcademySkill[]>([]);
+    const [shuffledSkills2, setShuffledSkills2] = useState<AcademySkill[]>([]);
+    const [shuffledSkills3, setShuffledSkills3] = useState<AcademySkill[]>([]);
 
     useEffect(() => {
-        // This logic now runs only on the client, after initial render, preventing hydration mismatch.
-        const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
-        setShuffledSkills1(shuffle(academySkills));
-        setShuffledSkills2(shuffle(academySkills));
-        setShuffledSkills3(shuffle(academySkills));
+        const shuffle = (array: AcademySkill[]) => [...array].sort(() => Math.random() - 0.5);
+        setShuffledSkills1(shuffle(initialAcademySkills));
+        setShuffledSkills2(shuffle(initialAcademySkills));
+        setShuffledSkills3(shuffle(initialAcademySkills));
     }, []);
 
-    const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => {
-        if (!skills || skills.length === 0) return null; // Don't render if skills aren't shuffled yet
+    const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: AcademySkill[], duration: number, direction?: 1 | -1 }) => {
+        if (!skills || skills.length === 0) return null;
         return (
         <motion.div
             className="flex gap-8"
@@ -310,8 +270,8 @@ const ServicesMarquee = () => {
 
   return (
     <div className="mt-12 w-full overflow-hidden group">
-      <MarqueeRow services={shuffledServices1} duration={60} direction={-1} />
-      <MarqueeRow services={shuffledServices2} duration={70} direction={1} />
+      <MarqueeRow services={shuffledServices1} duration={90} direction={-1} />
+      <MarqueeRow services={shuffledServices2} duration={105} direction={1} />
     </div>
   )
 }
