@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Testimonials from '@/components/Testimonials';
 import { testimonials } from '@/lib/data';
-import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, BrainCircuit, Projector } from 'lucide-react';
+import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, BrainCircuit, Projector, Phone, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 
@@ -100,14 +100,6 @@ const whoIsThisFor = [
     },
 ]
 
-const applicationSteps = [
-    { icon: <FileText />, title: "Submit Application", description: "Fill out our simple online form to get started." },
-    { icon: <MessageSquare />, title: "Initial Interview", description: "A short, non-technical chat to get to know you and your goals." },
-    { icon: <Calendar />, title: "Technical Assessment", description: "A practical assessment to gauge your problem-solving abilities." },
-    { icon: <Award />, title: "Final Decision", description: "Successful candidates will receive an enrollment offer." }
-]
-
-
 const upcomingBatches = [
   { id: 1, name: 'Summer 2024 Batch', startDate: 'July 15, 2024', status: 'Open' },
   { id: 2, name: 'Fall 2024 Batch', startDate: 'October 7, 2024', status: 'Opening Soon' },
@@ -130,24 +122,26 @@ const AcademyHero = () => {
     const [icons, setIcons] = useState<React.ReactNode[]>([]);
 
     useEffect(() => {
-        const generatedIcons = [...academySkills, ...academySkills, ...academySkills].map((skill, index) => {
-            const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
-            const leftPosition = `${(index * (100 / academySkills.length) + (Math.random() - 0.5) * 5) % 95}%`;
-            const delay = Math.random() * 10;
-            const duration = 5 + Math.random() * 5;
-            
-            return (
-                <FloatingIcon 
-                    key={`${skill.name}-${index}`}
-                    icon={React.cloneElement(skill.icon as React.ReactElement, { className: "w-full h-full" })}
-                    className={sizeClass}
-                    delay={delay}
-                    duration={duration}
-                    style={{ left: leftPosition, top: '-20%' }}
-                />
-            )
-        });
-        setIcons(generatedIcons);
+        if (typeof window !== 'undefined') {
+            const generatedIcons = [...academySkills, ...academySkills, ...academySkills].map((skill, index) => {
+                const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
+                const leftPosition = `${(index * (100 / academySkills.length) + (Math.random() - 0.5) * 5) % 95}%`;
+                const delay = Math.random() * 10;
+                const duration = 5 + Math.random() * 5;
+                
+                return (
+                    <FloatingIcon 
+                        key={`${skill.name}-${index}`}
+                        icon={React.cloneElement(skill.icon as React.ReactElement, { className: "w-full h-full" })}
+                        className={sizeClass}
+                        delay={delay}
+                        duration={duration}
+                        style={{ left: leftPosition, top: '-20%' }}
+                    />
+                )
+            });
+            setIcons(generatedIcons);
+        }
     }, []);
 
     const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
@@ -409,27 +403,32 @@ export default function AcademyPage() {
          <section className="py-12 md:py-24 lg:py-32 bg-primary/5">
             <div className="container mx-auto px-4 md:px-6">
                 <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">How to Apply</h2>
-                 <div className="max-w-4xl mx-auto relative">
-                     <div className="absolute left-1/2 top-8 bottom-8 w-0.5 bg-border -translate-x-1/2 hidden md:block"></div>
-                     {applicationSteps.map((step, index) => (
-                        <div key={step.title} className={`flex items-start md:items-center gap-6 md:gap-12 mb-12 md:mb-0 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                            <div className="flex-shrink-0 bg-background p-4 rounded-full shadow-lg z-10">
-                                <div className="bg-primary text-primary-foreground h-12 w-12 rounded-full flex items-center justify-center">
-                                   {React.cloneElement(step.icon, { className: "h-6 w-6" })}
+                 <div className="max-w-2xl mx-auto text-center">
+                    <p className="text-lg text-foreground/80 mb-8">
+                        Ready to start your journey? Applying is simple. Reach out to our admissions team via phone or Telegram to get started.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <Card>
+                            <CardContent className="p-6 flex flex-col items-center text-center">
+                                <div className="p-3 bg-primary/10 rounded-full mb-4">
+                                    <Phone className="h-8 w-8 text-primary" />
                                 </div>
-                            </div>
-                            <div className={`space-y-1 ${index % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}>
-                                <p className="text-sm text-accent font-semibold">Step {index + 1}</p>
-                                <h3 className="font-headline text-2xl font-bold">{step.title}</h3>
-                                <p className="text-foreground/80">{step.description}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="text-center mt-12">
-                     <Button size="lg" asChild>
-                        <Link href="/contact?subject=Academy+Application">Start Your Application <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                    </Button>
+                                <h3 className="font-headline text-xl font-bold">Call Us</h3>
+                                <p className="text-foreground/80 mt-1">Speak directly with an advisor.</p>
+                                <a href="tel:+1234567890" className="font-bold text-primary mt-2 text-lg hover:underline">+1 (234) 567-890</a>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardContent className="p-6 flex flex-col items-center text-center">
+                                <div className="p-3 bg-primary/10 rounded-full mb-4">
+                                    <Send className="h-8 w-8 text-primary" />
+                                </div>
+                                <h3 className="font-headline text-xl font-bold">Message on Telegram</h3>
+                                <p className="text-foreground/80 mt-1">Send us a message anytime.</p>
+                                <a href="https://t.me/DakiTechsAcademy" target="_blank" className="font-bold text-primary mt-2 text-lg hover:underline">@DakiTechsAcademy</a>
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
             </div>
         </section>
@@ -452,8 +451,3 @@ export default function AcademyPage() {
     </div>
   );
 }
-
-    
-
-    
-
