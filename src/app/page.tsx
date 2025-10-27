@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import * as React from 'react';
@@ -280,72 +281,46 @@ const ServicesMarquee = () => {
   )
 }
 
-const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: WhyChooseUsItem[]; direction?: 1 | -1, duration?: number }) => {
-    const [shuffledItems, setShuffledItems] = useState<WhyChooseUsItem[]>([]);
-    const isMobile = useIsMobile();
+const WhyChooseUs = ({ items }: { items: WhyChooseUsItem[] }) => {
+    const [shuffledItems1, setShuffledItems1] = useState<WhyChooseUsItem[]>([]);
+    const [shuffledItems2, setShuffledItems2] = useState<WhyChooseUsItem[]>([]);
 
     useEffect(() => {
         const shuffle = (array: WhyChooseUsItem[]) => [...array].sort(() => Math.random() - 0.5);
-        setShuffledItems(shuffle(items));
+        setShuffledItems1(shuffle(items));
+        setShuffledItems2(shuffle(items));
     }, [items]);
-    
-    if (shuffledItems.length === 0) {
-      return null;
-    }
 
-    if (isMobile) {
+    const MarqueeRow = ({ items, duration, direction = 1 }: { items: WhyChooseUsItem[], duration: number, direction?: 1 | -1 }) => {
+        if (!items || items.length === 0) return null;
+        
         return (
-             <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-8">
-                {items.map((reason, index) => (
-                    <motion.div
-                        key={`${reason.title}-${index}`}
-                        className="flex flex-col items-center text-center p-6 space-y-4"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.5 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                        <div className="p-4 bg-primary/10 rounded-full shadow-md">
-                            {reason.icon}
-                        </div>
-                        <h3 className="font-headline text-xl font-bold">{reason.title}</h3>
-                        <p className="text-foreground/80">{reason.description}</p>
-                    </motion.div>
-                ))}
-             </div>
-        );
-    }
-
-    const duplicatedItems = [...shuffledItems, ...shuffledItems];
-    const yAnimation = direction === 1 ? ['0%', '-50%'] : ['-50%', '0%'];
-
-    return (
-        <div className="relative h-96 w-full max-w-sm overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]">
             <motion.div
-                className="w-full"
-                animate={{
-                    y: yAnimation,
-                }}
+                className="flex gap-8"
+                animate={{ x: direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"] }}
                 transition={{
                     ease: 'linear',
                     duration: duration,
                     repeat: Infinity,
                 }}
-                whileHover={{ animationPlayState: 'paused' }}
+                 whileHover={{ animationPlayState: 'paused' }}
             >
-                {duplicatedItems.map((reason, index) => (
-                    <div
-                        key={`${reason.title}-${index}`}
-                        className="flex flex-col items-center text-center p-6 space-y-4 my-4"
-                    >
-                        <div className="p-4 bg-primary/10 rounded-full shadow-md">
-                            {reason.icon}
+                {[...items, ...items].map((reason, index) => (
+                    <div key={`${reason.title}-${index}`} className="flex-shrink-0 w-52 flex flex-col items-center text-center group">
+                        <div className="w-40 h-40 bg-background rounded-full flex flex-col items-center justify-center p-4 shadow-lg text-primary transition-transform group-hover:scale-110 group-hover:bg-primary/10">
+                            {React.cloneElement(reason.icon, { className: "h-12 w-12 mb-2"})}
+                            <h3 className="font-headline text-base font-bold text-foreground">{reason.title}</h3>
                         </div>
-                        <h3 className="font-headline text-xl font-bold">{reason.title}</h3>
-                        <p className="text-foreground/80">{reason.description}</p>
                     </div>
                 ))}
             </motion.div>
+        );
+    };
+    
+    return (
+        <div className="w-full overflow-hidden relative space-y-8 py-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <MarqueeRow items={shuffledItems1} duration={60} />
+            <MarqueeRow items={shuffledItems2} duration={55} direction={-1} />
         </div>
     );
 };
@@ -590,20 +565,7 @@ export default function Home() {
                         <Link href="/about">Learn More About Us</Link>
                     </Button>
                 </motion.div>
-                <div className="grid md:grid-cols-3 gap-8">
-                     <div className="md:hidden">
-                        <WhyChooseUsMarquee items={whyChooseUs} />
-                     </div>
-                     <div className="hidden md:flex justify-center">
-                        <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
-                     </div>
-                     <div className="hidden md:flex justify-center">
-                       <WhyChooseUsMarquee items={whyChooseUs.slice(2).concat(whyChooseUs.slice(0, 2))} duration={50} direction={-1} />
-                     </div>
-                      <div className="hidden md:flex justify-center">
-                       <WhyChooseUsMarquee items={whyChooseUs.slice(4).concat(whyChooseUs.slice(0, 4))} duration={45} direction={1} />
-                     </div>
-                </div>
+                <WhyChooseUs items={whyChooseUs} />
             </div>
         </section>
 
