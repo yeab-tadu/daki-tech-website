@@ -45,6 +45,7 @@ import { motion, useTime, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import type { Service } from '@/lib/types';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 
 const processSteps = [
@@ -257,6 +258,7 @@ const ServicesMarquee = () => {
   const [shuffledServices1, setShuffledServices1] = useState<Service[]>([]);
   const [shuffledServices2, setShuffledServices2] = useState<Service[]>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setIsMounted(true);
@@ -322,6 +324,31 @@ const ServicesMarquee = () => {
   
   if (!isMounted) return null;
 
+  if (isMobile) {
+    return (
+      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8">
+        {services.map((service) => (
+           <div key={service.id} className="w-full">
+            <Card className="h-full">
+              <CardHeader className="flex flex-row items-center gap-4">
+                <div className="bg-primary/10 p-3 rounded-full text-primary">
+                  {serviceIcons[service.id] || <Code className="h-8 w-8" />}
+                </div>
+                <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-foreground/80 h-20 overflow-hidden">{service.description}</p>
+                <Button variant="link" asChild className="p-0 h-auto mt-2 group">
+                  <Link href={`/services#${service.id}`}>Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="mt-12 w-full overflow-hidden group">
       <MarqueeRow services={shuffledServices1} duration={60} direction={-1} />
@@ -381,7 +408,7 @@ const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: Wh
 
 const AnimatedProcess = () => {
     return (
-        <div className="relative mt-12 md:mt-24">
+        <div className="relative mt-12 md:mt-24 w-full max-w-6xl mx-auto">
             <div className="flex justify-between items-start relative z-10">
                 {processSteps.map((step, index) => (
                     <motion.div
@@ -461,6 +488,7 @@ const AnimatedProcess = () => {
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
+  const isMobile = useIsMobile();
   
   return (
     <div className="flex flex-col min-h-dvh">
@@ -574,7 +602,7 @@ export default function Home() {
         </section>
 
         {/* Services Overview */}
-        <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5 overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -606,12 +634,15 @@ export default function Home() {
                         <Link href="/about">Learn More About Us</Link>
                     </Button>
                 </div>
-                <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]">
+                <div className={cn(
+                    "relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]",
+                    isMobile && "grid-cols-1"
+                )}>
                     <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
-                    <div className="hidden md:block">
+                    <div className={cn("hidden", !isMobile && "md:block")}>
                       <WhyChooseUsMarquee items={whyChooseUs.slice(2).concat(whyChooseUs.slice(0, 2))} duration={50} direction={-1} />
                     </div>
-                    <div className="hidden md:block">
+                     <div className={cn("hidden", !isMobile && "md:block")}>
                       <WhyChooseUsMarquee items={whyChooseUs.slice(4).concat(whyChooseUs.slice(0, 4))} duration={45} direction={1} />
                     </div>
                 </div>
