@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -115,6 +116,11 @@ const academySkills = [
 
 const AcademyHero = () => {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
         return (
@@ -124,7 +130,7 @@ const AcademyHero = () => {
                 initial={{ opacity: 0, y: -100 }}
                 animate={{ 
                     opacity: [0, 0.8, 0.8, 0],
-                    y: 400
+                    y: '100vh'
                 }}
                 transition={{
                     delay,
@@ -142,7 +148,7 @@ const AcademyHero = () => {
         <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
             <div className="absolute inset-0 z-10 top-0">
-                {[...academySkills, ...academySkills, ...academySkills].map((skill, index) => {
+                {isMounted && [...academySkills, ...academySkills, ...academySkills].map((skill, index) => {
                     const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
                     const leftPosition = `${(index * (100 / academySkills.length) + (Math.random() - 0.5) * 5) % 95}%`;
                     const delay = Math.random() * 10;
