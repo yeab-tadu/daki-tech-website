@@ -6,11 +6,10 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import PageHeader from '@/components/PageHeader';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Testimonials from '@/components/Testimonials';
 import { testimonials } from '@/lib/data';
-import { CheckCircle, Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target } from 'lucide-react';
+import { CheckCircle, Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const courseModules = [
   {
@@ -101,17 +100,101 @@ const upcomingBatches = [
   { id: 2, name: 'Fall 2024 Batch', startDate: 'October 7, 2024', status: 'Opening Soon' },
 ];
 
+const academySkills = [
+  { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
+  { name: 'JavaScript', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
+  { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
+  { name: 'Express.js', icon: <Wind className="h-10 w-10" /> },
+  { name: 'React.js', icon: <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg> },
+  { name: 'Next.js', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">N</text></svg> },
+  { name: 'MySQL', icon: <Database className="h-10 w-10" /> },
+  { name: 'Git', icon: <GitBranch className="h-10 w-10" /> },
+  { name: 'REST API', icon: <PlugZap className="h-10 w-10" /> },
+  { name: 'Deployment', icon: <Rocket className="h-10 w-10" /> },
+];
+
+const AcademyHero = () => {
+    const containerRef = React.useRef<HTMLDivElement>(null);
+
+    const FloatingIcon = ({ icon, className, delay, duration }: { icon: React.ReactNode, className: string, delay: number, duration: number }) => {
+        return (
+             <motion.div
+                className={`absolute rounded-full bg-background/60 backdrop-blur-sm shadow-lg text-primary p-2 md:p-3 ${className}`}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ 
+                    opacity: [0, 0.8, 0.8, 0],
+                    scale: 1,
+                    y: ["0%", "400%"]
+                }}
+                transition={{
+                    delay,
+                    duration,
+                    repeat: Infinity,
+                    ease: "linear"
+                }}
+            >
+                {icon}
+            </motion.div>
+        )
+    }
+
+    return (
+        <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
+            <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+            <div className="absolute inset-0 z-10">
+                {academySkills.map((skill, index) => {
+                    const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
+                    const leftPosition = `${(index * 9) % 95}%`;
+                    const delay = Math.random() * 10;
+                    const duration = 10 + Math.random() * 10;
+                    
+                    return (
+                        <FloatingIcon 
+                            key={skill.name} 
+                            icon={React.cloneElement(skill.icon as React.ReactElement, { className: "w-full h-full" })}
+                            className={sizeClass}
+                            delay={delay}
+                            duration={duration}
+                            style={{ left: leftPosition, top: '-20%' }}
+                        />
+                    )
+                })}
+            </div>
+
+            <div ref={containerRef} className="container mx-auto px-4 md:px-6 relative z-20 text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                    <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                        <span className="text-primary">Become a </span>
+                        <span className="text-accent">Full-Stack</span>
+                        <span className="text-foreground"> Developer</span>
+                    </h1>
+                    <p className="mt-6 max-w-2xl mx-auto text-lg text-foreground/80 md:text-xl">
+                        Your journey to a rewarding career in tech starts here. Learn the skills to build modern web applications from the ground up in our intensive 6-month program.
+                    </p>
+                    <div className="mt-8">
+                        <Button size="lg" asChild className="shadow-lg">
+                            <Link href="/contact?subject=Academy+Application">
+                                Start Your Application <ArrowRight className="ml-2 h-5 w-5" />
+                            </Link>
+                        </Button>
+                    </div>
+                </motion.div>
+            </div>
+        </section>
+    )
+}
+
+
 export default function AcademyPage() {
-  const pageHeaderImage = PlaceHolderImages.find((p) => p.id === 'academy-hero');
   const academyTestimonials = testimonials.filter(t => t.role.includes('Student') || t.id === 'test-2');
 
   return (
     <div>
-      <PageHeader
-        title="Daki Academy"
-        description="Your journey to becoming a Full-Stack Developer starts here. Learn the skills to build modern web applications from the ground up in just 6 months."
-        image={pageHeaderImage}
-      />
+      <AcademyHero />
       <main>
         {/* Why Daki Academy Section */}
         <section className="py-12 md:py-24 lg:py-32 bg-background">
