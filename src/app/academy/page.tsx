@@ -252,15 +252,7 @@ export default function AcademyPage() {
     <div>
       <AcademyHero />
       <main>
-        {/* Why Daki Academy Section */}
-        <section className="py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-6">Why Choose Daki Academy?</h2>
-            <WhyChooseUsMarquee />
-          </div>
-        </section>
-
-
+        
         {/* Course Details Section */}
         <section className="py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
@@ -294,6 +286,15 @@ export default function AcademyPage() {
             </div>
           </div>
         </section>
+
+        {/* Why Daki Academy Section */}
+        <section className="py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-6">Why Choose Daki Academy?</h2>
+            <WhyChooseUsMarquee />
+          </div>
+        </section>
+
 
         {/* Modules Section */}
         <section className="py-12 md:py-24 lg:py-32">
