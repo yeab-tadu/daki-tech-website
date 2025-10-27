@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -104,7 +104,7 @@ const upcomingBatches = [
 const academySkills = [
   { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
   { name: 'JavaScript', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
-  { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
+  { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,27.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
   { name: 'Express.js', icon: <Wind className="h-10 w-10" /> },
   { name: 'React.js', icon: <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg> },
   { name: 'Next.js', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">N</text></svg> },
@@ -298,15 +298,6 @@ const careerPaths = [
     { name: 'Software Engineer', icon: <CodeXml className="h-8 w-8" /> },
 ];
 
-const hiringPartners = [
-    { name: 'Innovate Inc.', logo: <Sparkles /> },
-    { name: 'Creative Co.', logo: <Sparkles /> },
-    { name: 'GrowthWell', logo: <Sparkles /> },
-    { name: 'Tech Solutions', logo: <Sparkles /> },
-    { name: 'Web Weavers', logo: <Sparkles /> },
-    { name: 'Data Driven Co.', logo: <Sparkles /> },
-];
-
 const careerServices = [
     { name: 'Portfolio Review', icon: <BriefcaseBusiness /> },
     { name: 'Resume Building', icon: <FileText /> },
@@ -316,8 +307,36 @@ const careerServices = [
 
 
 const CareerPathSection = () => {
+    const MarqueeRow = ({ items, duration, direction = 1 }: { items: {name: string, icon: React.ReactNode}[], duration: number, direction?: 1 | -1 }) => {
+        if (!items || items.length === 0) return null;
+
+        const xAnimation = direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"];
+        
+        return (
+        <motion.div
+            className="flex gap-8 py-4"
+            animate={{ x: xAnimation }}
+            transition={{
+            ease: 'linear',
+            duration: duration,
+            repeat: Infinity,
+            }}
+            whileHover={{ animationPlayState: 'paused' }}
+        >
+            {[...items, ...items].map((item, index) => (
+            <div key={`${item.name}-${index}`} className="flex-shrink-0 w-64">
+                <div className="flex h-full items-center justify-center gap-4 p-6 bg-background rounded-lg shadow-lg hover:shadow-primary/20 hover:-translate-y-1 transition-all duration-300">
+                    <div className="text-accent">{React.cloneElement(item.icon as React.ReactElement, { className: "h-10 w-10"})}</div>
+                    <span className="font-headline text-lg font-semibold">{item.name}</span>
+                </div>
+            </div>
+            ))}
+        </motion.div>
+        );
+    };
+
     return (
-        <section id="career-path" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section id="career-path" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5 overflow-hidden">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="max-w-3xl mx-auto text-center mb-12">
                     <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">
@@ -327,30 +346,15 @@ const CareerPathSection = () => {
                         Our program is designed to launch you into a successful tech career. We provide the skills, portfolio, and support to get you hired.
                     </p>
                 </div>
-
-                <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-                    <div>
-                        <h3 className="font-headline text-2xl font-bold mb-4">Potential Roles</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                            {careerPaths.map(path => (
-                                <div key={path.name} className="flex items-center gap-3 p-3 bg-background rounded-lg shadow-sm">
-                                    <div className="text-accent">{path.icon}</div>
-                                    <span className="font-semibold">{path.name}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                     <div>
-                        <h3 className="font-headline text-2xl font-bold mb-4">Dedicated Career Support</h3>
-                         <div className="grid grid-cols-2 gap-4">
-                            {careerServices.map(service => (
-                                <div key={service.name} className="flex items-center gap-3 p-3 bg-background rounded-lg shadow-sm">
-                                    <div className="text-accent">{service.icon}</div>
-                                    <span className="font-semibold">{service.name}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+            </div>
+            <div className="w-full space-y-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+                <div>
+                    <h3 className="font-headline text-2xl font-bold mb-4 text-center">Potential Roles</h3>
+                    <MarqueeRow items={careerPaths} duration={30} />
+                </div>
+                <div>
+                    <h3 className="font-headline text-2xl font-bold mb-4 text-center">Dedicated Career Support</h3>
+                    <MarqueeRow items={careerServices} duration={40} direction={-1} />
                 </div>
             </div>
         </section>
@@ -500,3 +504,5 @@ export default function AcademyPage() {
     </div>
   );
 }
+
+    
