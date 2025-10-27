@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -45,12 +46,41 @@ const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
 
 const ServicesHeroAnimation = () => {
     const time = useTime();
-    const rotate = useTransform(time, [0, 20000], [0, 360], { clamp: false });
-    const counterRotate = useTransform(time, [0, 20000], [0, -360], { clamp: false });
+    const rotate = useTransform(time, [0, 25000], [0, 360], { clamp: false });
+    const counterRotate = useTransform(time, [0, 25000], [0, -360], { clamp: false });
 
-    const octagonServices = services.slice(0, 8);
-    const radius = 180;
+    const triangleServices = services.slice(0, 9);
+    const numServices = triangleServices.length;
+    const sideLength = 3; // Icons per side
+    const numSides = 3;
+    
+    const radius = 160;
     const center = 180; // center of a 360x360 container
+
+    // Calculate vertices of the equilateral triangle
+    const vertices = Array.from({ length: numSides }, (_, i) => {
+        const angle = (i / numSides) * 2 * Math.PI - Math.PI / 2; // Start from top
+        return {
+            x: center + radius * Math.cos(angle),
+            y: center + radius * Math.sin(angle)
+        };
+    });
+
+    const getPosition = (index: number) => {
+        const sideIndex = Math.floor(index / sideLength);
+        const indexOnSide = index % sideLength;
+
+        const startVertex = vertices[sideIndex];
+        const endVertex = vertices[(sideIndex + 1) % numSides];
+
+        // Interpolate position along the side
+        // We use indexOnSide + 1 and sideLength + 1 to create space from vertices
+        const t = (indexOnSide + 1) / (sideLength + 1);
+        const x = startVertex.x + t * (endVertex.x - startVertex.x);
+        const y = startVertex.y + t * (endVertex.y - startVertex.y);
+
+        return { x, y };
+    }
 
     return (
         <div className="relative w-[360px] h-[360px] flex items-center justify-center">
@@ -58,10 +88,8 @@ const ServicesHeroAnimation = () => {
                 className="absolute w-full h-full"
                 style={{ rotate }}
             >
-                {octagonServices.map((service, index) => {
-                    const angle = (index / octagonServices.length) * 2 * Math.PI - Math.PI / 8;
-                    const x = center + radius * Math.cos(angle);
-                    const y = center + radius * Math.sin(angle);
+                {triangleServices.map((service, index) => {
+                    const {x, y} = getPosition(index);
                     
                     return (
                         <motion.div
