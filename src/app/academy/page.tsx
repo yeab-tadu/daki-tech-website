@@ -45,7 +45,7 @@ const courseModules = [
   }
 ];
 
-const whyChooseUs = [
+const initialWhyChooseUs = [
   {
     icon: <Briefcase className="h-10 w-10 text-primary" />,
     title: 'Project-Based Learning',
@@ -67,6 +67,9 @@ const whyChooseUs = [
     description: 'Join a supportive network of peers, mentors, and alumni who will help you throughout your journey.'
   }
 ];
+
+type WhyChooseUsItem = typeof initialWhyChooseUs[0];
+
 
 const whoIsThisFor = [
     {
@@ -192,6 +195,55 @@ const AcademyHero = () => {
     )
 }
 
+const WhyChooseUsMarquee = () => {
+  const [shuffledItems1, setShuffledItems1] = useState<WhyChooseUsItem[]>([]);
+  const [shuffledItems2, setShuffledItems2] = useState<WhyChooseUsItem[]>([]);
+
+  useEffect(() => {
+    const shuffle = (array: WhyChooseUsItem[]) => [...array].sort(() => Math.random() - 0.5);
+    setShuffledItems1(shuffle(initialWhyChooseUs));
+    setShuffledItems2(shuffle(initialWhyChooseUs));
+  }, []);
+
+  const MarqueeRow = ({ items, duration, direction = 1 }: { items: WhyChooseUsItem[], duration: number, direction?: 1 | -1 }) => {
+    if (!items || items.length === 0) return null;
+
+    const xAnimation = direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"];
+    
+    return (
+      <motion.div
+        className="flex gap-8 py-4"
+        animate={{ x: xAnimation }}
+        transition={{
+          ease: 'linear',
+          duration: duration,
+          repeat: Infinity,
+        }}
+        whileHover={{ animationPlayState: 'paused' }}
+      >
+        {[...items, ...items].map((item, index) => (
+          <div key={`${item.title}-${index}`} className="flex-shrink-0 w-[300px]">
+            <Card className="text-center p-6 border-0 shadow-lg hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300 h-full">
+              <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
+                {item.icon}
+              </div>
+              <h3 className="font-headline text-xl font-bold">{item.title}</h3>
+              <p className="mt-2 text-foreground/80 text-sm">{item.description}</p>
+            </Card>
+          </div>
+        ))}
+      </motion.div>
+    );
+  };
+
+  return (
+    <div className="w-full overflow-hidden relative space-y-4 py-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+      <MarqueeRow items={shuffledItems1} duration={40} />
+      <MarqueeRow items={shuffledItems2} duration={50} direction={-1} />
+    </div>
+  );
+};
+
 
 export default function AcademyPage() {
   const academyTestimonials = testimonials.filter(t => t.role.includes('Student') || t.id === 'test-2');
@@ -201,28 +253,10 @@ export default function AcademyPage() {
       <AcademyHero />
       <main>
         {/* Why Daki Academy Section */}
-        <section className="py-12 md:py-24 lg:py-32 bg-background">
+        <section className="py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">Why Choose Daki Academy?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {whyChooseUs.map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Card className="text-center p-6 border-0 shadow-lg hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300 h-full">
-                    <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
-                      {item.icon}
-                    </div>
-                    <h3 className="font-headline text-xl font-bold">{item.title}</h3>
-                    <p className="mt-2 text-foreground/80 text-sm">{item.description}</p>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
+            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-6">Why Choose Daki Academy?</h2>
+            <WhyChooseUsMarquee />
           </div>
         </section>
 
