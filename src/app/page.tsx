@@ -203,6 +203,7 @@ const SkillMarquee = () => {
     const [shuffledSkills3, setShuffledSkills3] = useState<(typeof academySkills)>([]);
 
     useEffect(() => {
+        // This logic now runs only on the client, after initial render, preventing hydration mismatch.
         const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
         setShuffledSkills1(shuffle(academySkills));
         setShuffledSkills2(shuffle(academySkills));
@@ -210,7 +211,7 @@ const SkillMarquee = () => {
     }, []);
 
     const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => {
-        if (!skills || skills.length === 0) return null;
+        if (!skills || skills.length === 0) return null; // Don't render if skills aren't shuffled yet
         return (
         <motion.div
             className="flex gap-8"
@@ -245,16 +246,12 @@ const SkillMarquee = () => {
 const ServicesMarquee = () => {
   const [shuffledServices1, setShuffledServices1] = useState<Service[]>([]);
   const [shuffledServices2, setShuffledServices2] = useState<Service[]>([]);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     const shuffle = (array: Service[]) => [...array].sort(() => Math.random() - 0.5);
     setShuffledServices1(shuffle(services));
     setShuffledServices2(shuffle(services));
   }, []);
-  
-  const duration1 = isMobile ? 30 : 60;
-  const duration2 = isMobile ? 35 : 70;
 
   const MarqueeRow = ({ services, duration, direction = 1 }: { services: Service[], duration: number, direction?: 1 | -1 }) => {
     if (services.length === 0) return null;
@@ -313,33 +310,32 @@ const ServicesMarquee = () => {
 
   return (
     <div className="mt-12 w-full overflow-hidden group">
-      <MarqueeRow services={shuffledServices1} duration={duration1} direction={-1} />
-      <MarqueeRow services={shuffledServices2} duration={duration2} direction={1} />
+      <MarqueeRow services={shuffledServices1} duration={60} direction={-1} />
+      <MarqueeRow services={shuffledServices2} duration={70} direction={1} />
     </div>
   )
 }
 
 const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: WhyChooseUsItem[]; direction?: 1 | -1, duration?: number }) => {
     const [shuffledItems, setShuffledItems] = useState<WhyChooseUsItem[]>([]);
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         const shuffle = (array: WhyChooseUsItem[]) => [...array].sort(() => Math.random() - 0.5);
         setShuffledItems(shuffle(items));
     }, [items]);
     
-    const isMobile = useIsMobile();
-
     if (shuffledItems.length === 0) {
       return null;
     }
 
     if (isMobile) {
         return (
-            <div className="w-full">
+             <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-8">
                 {items.map((reason, index) => (
                     <div
                         key={`${reason.title}-${index}`}
-                        className="flex flex-col items-center text-center p-6 space-y-4 my-4"
+                        className="flex flex-col items-center text-center p-6 space-y-4"
                     >
                         <div className="p-4 bg-primary/10 rounded-full shadow-md">
                             {reason.icon}
@@ -348,7 +344,7 @@ const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: Wh
                         <p className="text-foreground/80">{reason.description}</p>
                     </div>
                 ))}
-            </div>
+             </div>
         );
     }
 
@@ -615,19 +611,8 @@ export default function Home() {
                     </Button>
                 </div>
                 <div className="grid md:grid-cols-3 gap-8">
-                     <div className="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-8">
-                        {whyChooseUs.map((reason, index) => (
-                            <div
-                                key={`${reason.title}-${index}`}
-                                className="flex flex-col items-center text-center p-6 space-y-4"
-                            >
-                                <div className="p-4 bg-primary/10 rounded-full shadow-md">
-                                    {reason.icon}
-                                </div>
-                                <h3 className="font-headline text-xl font-bold">{reason.title}</h3>
-                                <p className="text-foreground/80">{reason.description}</p>
-                            </div>
-                        ))}
+                     <div className="md:hidden">
+                        <WhyChooseUsMarquee items={whyChooseUs} />
                      </div>
                      <div className="hidden md:flex justify-center">
                         <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
