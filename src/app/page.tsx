@@ -342,7 +342,7 @@ const ServicesMarquee = () => {
   if (isMobile) {
     return (
       <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8">
-        {services.map((service) => (
+        {services.slice(0, 6).map((service) => (
            <div key={service.id} className="w-full">
             <Card className="h-full">
               <CardHeader className="flex flex-row items-center gap-4">
@@ -642,7 +642,7 @@ export default function Home() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center text-center mb-12">
                     <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Why Choose DakiTechs?</h2>
-                    <p className="max-w-[600px] text-foreground/80 md:text-xl/relaxed mt-4">
+                    <p className="max-w-[600px] text-foreground/80 md:text-xl/relaxed mt-4 mx-auto">
                         We are committed to delivering excellence and building long-term partnerships with our clients through innovation, reliability, and dedicated support.
                     </p>
                     <Button size="lg" asChild className="mt-6">
@@ -650,8 +650,8 @@ export default function Home() {
                     </Button>
                 </div>
                 <div className={cn(
-                    "relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]",
-                    isMobile && "grid-cols-1"
+                    "relative grid grid-cols-1 md:grid-cols-3 gap-8",
+                    isMobile ? "h-96" : "h-[450px]"
                 )}>
                      <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
                      <div className={cn("hidden", isMobile ? "hidden" : "md:block")}>
@@ -778,3 +778,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
