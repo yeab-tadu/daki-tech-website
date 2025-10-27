@@ -7,43 +7,51 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import Testimonials from '@/components/Testimonials';
 import { testimonials } from '@/lib/data';
-import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router } from 'lucide-react';
+import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, User, BrainCircuit, Projector } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const courseModules = [
-  {
-    title: 'Module 1: Web Foundations',
-    content: 'Master the building blocks of the web. You will learn to structure web pages with HTML and style them with modern CSS techniques like Flexbox and Grid.'
-  },
-  {
-    title: 'Module 2: JavaScript Fundamentals',
-    content: 'Dive deep into the most popular programming language. We cover everything from variables and data types to asynchronous programming and the DOM.'
-  },
-  {
-    title: 'Module 3: Advanced CSS & Responsive Design',
-    content: 'Learn how to create complex, responsive layouts that look great on any device using advanced CSS and frameworks like Bootstrap and Tailwind CSS.'
-  },
-  {
-    title: 'Module 4: Backend with Node.js & Express',
-    content: 'Build powerful server-side applications. You will learn to create REST APIs, handle requests, and connect to databases using Node.js and Express.'
-  },
-  {
-    title: 'Module 5: Modern Frontend with React & Next.js',
-    content: 'Build interactive and high-performance user interfaces using the industry-standard React library and the powerful Next.js framework.'
-  },
-  {
-    title: 'Module 6: Databases & Data Modeling',
-    content: 'Understand how to design and interact with databases. We cover both SQL (MySQL) and NoSQL (MongoDB) to give you a comprehensive skillset.'
-  },
-  {
-    title: 'Module 7: Version Control & Collaboration',
-    content: 'Learn essential developer tools like Git and GitHub. Master the workflow for collaborating on codebases with other developers.'
-  },
-  {
-    title: 'Module 8: Deployment & DevOps',
-    content: 'Take your applications live! Learn how to deploy your projects to cloud platforms like Vercel and Heroku, and understand the basics of CI/CD pipelines.'
-  }
+const coursePhases = [
+    {
+        phase: 1,
+        title: "HTML, CSS & Bootstrap",
+        description: "Master the fundamental building blocks of the web. You'll learn to structure web pages with HTML and style them with modern CSS and Bootstrap.",
+        teacher: "Admin User",
+        icons: [
+            <svg key="html" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 42L9.2 6H38.8L35.6 42L24 48L6 42Z" fill="#E34F26"/><path d="M24 9V44.5L35.6 41.5L38.4 9H24Z" fill="#F16529"/><path d="M24 22V15.5H32.4L32 22H24Z" fill="#EBEBEB"/><path d="M24 33.5V27H31.6L31.1 33.5L24 35.5V33.5Z" fill="#EBEBEB"/><path d/></svg>,
+            <svg key="css" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.2 6L6 42L24 48L42 42L38.8 6H9.2Z" fill="#1572B6"/><path d="M24 9V44.5L35.6 41.5L38.4 9H24Z" fill="#33A9DC"/><path d="M24 15.5H32L31.6 22H24V15.5Z" fill="white"/><path d="M24 27H31.2L30.7 33.5L24 35.5V27Z" fill="white"/><path d="M16.4 15.5H24V22H15.6L16.4 15.5Z" fill="#EBEBEB"/><path d="M16.8 27H24V33.5L17.2 31.5L16.8 27Z" fill="#EBEBEB"/></svg>,
+            <svg key="bootstrap" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="8" fill="#7952B3"/><path d="M34 16.5V31.5C34 33 33 34 31.5 34H16.5C15 34 14 33 14 31.5V16.5C14 15 15 14 16.5 14H31.5C33 14 34 15 34 16.5ZM22.5 19.5C22.5 18.5 23.5 18 24.5 18H28.5C29.5 18 30.5 18.5 30.5 19.5V21C30.5 22 29.5 22.5 28.5 22.5H24.5C23.5 22.5 22.5 22 22.5 21V19.5ZM22.5 25.5C22.5 24.5 23.5 24 24.5 24H28.5C29.5 24 30.5 24.5 30.5 25.5V27C30.5 28 29.5 28.5 28.5 28.5H24.5C23.5 28.5 22.5 28 22.5 27V25.5Z" fill="white"/></svg>
+        ]
+    },
+    {
+        phase: 2,
+        title: "Programming with JavaScript and DOM Manipulation",
+        description: "Dive deep into the web's most popular language. Master variables, functions, async programming, and how to dynamically interact with web pages.",
+        teacher: "Admin User",
+        icons: [
+            <svg key="js" width="64" height="64" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" fill="#F7DF1E"/><path d="M22.5 34.5H28.5V30H22.5V34.5ZM22.5 25.5H28.5V21H22.5V25.5ZM33 34.5C33.8 34.5 34.5 33.8 34.5 33V22.5C34.5 21.7 33.8 21 33 21H30L33 18H28.5V13.5H22.5V21H25.5L22.5 24H18C17.2 24 16.5 24.7 16.5 25.5V30C16.5 30.8 17.2 31.5 18 31.5H22.5V34.5H18C17.2 34.5 16.5 35.2 16.5 36V37.5H34.5V36C34.5 35.2 33.8 34.5 33 34.5Z" fill="#000000"/></svg>
+        ]
+    },
+    {
+        phase: 3,
+        title: "React(Vite), Node, MySQL, Express",
+        description: "Build powerful full-stack applications. You'll learn to create interactive frontends with React and robust backends with Node.js, Express, and MySQL.",
+        teacher: "Admin User",
+        icons: [
+            <svg key="react" width="48" height="48" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="#61DAFB" /><g stroke="#61DAFB" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg>,
+            <svg key="node" width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="#68A063" strokeWidth="5" fill="#8CC84B" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="#3C873A">JS</text></svg>,
+            <Database key="mysql" className="w-12 h-12 text-[#00758F]" />,
+            <Wind key="express" className="w-12 h-12 text-foreground" />
+        ]
+    },
+    {
+        phase: 4,
+        title: "Fullstack Projects",
+        description: "Apply everything you've learned by building complete, portfolio-ready projects from scratch, simulating a real-world development environment.",
+        teacher: "Admin User",
+        icons: [ <Projector key="projects" className="w-16 h-16 text-primary" /> ]
+    }
 ];
+
 
 const initialWhyChooseUs = [
   {
@@ -148,7 +156,7 @@ const AcademyHero = () => {
     return (
         <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-            <div className="absolute inset-0 z-10 top-0">
+            <div className="absolute inset-0 z-10 top-[-20%]">
                 {isMounted && [...academySkills, ...academySkills, ...academySkills].map((skill, index) => {
                     const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
                     const leftPosition = `${(index * (100 / academySkills.length) + (Math.random() - 0.5) * 5) % 95}%`;
@@ -244,6 +252,53 @@ const WhyChooseUsMarquee = () => {
   );
 };
 
+const CoursePhases = () => {
+    return (
+        <section className="py-12 md:py-24 lg:py-32 bg-background">
+            <div className="container mx-auto px-4 md:px-6">
+                 <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">What You'll Learn</h2>
+                 <div className="max-w-4xl mx-auto space-y-8">
+                     {coursePhases.map((phase, index) => (
+                        <motion.div 
+                            key={phase.phase}
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ duration: 0.6, delay: index * 0.1 }}
+                        >
+                            <Card className="overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300">
+                                <CardContent className="p-6 grid md:grid-cols-3 gap-6 items-center">
+                                    <div className="md:col-span-2">
+                                        <Badge variant="outline">Phase {phase.phase}</Badge>
+                                        <h3 className="font-headline text-2xl font-bold mt-2">{phase.title}</h3>
+                                        <p className="text-foreground/80 mt-2">{phase.description}</p>
+                                        <div className="flex items-center gap-2 mt-4 text-sm text-foreground/70">
+                                            <User className="h-4 w-4 text-accent" />
+                                            <span>Teacher: {phase.teacher}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-center md:justify-end items-center gap-4">
+                                        {phase.icons.map((icon, i) => (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ scale: 0, opacity: 0 }}
+                                                whileInView={{ scale: 1, opacity: 1 }}
+                                                viewport={{ once: true, amount: 0.8 }}
+                                                transition={{ duration: 0.5, delay: (index * 0.1) + (i * 0.1) + 0.3 }}
+                                            >
+                                                {icon}
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                     ))}
+                 </div>
+            </div>
+        </section>
+    )
+}
 
 export default function AcademyPage() {
   const academyTestimonials = testimonials.filter(t => t.role.includes('Student') || t.id === 'test-2');
@@ -286,7 +341,7 @@ export default function AcademyPage() {
             </div>
           </div>
         </section>
-
+        
         {/* Why Daki Academy Section */}
         <section className="py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
@@ -295,27 +350,8 @@ export default function AcademyPage() {
           </div>
         </section>
 
-
         {/* Modules Section */}
-        <section className="py-12 md:py-24 lg:py-32">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">What You'll Learn</h2>
-            <div className="max-w-4xl mx-auto">
-              <Accordion type="single" collapsible className="w-full">
-                {courseModules.map((module, index) => (
-                    <AccordionItem key={index} value={`item-${index}`}>
-                      <AccordionTrigger className="font-headline text-xl text-left hover:no-underline">
-                        {module.title}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-foreground/80 text-base">
-                        {module.content}
-                      </AccordionContent>
-                    </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
-          </div>
-        </section>
+        <CoursePhases />
 
         {/* Who Is This Course For? Section */}
         <section className="py-12 md:py-24 lg:py-32 bg-primary/5">
