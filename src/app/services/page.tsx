@@ -6,18 +6,29 @@ import { motion, useTime, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { services } from '@/lib/data';
-import { Code, MonitorSmartphone, Cloud, Layers, Briefcase, PenTool, UserCheck, BarChart, LifeBuoy, ArrowRight } from 'lucide-react';
+import {
+    Code,
+    Cloud,
+    PenTool,
+    UserCheck,
+    LifeBuoy,
+    ArrowRight,
+    Smartphone,
+    Settings2,
+    Contact,
+    Paintbrush,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const serviceIcons: { [key: string]: React.ReactNode } = {
   'web-development': <Code className="h-full w-full" />,
-  'mobile-app-development': <MonitorSmartphone className="h-full w-full" />,
+  'mobile-app-development': <Smartphone className="h-full w-full" />,
   'cloud-solutions': <Cloud className="h-full w-full" />,
-  'custom-systems': <Layers className="h-full w-full" />,
-  'digital-business-card': <Briefcase className="h-full w-full" />,
+  'custom-systems': <Settings2 className="h-full w-full" />,
+  'digital-business-card': <Contact className="h-full w-full" />,
   'graphics-design': <PenTool className="h-full w-full" />,
   'training-workshops': <UserCheck className="h-full w-full" />,
-  'ux-ui-design': <BarChart className="h-full w-full" />,
+  'ux-ui-design': <Paintbrush className="h-full w-full" />,
   'it-support': <LifeBuoy className="h-full w-full" />,
 };
 
@@ -47,7 +58,7 @@ const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
 const ServicesHeroAnimation = () => {
     const servicesToDisplay = services.slice(0, 8);
     const time = useTime();
-    const rotate = useTransform(time, [0, 20000], [0, 360], { clamp: false });
+    const rotate = useTransform(time, [0, 40000], [0, 360], { clamp: false });
     const radius = 200;
     const center = 250;
 
@@ -56,7 +67,7 @@ const ServicesHeroAnimation = () => {
             <motion.div className="absolute w-full h-full" style={{ rotate }}>
                 {servicesToDisplay.map((service, index) => {
                     const angle = (index / servicesToDisplay.length) * 2 * Math.PI;
-                    const x = center + radius * Math.cos(angle) - 64; // 64 is half of icon container width 128px
+                    const x = center + radius * Math.cos(angle) - 64; 
                     const y = center + radius * Math.sin(angle) - 64;
 
                     return (

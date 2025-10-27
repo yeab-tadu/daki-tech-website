@@ -27,6 +27,10 @@ import {
   HeartHandshake,
   Users,
   MessagesSquare,
+  Smartphone,
+  Settings2,
+  Contact,
+  Paintbrush,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -58,13 +62,13 @@ const processSteps = [
 
 const serviceIcons: { [key: string]: React.ReactNode } = {
   'web-development': <Code className="h-10 w-10" />,
-  'mobile-app-development': <MonitorSmartphone className="h-10 w-10" />,
+  'mobile-app-development': <Smartphone className="h-10 w-10" />,
   'cloud-solutions': <Cloud className="h-10 w-10" />,
-  'custom-systems': <Layers className="h-10 w-10" />,
-  'digital-business-card': <Briefcase className="h-10 w-10" />,
+  'custom-systems': <Settings2 className="h-10 w-10" />,
+  'digital-business-card': <Contact className="h-10 w-10" />,
   'graphics-design': <PenTool className="h-10 w-10" />,
   'training-workshops': <UserCheck className="h-10 w-10" />,
-  'ux-ui-design': <BarChart className="h-10 w-10" />,
+  'ux-ui-design': <Paintbrush className="h-10 w-10" />,
   'it-support': <LifeBuoy className="h-10 w-10" />,
 };
 
