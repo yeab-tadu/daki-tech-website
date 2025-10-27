@@ -52,10 +52,8 @@ const ServicesHeroAnimation = () => {
     return (
         <div className="relative w-full h-80 flex items-center justify-center overflow-hidden">
             {services.map((service, index) => {
-                const angle = (index / services.length) * 2 * Math.PI;
-                const radius = Math.random() * 150 + 100;
-                const x = 50 + (radius / 4) * Math.cos(angle);
-                const y = 50 + (radius / 10) * Math.sin(angle);
+                const x = Math.random() * 80 + 10; // Random x between 10% and 90%
+                const y = Math.random() * 80 + 10; // Random y between 10% and 90%
                 const duration = Math.random() * 10 + 10;
                 const delay = Math.random() * 5;
 
@@ -63,9 +61,9 @@ const ServicesHeroAnimation = () => {
                     <motion.div
                         key={service.id}
                         className="absolute"
-                        initial={{ x: '50%', y: '50%', scale: 0 }}
-                        animate={{ x: `${x}%`, y: `${y}%`, scale: 1 }}
-                        transition={{ duration: 1, delay: index * 0.1 }}
+                        initial={{ x: '50%', y: '50%', scale: 0, opacity: 0 }}
+                        animate={{ x: `${x}%`, y: `${y}%`, scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.8, delay: index * 0.1 }}
                     >
                          <motion.div
                             animate={{
