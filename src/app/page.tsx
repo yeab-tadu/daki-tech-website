@@ -636,6 +636,7 @@ export default function Home() {
                 </div>
                 <div className={cn(
                     "relative grid grid-cols-1 md:grid-cols-3 gap-8 h-[450px]",
+                    isMobile && "grid-cols-1"
                 )}>
                      <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
                      <div className="hidden md:block">
