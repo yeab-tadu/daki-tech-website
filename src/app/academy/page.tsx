@@ -9,6 +9,7 @@ import Testimonials from '@/components/Testimonials';
 import { testimonials } from '@/lib/data';
 import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, User, BrainCircuit, Projector } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Badge } from '@/components/ui/badge';
 
 const coursePhases = [
     {
@@ -17,7 +18,7 @@ const coursePhases = [
         description: "Master the fundamental building blocks of the web. You'll learn to structure web pages with HTML and style them with modern CSS and Bootstrap.",
         teacher: "Admin User",
         icons: [
-            <svg key="html" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 42L9.2 6H38.8L35.6 42L24 48L6 42Z" fill="#E34F26"/><path d="M24 9V44.5L35.6 41.5L38.4 9H24Z" fill="#F16529"/><path d="M24 22V15.5H32.4L32 22H24Z" fill="#EBEBEB"/><path d="M24 33.5V27H31.6L31.1 33.5L24 35.5V33.5Z" fill="#EBEBEB"/><path d/></svg>,
+            <svg key="html" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 42L9.2 6H38.8L35.6 42L24 48L6 42Z" fill="#E34F26"/><path d="M24 9V44.5L35.6 41.5L38.4 9H24Z" fill="#F16529"/><path d="M24 22V15.5H32.4L32 22H24Z" fill="#EBEBEB"/><path d="M24 33.5V27H31.6L31.1 33.5L24 35.5V33.5Z" fill="#EBEBEB"/><path d="M16.4 15.5H24V22H15.6L16.4 15.5Z" fill="#EBEBEB"/><path d="M17.2 31.5L16.8 27H24V33.5L17.2 31.5Z" fill="#EBEBEB"/></svg>,
             <svg key="css" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.2 6L6 42L24 48L42 42L38.8 6H9.2Z" fill="#1572B6"/><path d="M24 9V44.5L35.6 41.5L38.4 9H24Z" fill="#33A9DC"/><path d="M24 15.5H32L31.6 22H24V15.5Z" fill="white"/><path d="M24 27H31.2L30.7 33.5L24 35.5V27Z" fill="white"/><path d="M16.4 15.5H24V22H15.6L16.4 15.5Z" fill="#EBEBEB"/><path d="M16.8 27H24V33.5L17.2 31.5L16.8 27Z" fill="#EBEBEB"/></svg>,
             <svg key="bootstrap" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="8" fill="#7952B3"/><path d="M34 16.5V31.5C34 33 33 34 31.5 34H16.5C15 34 14 33 14 31.5V16.5C14 15 15 14 16.5 14H31.5C33 14 34 15 34 16.5ZM22.5 19.5C22.5 18.5 23.5 18 24.5 18H28.5C29.5 18 30.5 18.5 30.5 19.5V21C30.5 22 29.5 22.5 28.5 22.5H24.5C23.5 22.5 22.5 22 22.5 21V19.5ZM22.5 25.5C22.5 24.5 23.5 24 24.5 24H28.5C29.5 24 30.5 24.5 30.5 25.5V27C30.5 28 29.5 28.5 28.5 28.5H24.5C23.5 28.5 22.5 28 22.5 27V25.5Z" fill="white"/></svg>
         ]
