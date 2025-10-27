@@ -45,7 +45,6 @@ import { motion, useTime, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import type { Service } from '@/lib/types';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 
 const processSteps = [
@@ -225,7 +224,7 @@ const SkillMarquee = () => {
     const skills2 = [...academySkills].sort(() => Math.random() - 0.5);
 
     return (
-        <div className="w-full overflow-hidden relative space-y-4 py-8 h-auto md:h-[250px] flex flex-col justify-center [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <div className="w-full overflow-hidden relative space-y-4 py-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
             <MarqueeRow skills={skills1} duration={60} />
             <MarqueeRow skills={skills2} duration={45} direction={-1} />
         </div>
@@ -235,18 +234,15 @@ const SkillMarquee = () => {
 const ServicesMarquee = () => {
   const [shuffledServices1, setShuffledServices1] = useState<Service[]>([]);
   const [shuffledServices2, setShuffledServices2] = useState<Service[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
-    setIsMounted(true);
     const shuffle = (array: Service[]) => [...array].sort(() => Math.random() - 0.5);
     setShuffledServices1(shuffle(services));
     setShuffledServices2(shuffle(services));
   }, []);
 
   const MarqueeRow = ({ services, duration, direction = 1 }: { services: Service[], duration: number, direction?: 1 | -1 }) => {
-    if (!isMounted || services.length === 0) return null;
+    if (services.length === 0) return null;
 
     const xAnimation = direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"];
 
@@ -299,12 +295,10 @@ const ServicesMarquee = () => {
       </motion.div>
     );
   };
-  
-  if (!isMounted) return null;
 
-  if (isMobile) {
-    return (
-      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-8">
+  return (
+    <div className="mt-12 w-full">
+      <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-8">
         {services.slice(0, 6).map((service) => (
            <div key={service.id} className="w-full">
             <Card className="h-full">
@@ -324,20 +318,16 @@ const ServicesMarquee = () => {
           </div>
         ))}
       </div>
-    );
-  }
-
-  return (
-    <div className="mt-12 w-full overflow-hidden group">
-      <MarqueeRow services={shuffledServices1} duration={60} direction={-1} />
-      <MarqueeRow services={shuffledServices2} duration={70} direction={1} />
+       <div className="hidden md:block overflow-hidden group">
+          <MarqueeRow services={shuffledServices1} duration={60} direction={-1} />
+          <MarqueeRow services={shuffledServices2} duration={70} direction={1} />
+       </div>
     </div>
   )
 }
 
 const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: WhyChooseUsItem[]; direction?: 1 | -1, duration?: number }) => {
     const [shuffledItems, setShuffledItems] = useState<WhyChooseUsItem[]>([]);
-    const isMobile = useIsMobile();
 
     useEffect(() => {
         const shuffle = (array: WhyChooseUsItem[]) => [...array].sort(() => Math.random() - 0.5);
@@ -346,25 +336,6 @@ const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: Wh
 
     if (shuffledItems.length === 0) {
       return null;
-    }
-
-    if (isMobile) {
-        return (
-            <div className="w-full">
-                {items.map((reason, index) => (
-                     <div
-                        key={`${reason.title}-${index}`}
-                        className="flex flex-col items-center text-center p-6 space-y-4 my-4"
-                    >
-                        <div className="p-4 bg-primary/10 rounded-full shadow-md">
-                            {reason.icon}
-                        </div>
-                        <h3 className="font-headline text-xl font-bold">{reason.title}</h3>
-                        <p className="text-foreground/80">{reason.description}</p>
-                    </div>
-                ))}
-            </div>
-        )
     }
 
     const duplicatedItems = [...shuffledItems, ...shuffledItems];
@@ -484,7 +455,6 @@ const AnimatedProcess = () => {
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
-  const isMobile = useIsMobile();
   
   return (
     <div className="flex flex-col min-h-dvh">
@@ -609,12 +579,12 @@ export default function Home() {
                 </p>
               </div>
             </div>
-          </div>
-          <ServicesMarquee />
-          <div className="text-center mt-12">
-            <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
-              <Link href="/services">View All Services <ArrowRight className="ml-2 h-4 w-4" /></Link>
-            </Button>
+            <ServicesMarquee />
+            <div className="text-center mt-12">
+              <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
+                <Link href="/services">View All Services <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              </Button>
+            </div>
           </div>
         </section>
 
@@ -630,15 +600,28 @@ export default function Home() {
                         <Link href="/about">Learn More About Us</Link>
                     </Button>
                 </div>
-                <div className={cn(
-                    "relative flex justify-center",
-                    isMobile ? "flex-col items-center" : "h-[450px] gap-8"
-                )}>
-                     <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
-                     <div className={cn("hidden", isMobile ? "hidden" : "md:block")}>
+                <div className="grid md:grid-cols-3 gap-8">
+                     <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        {whyChooseUs.map((reason, index) => (
+                            <div
+                                key={`${reason.title}-${index}`}
+                                className="flex flex-col items-center text-center p-6 space-y-4 my-4"
+                            >
+                                <div className="p-4 bg-primary/10 rounded-full shadow-md">
+                                    {reason.icon}
+                                </div>
+                                <h3 className="font-headline text-xl font-bold">{reason.title}</h3>
+                                <p className="text-foreground/80">{reason.description}</p>
+                            </div>
+                        ))}
+                     </div>
+                     <div className="hidden md:flex justify-center">
+                        <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
+                     </div>
+                     <div className="hidden md:flex justify-center">
                        <WhyChooseUsMarquee items={whyChooseUs.slice(2).concat(whyChooseUs.slice(0, 2))} duration={50} direction={-1} />
                      </div>
-                      <div className={cn("hidden", isMobile ? "hidden" : "md:block")}>
+                      <div className="hidden md:flex justify-center">
                        <WhyChooseUsMarquee items={whyChooseUs.slice(4).concat(whyChooseUs.slice(0, 4))} duration={45} direction={1} />
                      </div>
                 </div>
@@ -759,3 +742,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
