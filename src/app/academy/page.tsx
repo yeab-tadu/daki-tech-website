@@ -1,24 +1,99 @@
+
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import PageHeader from '@/components/PageHeader';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Testimonials from '@/components/Testimonials';
 import { testimonials } from '@/lib/data';
-import { CheckCircle, Calendar, Clock, DollarSign, Users } from 'lucide-react';
+import { CheckCircle, Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target } from 'lucide-react';
 
 const courseModules = [
-  'HTML & CSS',
-  'JavaScript Fundamentals',
-  'Bootstrap & Responsive Design',
-  'Node.js & Express',
-  'React.js & Next.js',
-  'MySQL & Databases',
-  'Git & Version Control',
-  'jQuery & DOM Manipulation',
-  'REST API Design',
-  'Deployment & DevOps',
+  {
+    title: 'Module 1: Web Foundations',
+    content: 'Master the building blocks of the web. You will learn to structure web pages with HTML and style them with modern CSS techniques like Flexbox and Grid.'
+  },
+  {
+    title: 'Module 2: JavaScript Fundamentals',
+    content: 'Dive deep into the most popular programming language. We cover everything from variables and data types to asynchronous programming and the DOM.'
+  },
+  {
+    title: 'Module 3: Advanced CSS & Responsive Design',
+    content: 'Learn how to create complex, responsive layouts that look great on any device using advanced CSS and frameworks like Bootstrap and Tailwind CSS.'
+  },
+  {
+    title: 'Module 4: Backend with Node.js & Express',
+    content: 'Build powerful server-side applications. You will learn to create REST APIs, handle requests, and connect to databases using Node.js and Express.'
+  },
+  {
+    title: 'Module 5: Modern Frontend with React & Next.js',
+    content: 'Build interactive and high-performance user interfaces using the industry-standard React library and the powerful Next.js framework.'
+  },
+  {
+    title: 'Module 6: Databases & Data Modeling',
+    content: 'Understand how to design and interact with databases. We cover both SQL (MySQL) and NoSQL (MongoDB) to give you a comprehensive skillset.'
+  },
+  {
+    title: 'Module 7: Version Control & Collaboration',
+    content: 'Learn essential developer tools like Git and GitHub. Master the workflow for collaborating on codebases with other developers.'
+  },
+  {
+    title: 'Module 8: Deployment & DevOps',
+    content: 'Take your applications live! Learn how to deploy your projects to cloud platforms like Vercel and Heroku, and understand the basics of CI/CD pipelines.'
+  }
 ];
+
+const whyChooseUs = [
+  {
+    icon: <Briefcase className="h-10 w-10 text-primary" />,
+    title: 'Project-Based Learning',
+    description: 'Build a portfolio of real-world projects, giving you the confidence and experience to impress employers.'
+  },
+  {
+    icon: <Users className="h-10 w-10 text-primary" />,
+    title: 'Expert Instructors',
+    description: 'Learn from industry veterans who bring years of real-world experience and passion to the classroom.'
+  },
+  {
+    icon: <Award className="h-10 w-10 text-primary" />,
+    title: 'Career Support',
+    description: 'From resume workshops to interview prep, we provide dedicated support to help you land your dream job.'
+  },
+  {
+    icon: <MessageSquare className="h-10 w-10 text-primary" />,
+    title: 'Vibrant Community',
+    description: 'Join a supportive network of peers, mentors, and alumni who will help you throughout your journey.'
+  }
+];
+
+const whoIsThisFor = [
+    {
+        icon: <Target className="h-8 w-8 text-accent" />,
+        title: 'Career Changers',
+        description: 'Individuals looking to transition into a rewarding and high-demand career in technology.'
+    },
+    {
+        icon: <Lightbulb className="h-8 w-8 text-accent" />,
+        title: 'Absolute Beginners',
+        description: 'No prior coding experience? No problem. Our curriculum is designed to take you from zero to hero.'
+    },
+    {
+        icon: <ArrowRight className="h-8 w-8 text-accent" />,
+        title: 'Aspiring Entrepreneurs',
+        description: 'Gain the skills to build your own web applications and bring your business ideas to life.'
+    },
+]
+
+const applicationSteps = [
+    { icon: <FileText />, title: "Submit Application", description: "Fill out our simple online form to get started." },
+    { icon: <MessageSquare />, title: "Initial Interview", description: "A short, non-technical chat to get to know you and your goals." },
+    { icon: <Calendar />, title: "Technical Assessment", description: "A practical assessment to gauge your problem-solving abilities." },
+    { icon: <Award />, title: "Final Decision", description: "Successful candidates will receive an enrollment offer." }
+]
+
 
 const upcomingBatches = [
   { id: 1, name: 'Summer 2024 Batch', startDate: 'July 15, 2024', status: 'Open' },
@@ -33,16 +108,35 @@ export default function AcademyPage() {
     <div>
       <PageHeader
         title="Daki Academy"
-        description="Become a Full-Stack Developer in 6 Months. Learn the skills to build modern web applications from the ground up."
+        description="Your journey to becoming a Full-Stack Developer starts here. Learn the skills to build modern web applications from the ground up in just 6 months."
         image={pageHeaderImage}
       />
       <main>
-        {/* Course Details Section */}
-        <section className="py-12 md:py-24 lg:py-32">
+        {/* Why Daki Academy Section */}
+        <section className="py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="grid lg:grid-cols-2 gap-12">
+            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">Why Choose Daki Academy?</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {whyChooseUs.map(item => (
+                <Card key={item.title} className="text-center p-6 border-0 shadow-lg hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300">
+                  <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
+                    {item.icon}
+                  </div>
+                  <h3 className="font-headline text-xl font-bold">{item.title}</h3>
+                  <p className="mt-2 text-foreground/80 text-sm">{item.description}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+
+        {/* Course Details Section */}
+        <section className="py-12 md:py-24 lg:py-32 bg-primary/5">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">Full-Stack Web Development Course</h2>
+                <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">The Full-Stack Web Development Program</h2>
                 <p className="text-foreground/80 text-lg">
                   Our flagship course is an intensive, project-based program designed to equip you with the in-demand skills needed to become a successful full-stack web developer. You'll learn by doing, building a portfolio of real-world projects that showcase your abilities to potential employers.
                 </p>
@@ -50,29 +144,20 @@ export default function AcademyPage() {
                   With expert instructors, a supportive community, and a curriculum that's constantly updated to reflect industry trends, Daki Academy is the perfect place to launch your tech career.
                 </p>
                  <Button size="lg" asChild>
-                    <Link href="/contact?subject=Academy+Application">Apply Now</Link>
+                    <Link href="/contact?subject=Academy+Application">Apply Now <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
               </div>
               <div className="grid gap-6">
                  <Card>
                     <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                        <DollarSign className="h-8 w-8 text-primary" />
-                        <CardTitle className="font-headline">Pricing</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-3xl font-bold">$5,000 USD</p>
-                        <p className="text-sm text-foreground/80">Installment plans available.</p>
-                    </CardContent>
-                 </Card>
-                 <Card>
-                    <CardHeader className="flex flex-row items-center gap-4 pb-2">
                         <Calendar className="h-8 w-8 text-primary" />
-                        <CardTitle className="font-headline">Duration & Schedule</CardTitle>
+                        <CardTitle className="font-headline">Course Structure</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-1">
+                    <CardContent className="space-y-2">
                         <p><strong className="font-semibold">Duration:</strong> 6 Months</p>
-                        <p><strong className="font-semibold">Schedule:</strong> 3 classes per week</p>
-                         <p><strong className="font-semibold">Format:</strong> Live online classes</p>
+                        <p><strong className="font-semibold">Schedule:</strong> 3 live classes per week (online)</p>
+                        <p><strong className="font-semibold">Commitment:</strong> 15-20 hours/week recommended</p>
+                         <p><strong className="font-semibold">Price:</strong> $5,000 USD (Installment plans available)</p>
                     </CardContent>
                  </Card>
               </div>
@@ -81,27 +166,53 @@ export default function AcademyPage() {
         </section>
 
         {/* Modules Section */}
-        <section className="py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section className="py-12 md:py-24 lg:py-32">
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">What You'll Learn</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {courseModules.map((module) => (
-                <div key={module} className="flex items-center gap-3">
-                  <CheckCircle className="h-6 w-6 text-accent" />
-                  <span className="font-medium">{module}</span>
-                </div>
-              ))}
+            <div className="max-w-4xl mx-auto">
+              <Accordion type="single" collapsible className="w-full">
+                {courseModules.map((module, index) => (
+                    <AccordionItem key={index} value={`item-${index}`}>
+                      <AccordionTrigger className="font-headline text-xl text-left hover:no-underline">
+                        {module.title}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-foreground/80 text-base">
+                        {module.content}
+                      </AccordionContent>
+                    </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </div>
+        </section>
+
+        {/* Who Is This Course For? Section */}
+        <section className="py-12 md:py-24 lg:py-32 bg-primary/5">
+            <div className="container mx-auto px-4 md:px-6">
+                 <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">Is This Program For You?</h2>
+                 <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {whoIsThisFor.map(person => (
+                         <div key={person.title} className="flex items-start gap-4">
+                            <div className="bg-background p-3 rounded-full shadow-md mt-1">
+                                {person.icon}
+                            </div>
+                            <div>
+                                <h3 className="font-headline text-xl font-bold">{person.title}</h3>
+                                <p className="text-foreground/80 mt-1">{person.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                 </div>
+            </div>
         </section>
         
         {/* Upcoming Batches Section */}
         <section className="py-12 md:py-24 lg:py-32">
             <div className="container mx-auto px-4 md:px-6">
                 <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">Upcoming Batches</h2>
-                <div className="max-w-2xl mx-auto">
+                <div className="max-w-3xl mx-auto">
                     {upcomingBatches.map(batch => (
-                        <Card key={batch.id} className="mb-4">
+                        <Card key={batch.id} className="mb-4 shadow-sm hover:shadow-md transition-shadow">
                             <CardContent className="p-6 flex flex-col sm:flex-row justify-between items-center">
                                 <div className="mb-4 sm:mb-0">
                                     <h3 className="font-headline text-xl font-bold">{batch.name}</h3>
@@ -119,12 +230,41 @@ export default function AcademyPage() {
             </div>
         </section>
 
+        {/* Application Process Section */}
+         <section className="py-12 md:py-24 lg:py-32 bg-primary/5">
+            <div className="container mx-auto px-4 md:px-6">
+                <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">How to Apply</h2>
+                 <div className="max-w-4xl mx-auto relative">
+                     <div className="absolute left-1/2 top-8 bottom-8 w-0.5 bg-border -translate-x-1/2 hidden md:block"></div>
+                     {applicationSteps.map((step, index) => (
+                        <div key={step.title} className={`flex items-start md:items-center gap-6 md:gap-12 mb-12 md:mb-0 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                            <div className="flex-shrink-0 bg-background p-4 rounded-full shadow-lg z-10">
+                                <div className="bg-primary text-primary-foreground h-12 w-12 rounded-full flex items-center justify-center">
+                                   {React.cloneElement(step.icon, { className: "h-6 w-6" })}
+                                </div>
+                            </div>
+                            <div className={`space-y-1 ${index % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}>
+                                <p className="text-sm text-accent font-semibold">Step {index + 1}</p>
+                                <h3 className="font-headline text-2xl font-bold">{step.title}</h3>
+                                <p className="text-foreground/80">{step.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="text-center mt-12">
+                     <Button size="lg" asChild>
+                        <Link href="/contact?subject=Academy+Application">Start Your Application <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    </Button>
+                </div>
+            </div>
+        </section>
+
         {/* Testimonials */}
         {academyTestimonials.length > 0 && (
-          <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
+          <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-background">
             <div className="container mx-auto px-4 md:px-6">
               <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl">
-                Success Stories
+                Success Stories from Our Graduates
               </h2>
               <div className="mt-12">
                 <Testimonials testimonials={academyTestimonials} />
