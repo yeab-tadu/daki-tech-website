@@ -297,16 +297,20 @@ const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: Wh
         return (
              <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-8">
                 {items.map((reason, index) => (
-                    <div
+                    <motion.div
                         key={`${reason.title}-${index}`}
                         className="flex flex-col items-center text-center p-6 space-y-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.5 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
                         <div className="p-4 bg-primary/10 rounded-full shadow-md">
                             {reason.icon}
                         </div>
                         <h3 className="font-headline text-xl font-bold">{reason.title}</h3>
                         <p className="text-foreground/80">{reason.description}</p>
-                    </div>
+                    </motion.div>
                 ))}
              </div>
         );
@@ -544,7 +548,13 @@ export default function Home() {
         {/* Services Overview */}
         <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-primary/5 overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <motion.div
+              className="flex flex-col items-center justify-center space-y-4 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+            >
               <div className="space-y-2">
                 <Badge>Our Services</Badge>
                 <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">What We Offer</h2>
@@ -552,7 +562,7 @@ export default function Home() {
                   From web development to cloud solutions, we provide a comprehensive suite of services to meet your digital needs.
                 </p>
               </div>
-            </div>
+            </motion.div>
             <ServicesMarquee />
             <div className="text-center mt-12">
               <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
@@ -565,7 +575,13 @@ export default function Home() {
         {/* Why Choose Us */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="flex flex-col items-center text-center mb-12">
+                <motion.div
+                  className="flex flex-col items-center text-center mb-12"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.5 }}
+                >
                     <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Why Choose DakiTechs?</h2>
                     <p className="max-w-[600px] text-foreground/80 md:text-xl/relaxed mt-4 mx-auto">
                         We are committed to delivering excellence and building long-term partnerships with our clients through innovation, reliability, and dedicated support.
@@ -573,7 +589,7 @@ export default function Home() {
                     <Button size="lg" asChild className="mt-6">
                         <Link href="/about">Learn More About Us</Link>
                     </Button>
-                </div>
+                </motion.div>
                 <div className="grid md:grid-cols-3 gap-8">
                      <div className="md:hidden">
                         <WhyChooseUsMarquee items={whyChooseUs} />
@@ -594,7 +610,13 @@ export default function Home() {
         {/* Our Process */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <motion.div
+              className="flex flex-col items-center justify-center space-y-4 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+            >
               <div className="space-y-2">
                 <Badge>Our Process</Badge>
                 <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">A Proven Path to Success</h2>
@@ -602,7 +624,7 @@ export default function Home() {
                   Our streamlined process ensures your project is delivered on time and on budget, with exceptional quality.
                 </p>
               </div>
-            </div>
+            </motion.div>
             <AnimatedProcess />
           </div>
         </section>
@@ -610,14 +632,20 @@ export default function Home() {
         {/* Featured Projects */}
         <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <motion.div
+              className="flex flex-col items-center justify-center space-y-4 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+            >
               <div className="space-y-2">
                 <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">Featured Projects</h2>
                 <p className="max-w-[900px] text-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Take a look at some of our recent work and see how we've helped businesses like yours succeed.
                 </p>
               </div>
-            </div>
+            </motion.div>
             <Carousel
               opts={{ align: 'start', loop: true }}
               className="w-full max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto mt-12"
@@ -670,22 +698,34 @@ export default function Home() {
         {/* CTA Banner */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-primary to-accent text-primary-foreground">
           <div className="container mx-auto grid items-center justify-center gap-4 px-4 text-center md:px-6">
-            <div className="space-y-3">
+            <motion.div
+              className="space-y-3"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+            >
               <h2 className="font-headline text-3xl font-bold tracking-tighter md:text-4xl/tight">
                 Let's Build Something Great Together
               </h2>
               <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Ready to start your next project or advance your career? We're here to help.
               </p>
-            </div>
-            <div className="mx-auto w-full max-w-sm space-y-2 flex flex-col sm:flex-row sm:space-y-0 sm:space-x-2 justify-center">
+            </motion.div>
+            <motion.div
+              className="mx-auto w-full max-w-sm space-y-2 flex flex-col sm:flex-row sm:space-y-0 sm:space-x-2 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
               <Button asChild size="lg" variant="secondary" className="transition-transform hover:scale-105">
                 <Link href="/contact">Contact Us</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 transition-transform hover:scale-105">
                 <Link href="/academy">Explore Academy</Link>
               </Button>
-            </div>
+            </motion.div>
           </div>
         </section>
 
