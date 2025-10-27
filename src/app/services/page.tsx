@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useTime, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { services } from '@/lib/data';
@@ -45,73 +45,47 @@ const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
 )
 
 const ServicesHeroAnimation = () => {
-    const [positions, setPositions] = useState<{ x: number; y: number }[]>([]);
-    const containerSize = 500;
-    const iconSize = 96; // Corresponds to w-24 h-24
-    const minDistance = 140; // Increased distance between icons
-
-    useEffect(() => {
-        const generatePositions = () => {
-            const newPositions: { x: number; y: number }[] = [];
-            const servicesToDisplay = services.slice(0, 9);
-            
-            const isTooClose = (newPos: { x: number; y: number }, existingPositions: { x: number; y: number }[]) => {
-                for (const pos of existingPositions) {
-                    const dx = newPos.x - pos.x;
-                    const dy = newPos.y - pos.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < minDistance) {
-                        return true;
-                    }
-                }
-                return false;
-            };
-
-            for (let i = 0; i < servicesToDisplay.length; i++) {
-                let newPos;
-                let attempts = 0;
-                do {
-                    newPos = {
-                        x: Math.random() * (containerSize - iconSize),
-                        y: Math.random() * (containerSize - iconSize),
-                    };
-                    attempts++;
-                } while (isTooClose(newPos, newPositions) && attempts < 100);
-                newPositions.push(newPos);
-            }
-            setPositions(newPositions);
-        };
-
-        generatePositions();
-    }, []);
-
-    const servicesToDisplay = services.slice(0, 9);
+    const servicesToDisplay = services.slice(0, 8);
+    const time = useTime();
+    const rotate = useTransform(time, [0, 20000], [0, 360], { clamp: false });
+    const radius = 200;
+    const center = 250;
 
     return (
-        <div className="relative flex items-center justify-center" style={{ width: containerSize, height: containerSize }}>
-            {servicesToDisplay.map((service, index) => {
-                const pos = positions[index];
-                if (!pos) return null;
+        <div className="relative flex items-center justify-center" style={{ width: 500, height: 500 }}>
+            <motion.div className="absolute w-full h-full" style={{ rotate }}>
+                {servicesToDisplay.map((service, index) => {
+                    const angle = (index / servicesToDisplay.length) * 2 * Math.PI;
+                    const x = center + radius * Math.cos(angle) - 64; // 64 is half of icon container width 128px
+                    const y = center + radius * Math.sin(angle) - 64;
 
-                return (
-                    <motion.div
-                        key={service.id}
-                        className="absolute p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary w-24 h-24"
-                        style={{
-                            top: pos.y,
-                            left: pos.x,
-                        }}
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1, type: 'spring', stiffness: 100 }}
-                        whileHover={{ scale: 1.1, zIndex: 10 }}
-                    >
-                       <Link href={`#${service.id}`} title={service.title} className="w-full h-full">
-                         {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full" })}
-                       </Link>
-                    </motion.div>
-                );
-            })}
+                    return (
+                        <motion.div
+                            key={service.id}
+                            className="absolute p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary w-32 h-32"
+                            style={{
+                                top: y,
+                                left: x,
+                            }}
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.1, type: 'spring', stiffness: 100 }}
+                            whileHover={{ scale: 1.1, zIndex: 10 }}
+                        >
+                            <motion.div style={{ rotate: useTransform(rotate, val => -val) }}>
+                               <Link href={`#${service.id}`} title={service.title} className="w-full h-full">
+                                 {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full p-4" })}
+                               </Link>
+                            </motion.div>
+                        </motion.div>
+                    );
+                })}
+            </motion.div>
+            <div className="relative z-10 text-center">
+                 <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-primary">
+                    What We Offer
+                </h1>
+            </div>
         </div>
     );
 }
