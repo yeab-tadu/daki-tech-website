@@ -1,10 +1,11 @@
-import Image from 'next/image';
+'use client';
+
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import PageHeader from '@/components/PageHeader';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { services } from '@/lib/data';
-import { Code, MonitorSmartphone, Cloud, Layers, Briefcase, PenTool, UserCheck, BarChart, LifeBuoy } from 'lucide-react';
+import { Code, MonitorSmartphone, Cloud, Layers, Briefcase, PenTool, UserCheck, BarChart, LifeBuoy, ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const serviceIcons: { [key: string]: React.ReactNode } = {
   'web-development': <Code className="h-10 w-10 text-primary" />,
@@ -18,28 +19,114 @@ const serviceIcons: { [key: string]: React.ReactNode } = {
   'it-support': <LifeBuoy className="h-10 w-10 text-primary" />,
 };
 
+const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
+    <motion.div
+      className="bg-background/80 backdrop-blur-sm rounded-full p-6 shadow-lg"
+      animate={{ 
+        y: [0, -10, 0],
+        boxShadow: [
+          '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+          '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        ]
+      }}
+      transition={{ 
+        duration: 3, 
+        repeat: Infinity, 
+        repeatType: 'mirror',
+        ease: 'easeInOut'
+      }}
+    >
+      {children}
+    </motion.div>
+)
+
+const ServicesHeroAnimation = () => {
+    const [isMounted, setIsMounted] = useState(false);
+    useEffect(() => setIsMounted(true), []);
+    
+    if (!isMounted) return null;
+
+    return (
+        <div className="relative w-full h-80 flex items-center justify-center overflow-hidden">
+            {services.map((service, index) => {
+                const angle = (index / services.length) * 2 * Math.PI;
+                const radius = Math.random() * 150 + 100;
+                const x = 50 + (radius / 4) * Math.cos(angle);
+                const y = 50 + (radius / 10) * Math.sin(angle);
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 5;
+
+                return (
+                    <motion.div
+                        key={service.id}
+                        className="absolute"
+                        initial={{ x: '50%', y: '50%', scale: 0 }}
+                        animate={{ x: `${x}%`, y: `${y}%`, scale: 1 }}
+                        transition={{ duration: 1, delay: index * 0.1 }}
+                    >
+                         <motion.div
+                            animate={{
+                                x: [0, Math.random() * 40 - 20, 0],
+                                y: [0, Math.random() * 40 - 20, 0],
+                            }}
+                            transition={{
+                                duration,
+                                repeat: Infinity,
+                                repeatType: 'mirror',
+                                ease: 'easeInOut',
+                                delay
+                            }}
+                         >
+                             <div className="p-4 bg-background/80 backdrop-blur-sm rounded-full shadow-lg">
+                                {serviceIcons[service.id]}
+                             </div>
+                         </motion.div>
+                    </motion.div>
+                )
+            })}
+        </div>
+    )
+}
+
+
 export default function ServicesPage() {
-  const pageHeaderImage = PlaceHolderImages.find((p) => p.id === 'services-hero');
 
   return (
     <div>
-      <PageHeader
-        title="What We Offer"
-        description="A comprehensive suite of digital services designed to elevate your business, from web and mobile development to cloud solutions and IT support."
-        image={pageHeaderImage}
-      />
+      <section className="relative w-full pt-20 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 bg-primary/5 overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6 z-10 relative">
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+                <div className="max-w-3xl text-center lg:text-left space-y-4">
+                    <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-primary">
+                        What We Offer
+                    </h1>
+                    <p className="text-lg text-foreground/80 md:text-xl">
+                        A comprehensive suite of digital services designed to elevate your business, from web and mobile development to cloud solutions and IT support.
+                    </p>
+                     <Button size="lg" asChild>
+                      <Link href="/contact">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    </Button>
+                </div>
+                 <div className="hidden lg:block">
+                   <ServicesHeroAnimation />
+                 </div>
+            </div>
+        </div>
+        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+      </section>
+
       <section className="py-12 md:py-24 lg:py-32">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="space-y-16">
+          <div className="space-y-20">
             {services.map((service, index) => {
-              const serviceImage = PlaceHolderImages.find(p => p.id === service.imageId);
               const isReversed = index % 2 !== 0;
               return (
                 <div key={service.id} id={service.id} className={`grid gap-12 lg:grid-cols-2 lg:gap-16 items-center scroll-mt-20`}>
-                  <div className={`space-y-4 ${isReversed ? 'lg:order-2' : ''}`}>
+                  <div className={`space-y-6 ${isReversed ? 'lg:order-2' : ''}`}>
                     <div className="flex items-center gap-4">
                       <div className="bg-primary/10 p-3 rounded-full">
-                        {serviceIcons[service.id] || <Code className="h-10 w-10 text-primary" />}
+                        {serviceIcons[service.id]}
                       </div>
                       <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">{service.title}</h2>
                     </div>
@@ -47,20 +134,13 @@ export default function ServicesPage() {
                       {service.longDescription}
                     </p>
                     <Button asChild>
-                      <Link href="/contact">Get a Quote</Link>
+                      <Link href={`/contact?subject=Inquiry%20about%20${service.title}`}>Get a Quote</Link>
                     </Button>
                   </div>
-                  <div className={`flex items-center justify-center ${isReversed ? 'lg:order-1' : ''}`}>
-                    {serviceImage && (
-                      <Image
-                        src={serviceImage.imageUrl}
-                        alt={service.title}
-                        width={600}
-                        height={400}
-                        className="rounded-xl shadow-lg object-cover"
-                        data-ai-hint={serviceImage.imageHint}
-                      />
-                    )}
+                  <div className={`flex items-center justify-center min-h-[250px] ${isReversed ? 'lg:order-1' : ''}`}>
+                      <AnimatedIcon>
+                        {serviceIcons[service.id] || <Code className="h-10 w-10 text-primary" />}
+                      </AnimatedIcon>
                   </div>
                 </div>
               );
