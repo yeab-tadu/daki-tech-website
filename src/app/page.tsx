@@ -198,28 +198,27 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-  const [shuffledSkills1, setShuffledSkills1] = useState<(typeof academySkills)>([]);
-  const [shuffledSkills2, setShuffledSkills2] = useState<(typeof academySkills)[]>([]);
-  const [shuffledSkills3, setShuffledSkills3] = useState<(typeof academySkills)[]>([]);
+  const [shuffledSkills, setShuffledSkills] = useState<(typeof academySkills)[]>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setIsMounted(true);
     const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
-    setShuffledSkills1(shuffle(academySkills));
-    setShuffledSkills2(shuffle(academySkills));
-    setShuffledSkills3(shuffle(academySkills));
+    setShuffledSkills(shuffle(academySkills));
   }, []);
 
-  const MarqueeRow = ({ skills, duration, direction = 1 }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1 }) => {
+  const MarqueeRow = ({ skills, duration, direction = 1, isVertical = false }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1, isVertical?: boolean }) => {
     if (!isMounted || skills.length === 0) return null;
     
-    const xAnimation = direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"];
+    const animation = isVertical 
+      ? { y: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }
+      : { x: direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"] };
 
     return (
       <motion.div
-        className="flex gap-8"
-        animate={{ x: xAnimation }}
+        className={cn("flex gap-8", isVertical && "flex-col")}
+        animate={animation}
         transition={{
           ease: 'linear',
           duration: duration,
@@ -242,13 +241,29 @@ const SkillMarquee = () => {
     return null;
   }
 
+  if (isMobile) {
+    return (
+        <div className="w-full overflow-hidden relative py-8">
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
+            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
+            <MarqueeRow skills={shuffledSkills} duration={40} isVertical={false} />
+        </div>
+    );
+  }
+
+  const skills1 = shuffledSkills;
+  const skills2 = [...shuffledSkills].reverse();
+  const skills3 = [...shuffledSkills].sort((a,b) => a.name.localeCompare(b.name));
+
   return (
-    <div className="w-full overflow-hidden relative space-y-4 py-8">
-      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
-      <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
-      <MarqueeRow skills={shuffledSkills1} duration={40} />
-      <MarqueeRow skills={shuffledSkills2} duration={30} direction={-1} />
-      <MarqueeRow skills={shuffledSkills3} duration={50} />
+    <div className="w-full overflow-hidden relative space-y-4 py-8 h-[400px] [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]">
+      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent z-10" />
+      <div className="flex justify-center gap-8">
+          <MarqueeRow skills={skills1} duration={40} isVertical={true} />
+          <MarqueeRow skills={skills2} duration={30} direction={-1} isVertical={true} />
+          <MarqueeRow skills={skills3} duration={50} isVertical={true} />
+      </div>
     </div>
   );
 };
@@ -594,7 +609,7 @@ export default function Home() {
                   <Link href="/academy">Explore the Academy <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
               </motion.div>
-              <div className="flex justify-center items-center min-h-[400px]">
+              <div className="flex justify-center items-center">
                 <SkillMarquee />
               </div>
             </div>
@@ -639,10 +654,10 @@ export default function Home() {
                     isMobile && "grid-cols-1"
                 )}>
                      <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
-                     <div className={cn("hidden", isMobile ? "hidden" : "block")}>
+                     <div className={cn("hidden", isMobile ? "hidden" : "md:block")}>
                        <WhyChooseUsMarquee items={whyChooseUs.slice(2).concat(whyChooseUs.slice(0, 2))} duration={50} direction={-1} />
                      </div>
-                      <div className={cn("hidden", isMobile ? "hidden" : "block")}>
+                      <div className={cn("hidden", isMobile ? "hidden" : "md:block")}>
                        <WhyChooseUsMarquee items={whyChooseUs.slice(4).concat(whyChooseUs.slice(0, 4))} duration={45} direction={1} />
                      </div>
                 </div>
