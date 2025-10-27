@@ -198,74 +198,63 @@ const academySkills = [
 ];
 
 const SkillMarquee = () => {
-  const [shuffledSkills, setShuffledSkills] = useState<(typeof academySkills)[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
-  const isMobile = useIsMobile();
+    const MarqueeRow = ({ skills, duration, direction = 1, isVertical = false }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1, isVertical?: boolean }) => {
+        const animation = isVertical 
+        ? { y: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }
+        : { x: direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"] };
 
-  useEffect(() => {
-    setIsMounted(true);
-    const shuffle = (array: typeof academySkills) => [...array].sort(() => Math.random() - 0.5);
-    setShuffledSkills(shuffle(academySkills));
-  }, []);
-
-  const MarqueeRow = ({ skills, duration, direction = 1, isVertical = false }: { skills: (typeof academySkills)[], duration: number, direction?: 1 | -1, isVertical?: boolean }) => {
-    if (!isMounted || skills.length === 0) return null;
-    
-    const animation = isVertical 
-      ? { y: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }
-      : { x: direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"] };
-
-    return (
-      <motion.div
-        className={cn("flex gap-8", isVertical && "flex-col")}
-        animate={animation}
-        transition={{
-          ease: 'linear',
-          duration: duration,
-          repeat: Infinity,
-        }}
-      >
-        {[...skills, ...skills].map((skill, index) => (
-          <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
-            <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
-              {skill.icon}
+        return (
+        <motion.div
+            className={cn("flex gap-8", isVertical && "flex-col")}
+            animate={animation}
+            transition={{
+            ease: 'linear',
+            duration: duration,
+            repeat: Infinity,
+            }}
+        >
+            {[...skills, ...skills].map((skill, index) => (
+            <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
+                <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+                {skill.icon}
+                </div>
+                <span className="text-xs font-semibold mt-2">{skill.name}</span>
             </div>
-            <span className="text-xs font-semibold mt-2">{skill.name}</span>
-          </div>
-        ))}
-      </motion.div>
-    );
-  };
+            ))}
+        </motion.div>
+        );
+    };
 
-  if (!isMounted) {
-    return null;
-  }
+    const skills1 = [...academySkills].sort(() => Math.random() - 0.5);
+    const skills2 = [...academySkills].sort(() => Math.random() - 0.5);
+    const skills3 = [...academySkills].sort(() => Math.random() - 0.5);
 
-  if (isMobile) {
     return (
-        <div className="w-full overflow-hidden relative py-8">
-            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent z-10" />
-            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent z-10" />
-            <MarqueeRow skills={shuffledSkills} duration={40} isVertical={false} />
-        </div>
+        <>
+            {/* Mobile View: Simple Grid */}
+            <div className="grid grid-cols-2 gap-8 md:hidden">
+                {academySkills.slice(0,6).map((skill) => (
+                    <div key={skill.name} className="flex flex-col items-center text-center text-foreground group">
+                        <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+                            {skill.icon}
+                        </div>
+                        <span className="text-sm font-semibold mt-2">{skill.name}</span>
+                    </div>
+                ))}
+            </div>
+
+            {/* Desktop View: Animated Marquee */}
+            <div className="hidden md:block w-full overflow-hidden relative space-y-4 py-8 h-[400px] [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]">
+                <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent z-10" />
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent z-10" />
+                <div className="flex justify-center gap-8">
+                    <MarqueeRow skills={skills1} duration={40} isVertical={true} />
+                    <MarqueeRow skills={skills2} duration={30} direction={-1} isVertical={true} />
+                    <MarqueeRow skills={skills3} duration={50} isVertical={true} />
+                </div>
+            </div>
+        </>
     );
-  }
-
-  const skills1 = shuffledSkills;
-  const skills2 = [...shuffledSkills].reverse();
-  const skills3 = [...shuffledSkills].sort((a,b) => a.name.localeCompare(b.name));
-
-  return (
-    <div className="w-full overflow-hidden relative space-y-4 py-8 h-[400px] [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]">
-      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent z-10" />
-      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent z-10" />
-      <div className="flex justify-center gap-8">
-          <MarqueeRow skills={skills1} duration={40} isVertical={true} />
-          <MarqueeRow skills={skills2} duration={30} direction={-1} isVertical={true} />
-          <MarqueeRow skills={skills3} duration={50} isVertical={true} />
-      </div>
-    </div>
-  );
 };
 
 
@@ -592,7 +581,7 @@ export default function Home() {
               >
                 <Badge>Daki Academy</Badge>
                 <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Launch Your Tech Career</h2>
-                <p className="text-foreground/80 text-lg">
+                <p className="text-foreground/80 md:text-lg">
                   Our Full-Stack Web Development course is a practical, step-by-step training that teaches you how to build complete websites and web apps from scratch. You’ll learn both front-end and back-end skills through real projects, gaining the confidence and experience needed to work as a professional web developer.
                 </p>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -650,8 +639,8 @@ export default function Home() {
                     </Button>
                 </div>
                 <div className={cn(
-                    "relative grid grid-cols-1 md:grid-cols-3 gap-8",
-                    isMobile ? "h-96" : "h-[450px]"
+                    "relative flex justify-center",
+                    isMobile ? "h-96" : "h-[450px] gap-8"
                 )}>
                      <WhyChooseUsMarquee items={whyChooseUs} duration={40} direction={1} />
                      <div className={cn("hidden", isMobile ? "hidden" : "md:block")}>
