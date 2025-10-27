@@ -9,15 +9,15 @@ import { Code, MonitorSmartphone, Cloud, Layers, Briefcase, PenTool, UserCheck, 
 import { useEffect, useState } from 'react';
 
 const serviceIcons: { [key: string]: React.ReactNode } = {
-  'web-development': <Code className="h-40 w-40 text-primary" />,
-  'mobile-app-development': <MonitorSmartphone className="h-40 w-40 text-primary" />,
-  'cloud-solutions': <Cloud className="h-40 w-40 text-primary" />,
-  'custom-systems': <Layers className="h-40 w-40 text-primary" />,
-  'digital-business-card': <Briefcase className="h-40 w-40 text-primary" />,
-  'graphics-design': <PenTool className="h-40 w-40 text-primary" />,
-  'training-workshops': <UserCheck className="h-40 w-40 text-primary" />,
-  'ux-ui-design': <BarChart className="h-40 w-40 text-primary" />,
-  'it-support': <LifeBuoy className="h-40 w-40 text-primary" />,
+  'web-development': <Code className="h-full w-full" />,
+  'mobile-app-development': <MonitorSmartphone className="h-full w-full" />,
+  'cloud-solutions': <Cloud className="h-full w-full" />,
+  'custom-systems': <Layers className="h-full w-full" />,
+  'digital-business-card': <Briefcase className="h-full w-full" />,
+  'graphics-design': <PenTool className="h-full w-full" />,
+  'training-workshops': <UserCheck className="h-full w-full" />,
+  'ux-ui-design': <BarChart className="h-full w-full" />,
+  'it-support': <LifeBuoy className="h-full w-full" />,
 };
 
 const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
@@ -44,47 +44,30 @@ const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
 )
 
 const ServicesHeroAnimation = () => {
-    const [isMounted, setIsMounted] = useState(false);
-    useEffect(() => setIsMounted(true), []);
-    
-    if (!isMounted) return null;
-
     return (
-        <div className="relative w-full h-80 flex items-center justify-center overflow-hidden">
-            {services.map((service, index) => {
-                const x = Math.random() * 80 + 10; // Random x between 10% and 90%
-                const y = Math.random() * 80 + 10; // Random y between 10% and 90%
-                const duration = Math.random() * 10 + 10;
-                const delay = Math.random() * 5;
-
-                return (
+        <div className="grid grid-cols-3 gap-8">
+            {services.slice(0, 9).map((service, index) => (
+                <motion.div
+                    key={service.id}
+                    className="p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                >
                     <motion.div
-                        key={service.id}
-                        className="absolute"
-                        initial={{ x: '50%', y: '50%', scale: 0, opacity: 0 }}
-                        animate={{ x: `${x}%`, y: `${y}%`, scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.8, delay: index * 0.1 }}
+                         animate={{ y: [0, -10, 0] }}
+                         transition={{
+                           duration: 3 + index * 0.5,
+                           repeat: Infinity,
+                           repeatType: 'mirror',
+                           ease: 'easeInOut',
+                         }}
+                         className="w-16 h-16"
                     >
-                         <motion.div
-                            animate={{
-                                x: [0, Math.random() * 40 - 20, 0],
-                                y: [0, Math.random() * 40 - 20, 0],
-                            }}
-                            transition={{
-                                duration,
-                                repeat: Infinity,
-                                repeatType: 'mirror',
-                                ease: 'easeInOut',
-                                delay
-                            }}
-                         >
-                             <div className="p-4 bg-background/80 backdrop-blur-sm rounded-full shadow-lg">
-                                {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-16 w-16 text-primary" })}
-                             </div>
-                         </motion.div>
+                         {serviceIcons[service.id]}
                     </motion.div>
-                )
-            })}
+                </motion.div>
+            ))}
         </div>
     )
 }
@@ -96,7 +79,7 @@ export default function ServicesPage() {
     <div>
       <section className="relative w-full pt-20 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 bg-primary/5 overflow-hidden">
         <div className="container mx-auto px-4 md:px-6 z-10 relative">
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div className="max-w-3xl text-center lg:text-left space-y-4">
                     <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-primary">
                         What We Offer
@@ -108,7 +91,7 @@ export default function ServicesPage() {
                       <Link href="/contact">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Link>
                     </Button>
                 </div>
-                 <div className="hidden lg:block">
+                 <div className="hidden lg:flex items-center justify-center">
                    <ServicesHeroAnimation />
                  </div>
             </div>
