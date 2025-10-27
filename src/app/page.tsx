@@ -40,11 +40,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { projects, services, whyChooseUs as initialWhyChooseUs, testimonials } from '@/lib/data';
+import { projects, services, whyChooseUs as initialWhyChooseUs, testimonials, blogPosts } from '@/lib/data';
 import { motion, useTime, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import type { Service } from '@/lib/types';
+import { useIsMobile } from "@/hooks/use-mobile"
 
 
 const processSteps = [
@@ -244,12 +245,16 @@ const SkillMarquee = () => {
 const ServicesMarquee = () => {
   const [shuffledServices1, setShuffledServices1] = useState<Service[]>([]);
   const [shuffledServices2, setShuffledServices2] = useState<Service[]>([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const shuffle = (array: Service[]) => [...array].sort(() => Math.random() - 0.5);
     setShuffledServices1(shuffle(services));
     setShuffledServices2(shuffle(services));
   }, []);
+  
+  const duration1 = isMobile ? 30 : 60;
+  const duration2 = isMobile ? 35 : 70;
 
   const MarqueeRow = ({ services, duration, direction = 1 }: { services: Service[], duration: number, direction?: 1 | -1 }) => {
     if (services.length === 0) return null;
@@ -308,8 +313,8 @@ const ServicesMarquee = () => {
 
   return (
     <div className="mt-12 w-full overflow-hidden group">
-      <MarqueeRow services={shuffledServices1} duration={60} direction={-1} />
-      <MarqueeRow services={shuffledServices2} duration={70} direction={1} />
+      <MarqueeRow services={shuffledServices1} duration={duration1} direction={-1} />
+      <MarqueeRow services={shuffledServices2} duration={duration2} direction={1} />
     </div>
   )
 }
@@ -321,9 +326,30 @@ const WhyChooseUsMarquee = ({ items, direction = 1, duration = 50 }: { items: Wh
         const shuffle = (array: WhyChooseUsItem[]) => [...array].sort(() => Math.random() - 0.5);
         setShuffledItems(shuffle(items));
     }, [items]);
+    
+    const isMobile = useIsMobile();
 
     if (shuffledItems.length === 0) {
       return null;
+    }
+
+    if (isMobile) {
+        return (
+            <div className="w-full">
+                {items.map((reason, index) => (
+                    <div
+                        key={`${reason.title}-${index}`}
+                        className="flex flex-col items-center text-center p-6 space-y-4 my-4"
+                    >
+                        <div className="p-4 bg-primary/10 rounded-full shadow-md">
+                            {reason.icon}
+                        </div>
+                        <h3 className="font-headline text-xl font-bold">{reason.title}</h3>
+                        <p className="text-foreground/80">{reason.description}</p>
+                    </div>
+                ))}
+            </div>
+        );
     }
 
     const duplicatedItems = [...shuffledItems, ...shuffledItems];
@@ -589,11 +615,11 @@ export default function Home() {
                     </Button>
                 </div>
                 <div className="grid md:grid-cols-3 gap-8">
-                     <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-8">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 md:hidden gap-8">
                         {whyChooseUs.map((reason, index) => (
                             <div
                                 key={`${reason.title}-${index}`}
-                                className="flex flex-col items-center text-center p-6 space-y-4 my-4"
+                                className="flex flex-col items-center text-center p-6 space-y-4"
                             >
                                 <div className="p-4 bg-primary/10 rounded-full shadow-md">
                                     {reason.icon}
