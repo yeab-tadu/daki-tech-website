@@ -65,50 +65,6 @@ const AboutHero = () => {
 };
 
 
-const TeamSection = () => {
-    return (
-        <section className="py-12 md:py-24 lg:py-32 bg-background">
-            <div className="container mx-auto px-4 md:px-6">
-                <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">Meet Our Leaders</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {team.map((member) => {
-                         const memberImage = PlaceHolderImages.find((p) => p.id === member.imageId);
-                         return (
-                            <motion.div
-                                key={member.id}
-                                className="relative overflow-hidden rounded-lg shadow-lg group"
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.5 }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                {memberImage && (
-                                    <Image
-                                        src={memberImage.imageUrl}
-                                        alt={member.name}
-                                        width={400}
-                                        height={500}
-                                        className="object-cover w-full h-96 transition-transform duration-300 group-hover:scale-105"
-                                        data-ai-hint={memberImage.imageHint}
-                                    />
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                                <div className="absolute bottom-0 left-0 p-6">
-                                    <h3 className="font-headline text-xl font-bold text-white">{member.name}</h3>
-                                    <p className="text-primary-foreground/80">{member.role}</p>
-                                    <div className="h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 group-hover:mt-2 transition-all duration-300">
-                                         <p className="text-sm text-primary-foreground/90">{member.bio}</p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )
-                    })}
-                </div>
-            </div>
-        </section>
-    )
-}
-
 const RotatingAcademySkills = () => {
     const skills = [
         { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
@@ -288,12 +244,9 @@ export default function AboutPage() {
         
         <AcademyCTA />
 
-        <TeamSection />
-
         <JoinTeamCTA />
 
       </main>
     </div>
   );
 }
-
