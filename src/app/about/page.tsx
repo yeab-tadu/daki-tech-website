@@ -1,9 +1,14 @@
+
+'use client';
+
 import Image from 'next/image';
-import PageHeader from '@/components/PageHeader';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { team } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
-import { Lightbulb, Gem, Heart, Shield } from 'lucide-react';
+import { Lightbulb, Gem, Heart, Shield, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 const companyValues = [
     {
@@ -28,16 +33,55 @@ const companyValues = [
     }
 ]
 
-export default function AboutPage() {
-  const pageHeaderImage = PlaceHolderImages.find((p) => p.id === 'about-hero');
+const AboutHero = () => {
+    return (
+        <section className="relative w-full pt-20 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 bg-primary/5 overflow-hidden">
+             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+            <div className="container mx-auto px-4 md:px-6 relative z-10">
+                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    <motion.div 
+                        className="space-y-6 text-center lg:text-left"
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-primary">
+                            Who We Are
+                        </h1>
+                        <p className="text-lg text-foreground/80 md:text-xl max-w-2xl mx-auto lg:mx-0">
+                            Meet the passionate team of innovators, creators, and problem-solvers dedicated to building the future of digital technology.
+                        </p>
+                        <Button size="lg" asChild>
+                            <Link href="/contact">Connect with Our Team <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                        </Button>
+                    </motion.div>
+                    <div className="grid grid-cols-2 gap-4 md:gap-6">
+                        {companyValues.map((value, index) => (
+                             <motion.div
+                                key={value.title}
+                                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.4 + index * 0.15 }}
+                            >
+                                <div className="bg-background/80 backdrop-blur-md rounded-lg p-6 text-center h-full shadow-lg hover:shadow-primary/10 hover:-translate-y-1 transition-all">
+                                    <div className="inline-block p-3 rounded-full mb-3">
+                                    {value.icon}
+                                    </div>
+                                    <h3 className="font-headline text-lg font-bold">{value.title}</h3>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
 
+export default function AboutPage() {
   return (
     <div>
-      <PageHeader
-        title="Who We Are"
-        description="Meet the passionate team of innovators, creators, and problem-solvers dedicated to building the future of digital technology."
-        image={pageHeaderImage}
-      />
+      <AboutHero />
       <main>
         {/* Story Section */}
         <section className="py-12 md:py-24 lg:py-32">
