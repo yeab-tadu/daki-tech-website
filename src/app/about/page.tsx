@@ -3,8 +3,8 @@
 
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
-import { Lightbulb, Gem, Heart, Shield, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Lightbulb, Gem, Heart, Shield, ArrowRight, Code, Database, GitBranch, Wind, Rocket, PlugZap } from 'lucide-react';
+import { motion, useTime, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { team } from '@/lib/data';
@@ -109,8 +109,62 @@ const TeamSection = () => {
     )
 }
 
+const RotatingAcademySkills = () => {
+    const skills = [
+        { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
+        { name: 'JavaScript', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
+        { name: 'React', icon: <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg> },
+        { name: 'Next.js', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">N</text></svg> },
+        { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
+        { name: 'MySQL', icon: <Database className="h-10 w-10" /> },
+        { name: 'Express', icon: <Wind className="h-10 w-10" /> },
+        { name: 'Git', icon: <GitBranch className="h-10 w-10" /> },
+    ];
+
+    const radius = 150;
+    const center = 175;
+    const time = useTime();
+    const rotate = useTransform(time, [0, 30000], [0, 360], { clamp: false });
+    const reverseRotate = useTransform(time, [0, 30000], [0, -360], { clamp: false });
+
+    return (
+        <div className="relative w-[350px] h-[350px] flex items-center justify-center">
+            <motion.div
+                className="absolute top-0 left-0 w-full h-full"
+                style={{ rotate }}
+            >
+                {skills.map((skill, i) => {
+                    const angle = (i / skills.length) * 2 * Math.PI;
+                    const x = center + radius * Math.cos(angle);
+                    const y = center + radius * Math.sin(angle);
+
+                    return (
+                        <motion.div
+                            key={skill.name}
+                            className="absolute w-20 h-20"
+                            style={{ top: y - 40, left: x - 40 }}
+                            whileHover={{ scale: 1.2 }}
+                            title={skill.name}
+                        >
+                            <motion.div 
+                                className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-md text-primary p-2"
+                                style={{ rotate: reverseRotate }}
+                            >
+                                {skill.icon}
+                            </motion.div>
+                        </motion.div>
+                    );
+                })}
+            </motion.div>
+            <div className="relative flex h-40 w-40 flex-col items-center justify-center rounded-full bg-primary/10 text-center">
+                <p className="font-headline text-2xl font-bold text-primary">Daki</p>
+                <p className="font-headline text-2xl font-bold text-accent">Academy</p>
+            </div>
+        </div>
+    )
+}
+
 const AcademyCTA = () => {
-  const academyImage = PlaceHolderImages.find(p => p.id === 'about-academy');
   return (
     <section className="py-12 md:py-24 lg:py-32 bg-background">
       <div className="container mx-auto px-4 md:px-6">
@@ -129,29 +183,21 @@ const AcademyCTA = () => {
                 </Link>
             </Button>
           </div>
-          {academyImage && (
-            <motion.div
-              className="overflow-hidden rounded-xl shadow-lg"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Image
-                src={academyImage.imageUrl}
-                alt="Daki Academy"
-                width={600}
-                height={400}
-                className="w-full object-cover aspect-[3/2]"
-                data-ai-hint={academyImage.imageHint}
-              />
-            </motion.div>
-          )}
+          <motion.div
+            className="flex justify-center items-center"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5 }}
+          >
+              <RotatingAcademySkills />
+          </motion.div>
         </div>
       </div>
     </section>
   )
 }
+
 
 const JoinTeamCTA = () => {
     return (
@@ -250,3 +296,4 @@ export default function AboutPage() {
     </div>
   );
 }
+
