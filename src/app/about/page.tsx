@@ -9,6 +9,8 @@ import { Lightbulb, Gem, Heart, Shield, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
+import React, { useState, useEffect } from 'react';
 
 const companyValues = [
     {
@@ -34,49 +36,90 @@ const companyValues = [
 ]
 
 const AboutHero = () => {
+    const isMobile = useIsMobile();
+    const [gridCols, setGridCols] = useState(4);
+
+    useEffect(() => {
+        const updateGrid = () => {
+            if (window.innerWidth < 640) setGridCols(3);
+            else if (window.innerWidth < 1024) setGridCols(4);
+            else setGridCols(5);
+        };
+        updateGrid();
+        window.addEventListener('resize', updateGrid);
+        return () => window.removeEventListener('resize', updateGrid);
+    }, []);
+
+    const teamImages = team.map(member => PlaceHolderImages.find(p => p.id === member.imageId)).filter(Boolean);
+    const displayedImages = teamImages.slice(0, 15);
+
+    const FloatingImage = ({ image, index }: { image: any, index: number }) => {
+        const duration = 20 + Math.random() * 15;
+        const delay = Math.random() * 10;
+        const startY = -10 - Math.random() * 20;
+        const endY = 110 + Math.random() * 20;
+
+        return (
+            <motion.div
+                className="absolute"
+                style={{
+                    left: `${(index % gridCols) * (100 / gridCols) + (Math.random() - 0.5) * 10}%`,
+                    width: `${100 / (gridCols + 1)}%`,
+                }}
+                initial={{ top: `${startY}%`, opacity: 0 }}
+                animate={{ top: `${endY}%`, opacity: [0, 1, 1, 0] }}
+                transition={{
+                    duration,
+                    delay,
+                    repeat: Infinity,
+                    ease: "linear",
+                }}
+            >
+                <Image
+                    src={image.imageUrl}
+                    alt={image.description}
+                    width={150}
+                    height={150}
+                    className="rounded-full aspect-square object-cover shadow-lg"
+                    data-ai-hint={image.imageHint}
+                />
+            </motion.div>
+        );
+    };
+
     return (
-        <section className="relative w-full pt-20 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 bg-primary/5 overflow-hidden">
-             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-            <div className="container mx-auto px-4 md:px-6 relative z-10">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <motion.div 
-                        className="space-y-6 text-center lg:text-left"
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-primary">
-                            Who We Are
-                        </h1>
-                        <p className="text-lg text-foreground/80 md:text-xl max-w-2xl mx-auto lg:mx-0">
-                            Meet the passionate team of innovators, creators, and problem-solvers dedicated to building the future of digital technology.
-                        </p>
-                        <Button size="lg" asChild>
-                            <Link href="/contact">Connect with Our Team <ArrowRight className="ml-2 h-5 w-5" /></Link>
+        <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
+            <div className="absolute inset-0 z-0">
+                {displayedImages.map((image, index) => image && <FloatingImage key={image.id + index} image={image} index={index} />)}
+            </div>
+            <div className="absolute inset-0 bg-background/70 backdrop-blur-sm z-10" />
+            <div className="container mx-auto px-4 md:px-6 relative z-20 text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                    <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                        <span className="text-primary">We Are </span>
+                        <span className="text-accent">Daki</span>
+                        <span className="text-foreground">Techs</span>
+                    </h1>
+                    <p className="mt-6 max-w-3xl mx-auto text-lg text-foreground/80 md:text-xl">
+                        A passionate team of innovators, creators, and problem-solvers dedicated to building the future of digital technology and empowering the next generation of developers.
+                    </p>
+                    <div className="mt-8">
+                        <Button size="lg" asChild className="shadow-lg">
+                            <Link href="/contact">
+                                Connect with Our Team <ArrowRight className="ml-2 h-5 w-5" />
+                            </Link>
                         </Button>
-                    </motion.div>
-                    <div className="grid grid-cols-2 gap-4 md:gap-6">
-                        {companyValues.map((value, index) => (
-                             <motion.div
-                                key={value.title}
-                                initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 0.4 + index * 0.15 }}
-                            >
-                                <div className="bg-background/80 backdrop-blur-md rounded-lg p-6 text-center h-full shadow-lg hover:shadow-primary/10 hover:-translate-y-1 transition-all">
-                                    <div className="inline-block p-3 rounded-full mb-3">
-                                    {value.icon}
-                                    </div>
-                                    <h3 className="font-headline text-lg font-bold">{value.title}</h3>
-                                </div>
-                            </motion.div>
-                        ))}
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
-    )
-}
+    );
+};
+
 
 export default function AboutPage() {
   return (
