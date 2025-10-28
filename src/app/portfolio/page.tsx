@@ -121,21 +121,26 @@ const PortfolioHero = () => {
     }
 
     return (
-        <section className="relative w-full pt-20 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 bg-primary/5 overflow-hidden">
+        <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
             <div className="absolute inset-0 z-10 top-0">
                 {icons.length > 0 && icons}
             </div>
-            <div className="container mx-auto px-4 md:px-6 z-20 relative">
-                <div className="max-w-3xl mx-auto text-center space-y-4">
-                    <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-primary">
-                        Our Portfolio
+             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+            <div className="container mx-auto px-4 md:px-6 z-20 relative text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                    <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                        <span className="text-primary">Our </span>
+                        <span className="text-accent">Work</span>
                     </h1>
-                    <p className="text-lg text-foreground/80 md:text-xl">
+                    <p className="mt-6 max-w-3xl mx-auto text-lg text-foreground/80 md:text-xl">
                         A showcase of our passion, expertise, and commitment to delivering exceptional digital products.
                     </p>
-                </div>
+                </motion.div>
             </div>
-             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
         </section>
     )
 }
