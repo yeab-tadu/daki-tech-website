@@ -32,6 +32,10 @@ import {
   Settings2,
   Contact,
   Paintbrush,
+  Hotel,
+  Building,
+  GraduationCap,
+  BookOpenCheck,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -49,7 +53,7 @@ import { projects, services, whyChooseUs as initialWhyChooseUs, testimonials } f
 import { motion, useTime, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import type { Service } from '@/lib/types';
+import type { Service, Project } from '@/lib/types';
 import { useIsMobile } from "@/hooks/use-mobile"
 
 
@@ -529,6 +533,64 @@ const HomeHero = () => {
     )
 }
 
+const projectIcons: { [key: string]: React.ReactNode } = {
+    'proj-bms': <Building className="w-full h-full" />,
+    'proj-menu': <BookOpenCheck className="w-full h-full" />,
+    'proj-bizcard': <Contact className="w-full h-full" />,
+    'proj-sms': <GraduationCap className="w-full h-full" />,
+    'proj-hms': <Hotel className="w-full h-full" />,
+    'default': <Rocket className="w-full h-full" />
+};
+
+const ProjectMarquee = () => {
+
+    const MarqueeRow = ({ items, duration, direction = 1 }: { items: Project[], duration: number, direction?: 1 | -1 }) => {
+        if (!items || items.length === 0) return null;
+
+        const xAnimation = direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"];
+        
+        return (
+        <motion.div
+            className="flex gap-8 py-4"
+            animate={{ x: xAnimation }}
+            transition={{
+            ease: 'linear',
+            duration: duration,
+            repeat: Infinity,
+            }}
+            whileHover={{ animationPlayState: 'paused' }}
+        >
+            {[...items, ...items].map((project, index) => (
+                <div key={`${project.id}-${index}`} className="flex-shrink-0 w-[400px]">
+                    <Card className="h-full overflow-hidden group transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
+                        <CardContent className="p-6 flex items-center gap-6">
+                            <div className="w-24 h-24 flex-shrink-0 text-primary group-hover:text-accent transition-colors">
+                                {projectIcons[project.id] || projectIcons['default']}
+                            </div>
+                            <div className="space-y-2">
+                                <Badge variant="outline">{project.category}</Badge>
+                                <h3 className="font-headline text-xl font-bold">{project.title}</h3>
+                                <p className="text-sm text-foreground/80">{project.description}</p>
+                                <div className="flex flex-wrap gap-2 pt-2">
+                                    {project.technologies.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            ))}
+        </motion.div>
+        );
+    };
+
+    return (
+        <div className="w-full space-y-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <MarqueeRow items={projects} duration={80} />
+            <MarqueeRow items={[...projects].reverse()} duration={70} direction={-1} />
+        </div>
+    )
+}
+
 
 export default function Home() {
   const featuredProjects = projects.slice(0, 3);
@@ -648,7 +710,7 @@ export default function Home() {
         </section>
 
         {/* Featured Projects */}
-        <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
             <motion.div
               className="flex flex-col items-center justify-center space-y-4 text-center"
@@ -664,47 +726,9 @@ export default function Home() {
                 </p>
               </div>
             </motion.div>
-            <Carousel
-              opts={{ align: 'start', loop: true }}
-              className="w-full max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto mt-12"
-            >
-              <CarouselContent>
-                {projects.map((project) => {
-                  const projectImage = PlaceHolderImages.find(p => p.id === project.imageId);
-                  return (
-                    <CarouselItem key={project.id} className="md:basis-1/2 lg:basis-1/3">
-                      <div className="p-1">
-                        <Card className="h-full overflow-hidden group/project">
-                          <CardContent className="p-0">
-                            {projectImage && (
-                              <div className="overflow-hidden rounded-t-lg">
-                                <Image
-                                  src={projectImage.imageUrl}
-                                  alt={project.title}
-                                  width={600}
-                                  height={400}
-                                  className="object-cover aspect-[3/2] transition-transform duration-500 group-hover/project:scale-105"
-                                  data-ai-hint={projectImage.imageHint}
-                                />
-                              </div>
-                            )}
-                            <div className="p-6">
-                              <h3 className="font-headline text-lg font-bold">{project.title}</h3>
-                              <p className="mt-2 text-sm text-foreground/80">{project.description}</p>
-                              <div className="flex flex-wrap gap-2 mt-4">
-                                {project.technologies.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
-                    </CarouselItem>
-                  );
-                })}
-              </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex" />
-              <CarouselNext className="hidden sm:flex" />
-            </Carousel>
+            <div className="mt-12">
+              <ProjectMarquee />
+            </div>
             <div className="text-center mt-12">
               <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
                 <Link href="/portfolio">View All Projects <ArrowRight className="ml-2 h-4 w-4" /></Link>
