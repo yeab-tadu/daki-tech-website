@@ -94,49 +94,54 @@ const PortfolioHero = () => {
     )
 }
 
-const ProjectGrid = () => {
+const ProjectMarquee = () => {
+
+    const MarqueeRow = ({ items, duration, direction = 1 }: { items: Project[], duration: number, direction?: 1 | -1 }) => {
+        if (!items || items.length === 0) return null;
+
+        const xAnimation = direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"];
+        
+        return (
+        <motion.div
+            className="flex gap-8 py-4"
+            animate={{ x: xAnimation }}
+            transition={{
+            ease: 'linear',
+            duration: duration,
+            repeat: Infinity,
+            }}
+            whileHover={{ animationPlayState: 'paused' }}
+        >
+            {[...items, ...items].map((project, index) => (
+                <div key={`${project.id}-${index}`} className="flex-shrink-0 w-[400px]">
+                    <Card className="h-full overflow-hidden group transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
+                        <CardContent className="p-6 flex items-center gap-6">
+                            <div className="w-24 h-24 flex-shrink-0 text-primary group-hover:text-accent transition-colors">
+                                {React.cloneElement(projectIcons[project.id] || projectIcons['default'], { className: "w-full h-full" })}
+                            </div>
+                            <div className="space-y-2">
+                                <Badge variant="outline">{project.category}</Badge>
+                                <h3 className="font-headline text-xl font-bold">{project.title}</h3>
+                                <p className="text-sm text-foreground/80">{project.description}</p>
+                                <div className="flex flex-wrap gap-2 pt-2">
+                                    {project.technologies.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            ))}
+        </motion.div>
+        );
+    };
+
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {initialProjects.map((project, index) => {
-                const iconNode = projectIcons[project.id] || projectIcons['default'];
-                return (
-                    <motion.div
-                        key={project.id}
-                        className="relative group"
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        whileHover={{ y: -8 }}
-                    >
-                        <Card className="h-full overflow-hidden transition-shadow duration-300 group-hover:shadow-xl group-hover:shadow-primary/20">
-                            <CardHeader>
-                                <div className="flex justify-between items-start">
-                                    <div className="w-16 h-16 p-3 bg-primary/10 text-primary rounded-lg">
-                                        {iconNode}
-                                    </div>
-                                    <Badge variant="outline">{project.category}</Badge>
-                                </div>
-                                <CardTitle className="pt-4 font-headline text-xl">{project.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-4">
-                                    <p className="text-sm text-foreground/80 h-16">{project.description}</p>
-                                    <div className="pt-2">
-                                        <p className="text-xs font-semibold text-foreground/60 mb-2">Technologies</p>
-                                        <div className="flex flex-wrap gap-2">
-                                            {project.technologies.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-                );
-            })}
+        <div className="w-full space-y-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <MarqueeRow items={initialProjects} duration={80} />
+            <MarqueeRow items={[...initialProjects].reverse()} duration={70} direction={-1} />
         </div>
-    );
-};
+    )
+}
 
 
 export default function PortfolioPage() {
@@ -149,7 +154,7 @@ export default function PortfolioPage() {
             <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">
                 Our Projects
             </h2>
-            <ProjectGrid />
+            <ProjectMarquee />
         </div>
       </main>
     </div>
