@@ -3,7 +3,6 @@
 
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { team } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Lightbulb, Gem, Heart, Shield, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -50,8 +49,7 @@ const AboutHero = () => {
         return () => window.removeEventListener('resize', updateGrid);
     }, []);
 
-    const teamImages = team.map(member => PlaceHolderImages.find(p => p.id === member.imageId)).filter(Boolean);
-    const displayedImages = teamImages.slice(0, 15);
+    const displayedImages = PlaceHolderImages.slice(0, 15);
 
     const FloatingImage = ({ image, index }: { image: any, index: number }) => {
         const duration = 30 + Math.random() * 20;
@@ -174,39 +172,6 @@ export default function AboutPage() {
                         <p className="mt-2 text-foreground/80">{value.description}</p>
                     </div>
                 ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Team Section */}
-        <section className="py-12 md:py-24 lg:py-32">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">Meet the Team</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {team.map((member) => {
-                const memberImage = PlaceHolderImages.find((p) => p.id === member.imageId);
-                return (
-                  <Card key={member.id} className="text-center border-0 shadow-none bg-transparent">
-                    <CardContent className="p-0">
-                      <div className="relative w-48 h-48 mx-auto mb-4">
-                        {memberImage && (
-                          <Image
-                            src={memberImage.imageUrl}
-                            alt={member.name}
-                            width={192}
-                            height={192}
-                            className="rounded-full object-cover shadow-lg"
-                            data-ai-hint={memberImage.imageHint}
-                          />
-                        )}
-                      </div>
-                      <h3 className="font-headline text-xl font-bold">{member.name}</h3>
-                      <p className="text-accent font-semibold">{member.role}</p>
-                      <p className="mt-2 text-sm text-foreground/80">{member.bio}</p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
             </div>
           </div>
         </section>
