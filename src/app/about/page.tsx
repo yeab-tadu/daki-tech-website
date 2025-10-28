@@ -2,14 +2,11 @@
 'use client';
 
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
 import { Lightbulb, Gem, Heart, Shield, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { useIsMobile } from '@/hooks/use-mobile';
-import React, { useState, useEffect } from 'react';
 
 const companyValues = [
     {
@@ -35,66 +32,8 @@ const companyValues = [
 ]
 
 const AboutHero = () => {
-    const isMobile = useIsMobile();
-    const [gridCols, setGridCols] = useState(4);
-
-    useEffect(() => {
-        const updateGrid = () => {
-            if (window.innerWidth < 640) setGridCols(3);
-            else if (window.innerWidth < 1024) setGridCols(4);
-            else setGridCols(5);
-        };
-        updateGrid();
-        window.addEventListener('resize', updateGrid);
-        return () => window.removeEventListener('resize', updateGrid);
-    }, []);
-
-    const displayedImages = PlaceHolderImages.slice(0, 15);
-
-    const FloatingImage = ({ image, index }: { image: any, index: number }) => {
-        const duration = 30 + Math.random() * 20;
-        const delay = Math.random() * 15;
-        const initialY = Math.random() * 100;
-        const yPath = [`${initialY}%`, `${initialY > 50 ? initialY - 40 : initialY + 40}%`, `${initialY}%`];
-
-        return (
-            <motion.div
-                className="absolute"
-                style={{
-                    left: `${(index % gridCols) * (100 / gridCols) + (Math.random() - 0.5) * 10}%`,
-                    width: `${100 / (gridCols + 1)}%`,
-                }}
-                initial={{ opacity: 0.8 }}
-                animate={{
-                    y: yPath,
-                    opacity: [0.8, 1, 0.8],
-                }}
-                transition={{
-                    duration,
-                    delay,
-                    repeat: Infinity,
-                    repeatType: "mirror",
-                    ease: "easeInOut",
-                }}
-            >
-                <Image
-                    src={image.imageUrl}
-                    alt={image.description}
-                    width={150}
-                    height={150}
-                    className="rounded-full aspect-square object-cover shadow-lg"
-                    data-ai-hint={image.imageHint}
-                />
-            </motion.div>
-        );
-    };
-
     return (
         <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
-            <div className="absolute inset-0 z-0">
-                {displayedImages.map((image, index) => image && <FloatingImage key={image.id + index} image={image} index={index} />)}
-            </div>
-            <div className="absolute inset-0 bg-background/70 backdrop-blur-sm z-10" />
             <div className="container mx-auto px-4 md:px-6 relative z-20 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
