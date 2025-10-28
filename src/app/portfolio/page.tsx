@@ -17,17 +17,17 @@ import {
 } from '@/components/ui/dialog';
 import type { Project } from '@/lib/types';
 import Link from 'next/link';
-import { ExternalLink, FolderKanban, Layers, Server, Database, Rocket, CodeXml } from 'lucide-react';
+import { ExternalLink, FolderKanban, Layers, Server, Database, Rocket, CodeXml, Hotel, Building, GraduationCap, Contact, BookOpenCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 
 const projectIcons: { [key: string]: React.ReactNode } = {
-    'proj-bms': <FolderKanban className="h-12 w-12" />,
-    'proj-menu': <CodeXml className="h-12 w-12" />,
-    'proj-bizcard': <ExternalLink className="h-12 w-12" />,
-    'proj-sms': <Layers className="h-12 w-12" />,
-    'proj-hms': <Server className="h-12 w-12" />,
+    'proj-bms': <Building className="h-12 w-12" />,
+    'proj-menu': <BookOpenCheck className="h-12 w-12" />,
+    'proj-bizcard': <Contact className="h-12 w-12" />,
+    'proj-sms': <GraduationCap className="h-12 w-12" />,
+    'proj-hms': <Hotel className="h-12 w-12" />,
     'default': <Rocket className="h-12 w-12" />
 };
 
