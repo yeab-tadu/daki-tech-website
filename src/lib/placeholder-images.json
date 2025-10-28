@@ -31,6 +31,12 @@
       "imageHint": "team collaboration"
     },
     {
+      "id": "about-academy",
+      "description": "A female student happily coding on her laptop.",
+      "imageUrl": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwbGFwdG9wfGVufDB8fHx8MTc2NDA0ODQwNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "student laptop"
+    },
+    {
       "id": "portfolio-hero",
       "description": "A gallery of digital project screens.",
       "imageUrl": "https://images.unsplash.com/photo-1690049086641-8337495d943e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxkaWdpdGFsJTIwcHJvamVjdHN8ZW58MHx8fHwxNzYxMzkzNjM4fDA&ixlib=rb-4.1.0&q=80&w=1080",

@@ -109,6 +109,50 @@ const TeamSection = () => {
     )
 }
 
+const AcademyCTA = () => {
+  const academyImage = PlaceHolderImages.find(p => p.id === 'about-academy');
+  return (
+    <section className="py-12 md:py-24 lg:py-32 bg-background">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-4">
+            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">Empowering the Next Generation</h2>
+            <p className="text-foreground/80 text-lg">
+              Beyond building great products, we're committed to building great developers. Daki Academy is our initiative to train and mentor aspiring tech talent, equipping them with the skills to succeed in the modern digital landscape.
+            </p>
+            <p className="text-foreground/80 text-lg">
+              Our flagship Full-Stack Web Development program offers hands-on, project-based learning to prepare students for real-world challenges.
+            </p>
+            <Button size="lg" asChild>
+                <Link href="/academy">
+                    Explore the Academy <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+            </Button>
+          </div>
+          {academyImage && (
+            <motion.div
+              className="overflow-hidden rounded-xl shadow-lg"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Image
+                src={academyImage.imageUrl}
+                alt="Daki Academy"
+                width={600}
+                height={400}
+                className="w-full object-cover aspect-[3/2]"
+                data-ai-hint={academyImage.imageHint}
+              />
+            </motion.div>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 const JoinTeamCTA = () => {
     return (
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-primary to-accent text-primary-foreground">
@@ -196,6 +240,8 @@ export default function AboutPage() {
           </div>
         </section>
         
+        <AcademyCTA />
+
         <TeamSection />
 
         <JoinTeamCTA />
