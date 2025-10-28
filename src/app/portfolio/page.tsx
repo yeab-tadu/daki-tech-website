@@ -129,7 +129,9 @@ const ProjectMarquee = () => {
                             <Card className={cn("relative w-full h-full overflow-hidden group/project rounded-2xl text-white", gradient)}>
                                 <div className="absolute inset-0 transition-opacity duration-500 opacity-20 group-hover/project:opacity-40">
                                     <div className="w-full h-full scale-125 flex items-center justify-center p-8">
-                                        {React.cloneElement(icon as React.ReactElement, { className: "w-full h-full" })}
+                                        <div className="w-full h-full">
+                                            {icon}
+                                        </div>
                                     </div>
                                 </div>
                                 <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 bg-gradient-to-t from-black/70 via-black/40 to-transparent">
