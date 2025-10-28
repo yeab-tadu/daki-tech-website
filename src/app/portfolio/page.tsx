@@ -12,12 +12,12 @@ import { cn } from '@/lib/utils';
 
 
 const projectIcons: { [key: string]: React.ReactNode } = {
-    'proj-bms': <Building />,
-    'proj-menu': <BookOpenCheck />,
-    'proj-bizcard': <Contact />,
-    'proj-sms': <GraduationCap />,
-    'proj-hms': <Hotel />,
-    'default': <Rocket />
+    'proj-bms': <Building className="w-full h-full" />,
+    'proj-menu': <BookOpenCheck className="w-full h-full" />,
+    'proj-bizcard': <Contact className="w-full h-full" />,
+    'proj-sms': <GraduationCap className="w-full h-full" />,
+    'proj-hms': <Hotel className="w-full h-full" />,
+    'default': <Rocket className="w-full h-full" />
 };
 
 const projectGradients: { [key: string]: string } = {
@@ -129,9 +129,7 @@ const ProjectMarquee = () => {
                             <Card className={cn("relative w-full h-full overflow-hidden group/project rounded-2xl text-white", gradient)}>
                                 <div className="absolute inset-0 transition-opacity duration-500 opacity-20 group-hover/project:opacity-40">
                                     <div className="w-full h-full scale-125 flex items-center justify-center p-8">
-                                        <div className="w-full h-full">
-                                            {icon}
-                                        </div>
+                                        {icon}
                                     </div>
                                 </div>
                                 <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 bg-gradient-to-t from-black/70 via-black/40 to-transparent">
