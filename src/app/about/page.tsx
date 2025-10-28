@@ -54,10 +54,10 @@ const AboutHero = () => {
     const displayedImages = teamImages.slice(0, 15);
 
     const FloatingImage = ({ image, index }: { image: any, index: number }) => {
-        const duration = 20 + Math.random() * 15;
-        const delay = Math.random() * 10;
-        const startY = -10 - Math.random() * 20;
-        const endY = 110 + Math.random() * 20;
+        const duration = 30 + Math.random() * 20;
+        const delay = Math.random() * 15;
+        const initialY = Math.random() * 100;
+        const yPath = [`${initialY}%`, `${initialY > 50 ? initialY - 40 : initialY + 40}%`, `${initialY}%`];
 
         return (
             <motion.div
@@ -66,13 +66,17 @@ const AboutHero = () => {
                     left: `${(index % gridCols) * (100 / gridCols) + (Math.random() - 0.5) * 10}%`,
                     width: `${100 / (gridCols + 1)}%`,
                 }}
-                initial={{ top: `${startY}%`, opacity: 0 }}
-                animate={{ top: `${endY}%`, opacity: [0, 1, 1, 0] }}
+                initial={{ opacity: 0.8 }}
+                animate={{
+                    y: yPath,
+                    opacity: [0.8, 1, 0.8],
+                }}
                 transition={{
                     duration,
                     delay,
                     repeat: Infinity,
-                    ease: "linear",
+                    repeatType: "mirror",
+                    ease: "easeInOut",
                 }}
             >
                 <Image
