@@ -122,14 +122,14 @@ const ProjectMarquee = () => {
             >
                 {[...projects, ...projects].map((project, index) => {
                     const gradient = projectGradients[project.id] || projectGradients['default'];
-                    const icon = projectIcons[project.id] || projectIcons['default'];
+                    const iconNode = projectIcons[project.id] || projectIcons['default'];
 
                     return (
                         <div key={`${project.id}-${index}`} className="flex-shrink-0 w-80 h-80">
-                            <Card className={cn("relative w-full h-full overflow-hidden group/project rounded-2xl text-white", gradient)}>
+                            <Card className={cn("relative w-full h-full overflow-hidden group/project rounded-2xl text-white bg-gradient-to-br", gradient)}>
                                 <div className="absolute inset-0 transition-opacity duration-500 opacity-20 group-hover/project:opacity-40">
                                     <div className="w-full h-full scale-125 flex items-center justify-center p-8">
-                                        {icon}
+                                       {iconNode}
                                     </div>
                                 </div>
                                 <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 bg-gradient-to-t from-black/70 via-black/40 to-transparent">
