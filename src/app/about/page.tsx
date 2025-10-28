@@ -7,7 +7,7 @@ import { motion, useTime, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { milestones } from '@/lib/data';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const companyValues = [
     {
@@ -33,21 +33,62 @@ const companyValues = [
 ]
 
 const AboutHero = () => {
-    return (
-        <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
+    const [icons, setIcons] = useState<React.ReactNode[]>([]);
+    const valueIcons = [Lightbulb, Gem, Heart, Shield];
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const generatedIcons = [...valueIcons, ...valueIcons, ...valueIcons, ...valueIcons, ...valueIcons].map((Icon, index) => {
+                const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
+                const leftPosition = `${(index * (100 / valueIcons.length) + (Math.random() - 0.5) * 5) % 95}%`;
+                const delay = Math.random() * 10;
+                const duration = 5 + Math.random() * 5;
+                
+                return (
+                    <FloatingIcon 
+                        key={`value-${index}`}
+                        icon={<Icon className="w-full h-full" />}
+                        className={sizeClass}
+                        delay={delay}
+                        duration={duration}
+                        style={{ left: leftPosition, top: '-20%' }}
+                    />
+                )
+            });
+            setIcons(generatedIcons);
+        }
+    }, []);
+
+    const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
+        return (
              <motion.div
-                className="absolute inset-0 bg-grid-pattern opacity-5"
-                style={{ backgroundPosition: '0 0' }}
-                animate={{
-                    backgroundPosition: ['0 0', '100px 100px']
+                className={`absolute rounded-full bg-background/60 backdrop-blur-sm shadow-lg text-primary p-2 md:p-3 ${className}`}
+                style={style}
+                initial={{ opacity: 0, y: -100 }}
+                animate={{ 
+                    opacity: [0, 0.8, 0.8, 0],
+                    y: '100vh'
                 }}
                 transition={{
-                    duration: 20,
+                    delay,
+                    duration,
                     repeat: Infinity,
-                    repeatType: 'reverse',
-                    ease: 'linear'
+                    ease: "linear"
                 }}
-            />
+            >
+                {icon}
+            </motion.div>
+        )
+    }
+
+
+    return (
+        <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
+             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+             <div className="absolute inset-0 z-10 top-[-20%]">
+                {icons.length > 0 && icons}
+            </div>
+
             <div className="container mx-auto px-4 md:px-6 relative z-20 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -82,7 +123,7 @@ const RotatingAcademySkills = () => {
         { name: 'JavaScript', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
         { name: 'React', icon: <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg> },
         { name: 'Next.js', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">N</text></svg> },
-        { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
+        { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,27.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
         { name: 'MySQL', icon: <Database className="h-10 w-10" /> },
         { name: 'Express', icon: <Wind className="h-10 w-10" /> },
         { name: 'Git', icon: <GitBranch className="h-10 w-10" /> },
