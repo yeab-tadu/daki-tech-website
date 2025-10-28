@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -31,6 +32,9 @@ const companyValues = [
         description: 'We build lasting relationships with our clients based on transparency and reliability.'
     }
 ]
+
+type CompanyValue = typeof companyValues[0];
+
 
 const AboutHero = () => {
     const [icons, setIcons] = useState<React.ReactNode[]>([]);
@@ -241,6 +245,56 @@ const JoinTeamCTA = () => {
     )
 }
 
+const ValuesMarquee = () => {
+  const [shuffledItems1, setShuffledItems1] = useState<CompanyValue[]>([]);
+  const [shuffledItems2, setShuffledItems2] = useState<CompanyValue[]>([]);
+
+  useEffect(() => {
+    const shuffle = (array: CompanyValue[]) => [...array, ...array].sort(() => Math.random() - 0.5);
+    setShuffledItems1(shuffle(companyValues));
+    setShuffledItems2(shuffle(companyValues));
+  }, []);
+
+  const MarqueeRow = ({ items, duration, direction = 1 }: { items: CompanyValue[], duration: number, direction?: 1 | -1 }) => {
+    if (!items || items.length === 0) return null;
+
+    const xAnimation = direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"];
+    
+    return (
+      <motion.div
+        className="flex gap-8 py-4"
+        animate={{ x: xAnimation }}
+        transition={{
+          ease: 'linear',
+          duration: duration,
+          repeat: Infinity,
+        }}
+        whileHover={{ animationPlayState: 'paused' }}
+      >
+        {[...items, ...items].map((item, index) => (
+          <div key={`${item.title}-${index}`} className="flex-shrink-0 w-[300px]">
+            <Card className="text-center p-6 border-0 shadow-lg hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300 h-full">
+              <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
+                {item.icon}
+              </div>
+              <h3 className="font-headline text-xl font-bold">{item.title}</h3>
+              <p className="mt-2 text-foreground/80 text-sm">{item.description}</p>
+            </Card>
+          </div>
+        ))}
+      </motion.div>
+    );
+  };
+
+  return (
+    <div className="w-full overflow-hidden relative space-y-4 py-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+      <MarqueeRow items={shuffledItems1} duration={60} />
+      <MarqueeRow items={shuffledItems2} duration={70} direction={-1} />
+    </div>
+  );
+};
+
+
 export default function AboutPage() {
   return (
     <div>
@@ -277,20 +331,10 @@ export default function AboutPage() {
         </section>
 
         {/* Company Values Section */}
-        <section className="py-12 md:py-24 lg:py-32 bg-primary/5">
+        <section className="py-12 md:py-24 lg:py-32 bg-primary/5 overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">Our Core Values</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {companyValues.map(value => (
-                    <div key={value.title} className="text-center">
-                        <div className="inline-block bg-background p-4 rounded-full shadow-md">
-                           {value.icon}
-                        </div>
-                        <h3 className="font-headline mt-4 text-xl font-bold">{value.title}</h3>
-                        <p className="mt-2 text-foreground/80">{value.description}</p>
-                    </div>
-                ))}
-            </div>
+            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-6">Our Core Values</h2>
+            <ValuesMarquee />
           </div>
         </section>
         
