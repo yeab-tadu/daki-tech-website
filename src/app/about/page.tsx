@@ -34,13 +34,13 @@ const companyValues = [
 
 const AboutHero = () => {
     const [icons, setIcons] = useState<React.ReactNode[]>([]);
-    const valueIcons = [Lightbulb, Gem, Heart, Shield];
+    const techIcons = [Code, Database, GitBranch, Wind, Rocket];
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const generatedIcons = [...valueIcons, ...valueIcons, ...valueIcons, ...valueIcons, ...valueIcons].map((Icon, index) => {
+            const generatedIcons = [...techIcons, ...techIcons, ...techIcons, ...techIcons, ...techIcons].map((Icon, index) => {
                 const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
-                const leftPosition = `${(index * (100 / valueIcons.length) + (Math.random() - 0.5) * 5) % 95}%`;
+                const leftPosition = `${(index * (100 / techIcons.length) + (Math.random() - 0.5) * 5) % 95}%`;
                 const delay = Math.random() * 10;
                 const duration = 5 + Math.random() * 5;
                 
