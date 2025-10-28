@@ -35,7 +35,19 @@ const companyValues = [
 const AboutHero = () => {
     return (
         <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
-            <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+             <motion.div
+                className="absolute inset-0 bg-grid-pattern opacity-5"
+                style={{ backgroundPosition: '0 0' }}
+                animate={{
+                    backgroundPosition: ['0 0', '100px 100px']
+                }}
+                transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    repeatType: 'reverse',
+                    ease: 'linear'
+                }}
+            />
             <div className="container mx-auto px-4 md:px-6 relative z-20 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
