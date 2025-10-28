@@ -406,20 +406,66 @@ const AnimatedProcess = () => {
 };
 
 
-export default function Home() {
-  const featuredProjects = projects.slice(0, 3);
-  
-  return (
-    <div className="flex flex-col min-h-dvh">
-      <main className="flex-1">
-        {/* Hero Section */}
-        <motion.section
+const HomeHero = () => {
+    const [icons, setIcons] = useState<React.ReactNode[]>([]);
+    const iconList = Object.values(serviceIcons);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const generatedIcons = [...iconList, ...iconList, ...iconList].map((Icon, index) => {
+                const sizeClass = ['w-8 h-8', 'w-12 h-12', 'w-16 h-16'][index % 3];
+                const leftPosition = `${(index * (100 / iconList.length) + (Math.random() - 0.5) * 5) % 95}%`;
+                const delay = Math.random() * 10;
+                const duration = 7 + Math.random() * 8;
+                
+                return (
+                    <FloatingIcon 
+                        key={`hero-icon-${index}`}
+                        icon={Icon}
+                        className={sizeClass}
+                        delay={delay}
+                        duration={duration}
+                        style={{ left: leftPosition, top: '-20%' }}
+                    />
+                )
+            });
+            setIcons(generatedIcons);
+        }
+    }, []);
+
+    const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
+        return (
+             <motion.div
+                className={`absolute rounded-full bg-background/60 backdrop-blur-sm shadow-lg text-primary p-2 md:p-3 ${className}`}
+                style={style}
+                initial={{ opacity: 0, y: -100 }}
+                animate={{ 
+                    opacity: [0, 0.7, 0.7, 0],
+                    y: '110vh'
+                }}
+                transition={{
+                    delay,
+                    duration,
+                    repeat: Infinity,
+                    ease: "linear"
+                }}
+            >
+                {React.cloneElement(icon as React.ReactElement, { className: "w-full h-full" })}
+            </motion.div>
+        )
+    }
+
+    return (
+         <section
           className="relative w-full h-dvh flex items-center bg-background overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2 }}
         >
-          <div className="container mx-auto px-4 md:px-6">
+          <div className="absolute inset-0 z-10 top-0">
+              {icons}
+          </div>
+          <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
+          <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
+
+          <div className="container mx-auto px-4 md:px-6 relative z-20">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <motion.div
                 className="flex flex-col justify-center space-y-6 text-center md:text-left"
@@ -479,9 +525,19 @@ export default function Home() {
               </motion.div>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
-          <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
-        </motion.section>
+        </section>
+    )
+}
+
+
+export default function Home() {
+  const featuredProjects = projects.slice(0, 3);
+  
+  return (
+    <div className="flex flex-col min-h-dvh">
+      <main className="flex-1">
+        {/* Hero Section */}
+        <HomeHero />
 
         {/* Academy Section */}
         <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background">
