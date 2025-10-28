@@ -102,62 +102,11 @@ const ServicesHeroAnimation = () => {
     );
 }
 
-const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
-    return (
-         <motion.div
-            className={`absolute rounded-full bg-background/60 backdrop-blur-sm shadow-lg text-primary p-2 md:p-3 ${className}`}
-            style={style}
-            initial={{ opacity: 0, y: -100 }}
-            animate={{ 
-                opacity: [0, 0.7, 0.7, 0],
-                y: '110vh'
-            }}
-            transition={{
-                delay,
-                duration,
-                repeat: Infinity,
-                ease: "linear"
-            }}
-        >
-            {React.cloneElement(icon as React.ReactElement, { className: "w-full h-full" })}
-        </motion.div>
-    )
-}
-
-
 export default function ServicesPage() {
-    const [icons, setIcons] = useState<React.ReactNode[]>([]);
-    const iconList = Object.values(serviceIcons);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const generatedIcons = [...iconList, ...iconList].map((Icon, index) => {
-                const sizeClass = ['w-8 h-8', 'w-12 h-12', 'w-16 h-16'][index % 3];
-                const leftPosition = `${(index * (100 / iconList.length) + (Math.random() - 0.5) * 5) % 95}%`;
-                const delay = Math.random() * 10;
-                const duration = 7 + Math.random() * 8;
-                
-                return (
-                    <FloatingIcon 
-                        key={`service-hero-icon-${index}`}
-                        icon={Icon}
-                        className={sizeClass}
-                        delay={delay}
-                        duration={duration}
-                        style={{ left: leftPosition, top: '-20%' }}
-                    />
-                )
-            });
-            setIcons(generatedIcons);
-        }
-    }, []);
 
   return (
     <div>
       <section className="relative w-full pt-20 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 bg-primary/5 overflow-hidden">
-        <div className="absolute inset-0 z-10 top-0">
-            {icons}
-        </div>
         <div className="container mx-auto px-4 md:px-6 z-20 relative">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div className="max-w-3xl text-center lg:text-left space-y-4">

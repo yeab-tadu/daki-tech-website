@@ -411,61 +411,10 @@ const AnimatedProcess = () => {
 
 
 const HomeHero = () => {
-    const [icons, setIcons] = useState<React.ReactNode[]>([]);
-    const iconList = Object.values(serviceIcons);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const generatedIcons = [...iconList, ...iconList, ...iconList].map((Icon, index) => {
-                const sizeClass = ['w-8 h-8', 'w-12 h-12', 'w-16 h-16'][index % 3];
-                const leftPosition = `${(index * (100 / iconList.length) + (Math.random() - 0.5) * 5) % 95}%`;
-                const delay = Math.random() * 10;
-                const duration = 7 + Math.random() * 8;
-                
-                return (
-                    <FloatingIcon 
-                        key={`hero-icon-${index}`}
-                        icon={Icon}
-                        className={sizeClass}
-                        delay={delay}
-                        duration={duration}
-                        style={{ left: leftPosition, top: '-20%' }}
-                    />
-                )
-            });
-            setIcons(generatedIcons);
-        }
-    }, []);
-
-    const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
-        return (
-             <motion.div
-                className={`absolute rounded-full bg-background/60 backdrop-blur-sm shadow-lg text-primary p-2 md:p-3 ${className}`}
-                style={style}
-                initial={{ opacity: 0, y: -100 }}
-                animate={{ 
-                    opacity: [0, 0.7, 0.7, 0],
-                    y: '110vh'
-                }}
-                transition={{
-                    delay,
-                    duration,
-                    repeat: Infinity,
-                    ease: "linear"
-                }}
-            >
-                {React.cloneElement(icon as React.ReactElement, { className: "w-full h-full" })}
-            </motion.div>
-        )
-    }
-
     return (
          <section
           className="relative w-full h-dvh flex items-center bg-background overflow-hidden"
         >
-          <div className="absolute inset-0 z-10 top-0">
-              {icons}
-          </div>
           <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
           <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
 
