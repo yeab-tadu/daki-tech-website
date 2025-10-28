@@ -57,3 +57,10 @@ export interface FAQ {
   answer: string;
   category: 'General' | 'Services' | 'Academy' | 'Payment' | 'Technical Support';
 }
+
+export interface Milestone {
+  year: string;
+  title: string;
+  icon: 'Founded' | 'Project' | 'Team' | 'Academy' | 'Default';
+  position: { x: string; y: string };
+}

@@ -1,4 +1,4 @@
-import type { Service, Project, Testimonial, TeamMember, BlogPost, Job, FAQ } from './types';
+import type { Service, Project, Testimonial, TeamMember, BlogPost, Job, FAQ, Milestone } from './types';
 
 export const services: Service[] = [
   {
@@ -287,5 +287,38 @@ export const faqs: FAQ[] = [
         question: 'Do you provide ongoing support after a project is completed?',
         answer: 'Yes, we offer various support and maintenance packages to ensure your application remains secure, up-to-date, and running smoothly.',
         category: 'Technical Support'
+    }
+];
+
+export const milestones: Milestone[] = [
+    {
+        year: '2020',
+        title: 'Company Founded',
+        icon: 'Founded',
+        position: { x: '15%', y: '30%' }
+    },
+    {
+        year: '2021',
+        title: 'First Enterprise Project',
+        icon: 'Project',
+        position: { x: '40%', y: '60%' }
+    },
+    {
+        year: '2022',
+        title: 'Launched Daki Academy',
+        icon: 'Academy',
+        position: { x: '70%', y: '25%' }
+    },
+    {
+        year: '2023',
+        title: 'Team Doubled in Size',
+        icon: 'Team',
+        position: { x: '85%', y: '70%' }
+    },
+    {
+        year: '2024',
+        title: 'Expanded to Cloud Solutions',
+        icon: 'Default',
+        position: { x: '50%', y: '45%' }
     }
 ]
