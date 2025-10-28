@@ -2,33 +2,22 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import PageHeader from '@/components/PageHeader';
-import { projects } from '@/lib/data';
+import { projects as initialProjects } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import type { Project } from '@/lib/types';
-import Link from 'next/link';
-import { ExternalLink, FolderKanban, Layers, Server, Database, Rocket, CodeXml, Hotel, Building, GraduationCap, Contact, BookOpenCheck } from 'lucide-react';
+import { FolderKanban, Layers, Server, Database, Rocket, CodeXml, Hotel, Building, GraduationCap, Contact, BookOpenCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 
 const projectIcons: { [key: string]: React.ReactNode } = {
-    'proj-bms': <Building className="h-12 w-12" />,
-    'proj-menu': <BookOpenCheck className="h-12 w-12" />,
-    'proj-bizcard': <Contact className="h-12 w-12" />,
-    'proj-sms': <GraduationCap className="h-12 w-12" />,
-    'proj-hms': <Hotel className="h-12 w-12" />,
-    'default': <Rocket className="h-12 w-12" />
+    'proj-bms': <Building className="h-full w-full" />,
+    'proj-menu': <BookOpenCheck className="h-full w-full" />,
+    'proj-bizcard': <Contact className="h-full w-full" />,
+    'proj-sms': <GraduationCap className="h-full w-full" />,
+    'proj-hms': <Hotel className="h-full w-full" />,
+    'default': <Rocket className="h-full w-full" />
 };
 
 const projectGradients: { [key: string]: string } = {
@@ -38,37 +27,6 @@ const projectGradients: { [key: string]: string } = {
     'proj-sms': 'from-orange-500 to-amber-400',
     'proj-hms': 'from-red-500 to-rose-400',
     'default': 'from-gray-500 to-gray-400'
-}
-
-const ProjectModal = ({ project }: { project: Project }) => {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>View Project</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px]">
-        <DialogHeader>
-          <DialogTitle className="font-headline text-2xl">{project.title}</DialogTitle>
-          <DialogDescription>
-             {project.description}
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div>
-            <h4 className="font-semibold mb-2">Technologies Used:</h4>
-            <div className="flex flex-wrap gap-2">
-                {project.technologies.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
-            </div>
-          </div>
-          {project.link && (
-            <Button asChild>
-                <Link href={project.link} target="_blank">Visit Site <ExternalLink className="ml-2 h-4 w-4" /></Link>
-            </Button>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
-  )
 }
 
 const PortfolioHero = () => {
@@ -145,6 +103,58 @@ const PortfolioHero = () => {
     )
 }
 
+const ProjectMarquee = () => {
+    const MarqueeRow = ({ projects, duration, direction = 1 }: { projects: Project[], duration: number, direction?: 1 | -1 }) => {
+        if (!projects || projects.length === 0) return null;
+        
+        const xAnimation = direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"];
+        
+        return (
+            <motion.div
+                className="flex gap-8 py-4"
+                animate={{ x: xAnimation }}
+                transition={{
+                    ease: 'linear',
+                    duration: duration,
+                    repeat: Infinity,
+                }}
+                whileHover={{ animationPlayState: 'paused' }}
+            >
+                {[...projects, ...projects].map((project, index) => {
+                    const gradient = projectGradients[project.id] || projectGradients['default'];
+                    const icon = projectIcons[project.id] || projectIcons['default'];
+
+                    return (
+                        <div key={`${project.id}-${index}`} className="flex-shrink-0 w-80 h-80">
+                            <Card className={cn("relative w-full h-full overflow-hidden group/project rounded-2xl text-white", gradient)}>
+                                <div className="absolute inset-0 transition-opacity duration-500 opacity-20 group-hover/project:opacity-40">
+                                    {React.cloneElement(icon as React.ReactElement, { className: "w-full h-full scale-125" })}
+                                </div>
+                                <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 bg-gradient-to-t from-black/70 via-black/40 to-transparent">
+                                    <div>
+                                        <h3 className="font-headline text-2xl font-bold transition-transform duration-300 group-hover/project:-translate-y-1">{project.title}</h3>
+                                        <div className="flex flex-wrap gap-2 mt-2 opacity-0 group-hover/project:opacity-100 transition-opacity duration-300">
+                                            {project.technologies.map(tech => <Badge key={tech} variant="secondary" className="bg-white/20 text-white backdrop-blur-sm">{tech}</Badge>)}
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    )
+                })}
+            </motion.div>
+        );
+    };
+
+    return (
+        <div className="w-full overflow-hidden relative space-y-8 [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+            <MarqueeRow projects={initialProjects.slice(0,5)} duration={90} />
+            <MarqueeRow projects={initialProjects.slice(0,5).reverse()} duration={100} direction={-1} />
+        </div>
+    );
+};
+
+
 export default function PortfolioPage() {
 
   return (
@@ -152,34 +162,7 @@ export default function PortfolioPage() {
       <PortfolioHero />
       <main className="py-12 md:py-24 lg:py-32">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => {
-              const gradient = projectGradients[project.id] || projectGradients['default'];
-              const icon = projectIcons[project.id] || projectIcons['default'];
-
-              return (
-                <Card key={project.id} className="overflow-hidden transition-all hover:shadow-xl group flex flex-col">
-                  <CardContent className="p-0 flex flex-col flex-grow">
-                    <div className={cn("flex-shrink-0 h-48 w-full flex items-center justify-center bg-gradient-to-br text-white", gradient)}>
-                        <div className="transition-transform duration-500 group-hover:scale-110">
-                            {icon}
-                        </div>
-                    </div>
-                    <div className="p-6 flex flex-col flex-grow">
-                      <h3 className="font-headline text-xl font-bold">{project.title}</h3>
-                      <p className="mt-2 text-sm text-foreground/80 flex-grow">{project.description}</p>
-                       <div className="flex flex-wrap gap-2 mt-4">
-                        {project.technologies.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
-                      </div>
-                      <div className="mt-6">
-                        <ProjectModal project={project} />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+            <ProjectMarquee />
         </div>
       </main>
     </div>
