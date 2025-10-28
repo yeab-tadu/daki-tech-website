@@ -1,4 +1,4 @@
-import type { Service, Project, Testimonial, TeamMember, BlogPost, Job, FAQ, Milestone } from './types';
+import type { Service, Project, Testimonial, TeamMember, FAQ, Milestone } from './types';
 
 export const services: Service[] = [
   {
@@ -189,59 +189,6 @@ export const team: TeamMember[] = [
     bio: 'Sarah combines creativity with user-centric design principles to create interfaces that are both beautiful and intuitive.',
     imageId: 'team-4',
   },
-];
-
-export const blogPosts: BlogPost[] = [
-  {
-    id: 'post-1',
-    slug: 'the-future-of-web-development-in-2024',
-    title: 'The Future of Web Development in 2024',
-    excerpt: 'Explore the emerging trends shaping the future of web development, from AI-powered tools to the rise of serverless architectures.',
-    content: '<p>The web development landscape is in a constant state of flux. As we move further into 2024, several key trends are emerging that promise to reshape how we build and interact with websites and applications...</p>',
-    author: 'Jane Smith',
-    date: '2024-05-15',
-    category: 'Tech Trends',
-    imageId: 'blog-1',
-  },
-  {
-    id: 'post-2',
-    slug: 'a-deep-dive-into-react-server-components',
-    title: 'A Deep Dive into React Server Components',
-    excerpt: 'Understand the power of React Server Components and how they can drastically improve the performance of your Next.js applications.',
-    content: '<p>React Server Components (RSC) are a new paradigm in React development, allowing developers to write components that run exclusively on the server. This has profound implications for performance, bundle size, and data fetching...</p>',
-    author: 'Mike Johnson',
-    date: '2024-05-10',
-    category: 'Web Development',
-    imageId: 'blog-2',
-  },
-  {
-    id: 'post-3',
-    slug: 'design-thinking-for-developers',
-    title: 'Design Thinking for Developers',
-    excerpt: 'Learn how to incorporating design thinking principles into your development workflow can lead to better, more user-centric products.',
-    content: '<p>Design thinking is not just for designers. This human-centered approach to problem-solving can be a game-changer for development teams, fostering empathy for users and leading to more innovative and successful products...</p>',
-    author: 'Sarah Williams',
-    date: '2024-05-05',
-    category: 'Design',
-    imageId: 'blog-3',
-  },
-];
-
-export const jobs: Job[] = [
-    {
-        id: 'job-1',
-        title: 'Senior Full-Stack Engineer',
-        description: 'We are looking for an experienced Full-Stack Engineer to join our growing team. You will be responsible for building and maintaining web applications for our clients.',
-        requirements: ['5+ years of experience with React and Node.js', 'Proficiency in TypeScript', 'Experience with cloud platforms (AWS, GCP)', 'Strong problem-solving skills'],
-        location: 'Remote'
-    },
-    {
-        id: 'job-2',
-        title: 'UX/UI Designer',
-        description: 'We are seeking a talented UX/UI Designer to create amazing user experiences. The ideal candidate will have a strong portfolio of design projects.',
-        requirements: ['3+ years of experience in UX/UI design', 'Proficiency in Figma, Sketch, or Adobe XD', 'Strong understanding of user-centered design principles', 'Excellent visual design skills'],
-        location: 'On-site, New York'
-    }
 ];
 
 export const faqs: FAQ[] = [

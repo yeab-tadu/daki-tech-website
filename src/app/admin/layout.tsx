@@ -30,8 +30,6 @@ const adminNavItems = [
   { href: "/admin", icon: <LayoutDashboard />, label: "Dashboard" },
   { href: "/admin/services", icon: <Briefcase />, label: "Services" },
   { href: "/admin/projects", icon: <FolderKanban />, label: "Projects" },
-  { href: "/admin/blog", icon: <PenSquare />, label: "Blog" },
-  { href: "/admin/careers", icon: <Users />, label: "Careers" },
   { href: "/admin/academy", icon: <BookOpen />, label: "Academy" },
   { href: "/admin/testimonials", icon: <MessageSquare />, label: "Testimonials" },
   { href: "/admin/team", icon: <Users />, label: "Team" },

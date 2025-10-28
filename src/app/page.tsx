@@ -45,7 +45,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { projects, services, whyChooseUs as initialWhyChooseUs, testimonials, blogPosts } from '@/lib/data';
+import { projects, services, whyChooseUs as initialWhyChooseUs, testimonials } from '@/lib/data';
 import { motion, useTime, useTransform } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';

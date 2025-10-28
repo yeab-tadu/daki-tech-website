@@ -16,8 +16,6 @@ const navLinks = [
   { href: '/academy', label: 'Academy' },
   { href: '/about', label: 'About' },
   { href: '/portfolio', label: 'Portfolio' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/careers', label: 'Careers' },
 ];
 
 export default function Header() {

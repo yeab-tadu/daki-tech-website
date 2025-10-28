@@ -32,26 +32,6 @@ export interface TeamMember {
   imageId: string;
 }
 
-export interface BlogPost {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  date: string;
-  category: 'Tech Trends' | 'Web Development' | 'Design' | 'Cloud' | 'Training';
-  imageId: string;
-}
-
-export interface Job {
-  id: string;
-  title: string;
-  description: string;
-  requirements: string[];
-  location: string;
-}
-
 export interface FAQ {
   id: string;
   question: string;
