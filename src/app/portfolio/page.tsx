@@ -12,12 +12,12 @@ import { cn } from '@/lib/utils';
 
 
 const projectIcons: { [key: string]: React.ReactNode } = {
-    'proj-bms': <Building className="h-full w-full" />,
-    'proj-menu': <BookOpenCheck className="h-full w-full" />,
-    'proj-bizcard': <Contact className="h-full w-full" />,
-    'proj-sms': <GraduationCap className="h-full w-full" />,
-    'proj-hms': <Hotel className="h-full w-full" />,
-    'default': <Rocket className="h-full w-full" />
+    'proj-bms': <Building />,
+    'proj-menu': <BookOpenCheck />,
+    'proj-bizcard': <Contact />,
+    'proj-sms': <GraduationCap />,
+    'proj-hms': <Hotel />,
+    'default': <Rocket />
 };
 
 const projectGradients: { [key: string]: string } = {
@@ -128,7 +128,9 @@ const ProjectMarquee = () => {
                         <div key={`${project.id}-${index}`} className="flex-shrink-0 w-80 h-80">
                             <Card className={cn("relative w-full h-full overflow-hidden group/project rounded-2xl text-white", gradient)}>
                                 <div className="absolute inset-0 transition-opacity duration-500 opacity-20 group-hover/project:opacity-40">
-                                    {React.cloneElement(icon as React.ReactElement, { className: "w-full h-full scale-125" })}
+                                    <div className="w-full h-full scale-125 flex items-center justify-center p-8">
+                                        {React.cloneElement(icon as React.ReactElement, { className: "w-full h-full" })}
+                                    </div>
                                 </div>
                                 <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 bg-gradient-to-t from-black/70 via-black/40 to-transparent">
                                     <div>
