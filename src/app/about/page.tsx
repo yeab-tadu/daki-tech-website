@@ -1,9 +1,10 @@
 
+
 'use client';
 
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
-import { Lightbulb, Gem, Heart, Shield, ArrowRight, Code, Database, GitBranch, Wind, Rocket } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Lightbulb, Gem, Heart, Shield, ArrowRight, Code, Database, GitBranch, Wind, Rocket, Users, HeartHandshake } from 'lucide-react';
 import { motion, useTime, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -30,6 +31,16 @@ const companyValues = [
         icon: <Shield className="h-8 w-8 text-primary" />,
         title: 'Trust',
         description: 'We build lasting relationships with our clients based on transparency and reliability.'
+    },
+    {
+        icon: <Users className="h-8 w-8 text-primary" />,
+        title: 'Collaboration',
+        description: 'We work together as a unified team to achieve collective success and deliver better results.'
+    },
+    {
+        icon: <HeartHandshake className="h-8 w-8 text-primary" />,
+        title: 'Client-Centric',
+        description: 'Your success is our priority. We work closely with you to understand your goals and deliver tailored solutions.'
     }
 ]
 
