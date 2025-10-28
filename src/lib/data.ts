@@ -70,6 +70,7 @@ export const projects: Project[] = [
   {
     id: 'proj-bms',
     title: 'Building Management System',
+    category: 'Management System',
     description: 'A comprehensive system for managing building operations, including facilities, maintenance, and tenant services.',
     technologies: ['React', 'Node.js', 'PostgreSQL', 'MQTT'],
     imageId: 'project-bms',
@@ -77,6 +78,7 @@ export const projects: Project[] = [
   {
     id: 'proj-menu',
     title: 'Digital Menu System',
+    category: 'Hospitality Tech',
     description: 'An interactive digital menu for restaurants, allowing for easy updates and QR code access.',
     technologies: ['Vue.js', 'Firebase', 'QR Code'],
     imageId: 'project-menu',
@@ -84,6 +86,7 @@ export const projects: Project[] = [
   {
     id: 'proj-bizcard',
     title: 'Digital Business Card',
+    category: 'Digital Tool',
     description: 'A modern, eco-friendly digital business card platform for professionals and businesses.',
     technologies: ['Next.js', 'Vercel', 'NFC'],
     imageId: 'project-bizcard',
@@ -91,6 +94,7 @@ export const projects: Project[] = [
   {
     id: 'proj-sms',
     title: 'School Management System',
+    category: 'Management System',
     description: 'An all-in-one platform to manage student information, grades, attendance, and parent communication.',
     technologies: ['Angular', 'Express', 'MongoDB', 'Socket.io'],
     imageId: 'project-sms',
@@ -98,6 +102,7 @@ export const projects: Project[] = [
   {
     id: 'proj-hms',
     title: 'Hotel Management System',
+    category: 'Management System',
     description: 'A complete solution for hotel operations, from booking and reservations to guest services and billing.',
     technologies: ['React', 'Django', 'MySQL', 'Stripe'],
     imageId: 'project-hms',

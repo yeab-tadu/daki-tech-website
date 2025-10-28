@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { projects as initialProjects } from '@/lib/data';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Project } from '@/lib/types';
 import { FolderKanban, Layers, Server, Database, Rocket, CodeXml, Hotel, Building, GraduationCap, Contact, BookOpenCheck } from 'lucide-react';
@@ -19,15 +19,6 @@ const projectIcons: { [key: string]: React.ReactNode } = {
     'proj-hms': <Hotel className="w-full h-full" />,
     'default': <Rocket className="w-full h-full" />
 };
-
-const projectGradients: { [key: string]: string } = {
-    'proj-bms': 'from-blue-500 to-cyan-400',
-    'proj-menu': 'from-green-500 to-teal-400',
-    'proj-bizcard': 'from-purple-500 to-indigo-400',
-    'proj-sms': 'from-orange-500 to-amber-400',
-    'proj-hms': 'from-red-500 to-rose-400',
-    'default': 'from-gray-500 to-gray-400'
-}
 
 const PortfolioHero = () => {
     const [icons, setIcons] = useState<React.ReactNode[]>([]);
@@ -103,55 +94,46 @@ const PortfolioHero = () => {
     )
 }
 
-const ProjectMarquee = () => {
-    const MarqueeRow = ({ projects, duration, direction = 1 }: { projects: Project[], duration: number, direction?: 1 | -1 }) => {
-        if (!projects || projects.length === 0) return null;
-        
-        const xAnimation = direction === 1 ? ["0%", "-100%"] : ["-100%", "0%"];
-        
-        return (
-            <motion.div
-                className="flex gap-8 py-4"
-                animate={{ x: xAnimation }}
-                transition={{
-                    ease: 'linear',
-                    duration: duration,
-                    repeat: Infinity,
-                }}
-                whileHover={{ animationPlayState: 'paused' }}
-            >
-                {[...projects, ...projects].map((project, index) => {
-                    const gradient = projectGradients[project.id] || projectGradients['default'];
-                    const iconNode = projectIcons[project.id] || projectIcons['default'];
-
-                    return (
-                        <div key={`${project.id}-${index}`} className="flex-shrink-0 w-80 h-80">
-                            <Card className={cn("relative w-full h-full overflow-hidden group/project rounded-2xl text-white bg-gradient-to-br", gradient)}>
-                                <div className="absolute inset-0 transition-opacity duration-500 opacity-20 group-hover/project:opacity-40">
-                                    <div className="w-full h-full scale-125 flex items-center justify-center p-8">
-                                       {iconNode}
+const ProjectGrid = () => {
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {initialProjects.map((project, index) => {
+                const iconNode = projectIcons[project.id] || projectIcons['default'];
+                return (
+                    <motion.div
+                        key={project.id}
+                        className="relative group"
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        whileHover={{ y: -8 }}
+                    >
+                        <Card className="h-full overflow-hidden transition-shadow duration-300 group-hover:shadow-xl group-hover:shadow-primary/20">
+                            <CardHeader>
+                                <div className="flex justify-between items-start">
+                                    <div className="w-16 h-16 p-3 bg-primary/10 text-primary rounded-lg">
+                                        {iconNode}
                                     </div>
+                                    <Badge variant="outline">{project.category}</Badge>
                                 </div>
-                                <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 bg-gradient-to-t from-black/70 via-black/40 to-transparent">
-                                    <div>
-                                        <h3 className="font-headline text-2xl font-bold transition-transform duration-300 group-hover/project:-translate-y-1">{project.title}</h3>
-                                        <div className="flex flex-wrap gap-2 mt-2 opacity-0 group-hover/project:opacity-100 transition-opacity duration-300">
-                                            {project.technologies.map(tech => <Badge key={tech} variant="secondary" className="bg-white/20 text-white backdrop-blur-sm">{tech}</Badge>)}
+                                <CardTitle className="pt-4 font-headline text-xl">{project.title}</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-4">
+                                    <p className="text-sm text-foreground/80 h-16">{project.description}</p>
+                                    <div className="pt-2">
+                                        <p className="text-xs font-semibold text-foreground/60 mb-2">Technologies</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {project.technologies.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
                                         </div>
                                     </div>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    )
-                })}
-            </motion.div>
-        );
-    };
-
-    return (
-        <div className="w-full overflow-hidden relative space-y-8 [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
-            <MarqueeRow projects={initialProjects.slice(0,5)} duration={90} />
-            <MarqueeRow projects={initialProjects.slice(0,5).reverse()} duration={100} direction={-1} />
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
+                );
+            })}
         </div>
     );
 };
@@ -162,9 +144,12 @@ export default function PortfolioPage() {
   return (
     <div>
       <PortfolioHero />
-      <main className="py-12 md:py-24 lg:py-32">
+      <main className="py-12 md:py-24 lg:py-32 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-            <ProjectMarquee />
+            <h2 className="font-headline text-3xl font-bold tracking-tighter text-center sm:text-4xl mb-12">
+                Our Projects
+            </h2>
+            <ProjectGrid />
         </div>
       </main>
     </div>
