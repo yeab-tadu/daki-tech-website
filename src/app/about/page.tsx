@@ -2,12 +2,12 @@
 
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
-import { Lightbulb, Gem, Heart, Shield, ArrowRight, Code, Database, GitBranch, Wind, Rocket, Milestone, Building, Users, GraduationCap } from 'lucide-react';
-import { motion, useTime, useTransform, useAnimation, useInView } from 'framer-motion';
+import { Lightbulb, Gem, Heart, Shield, ArrowRight, Code, Database, GitBranch, Wind, Rocket } from 'lucide-react';
+import { motion, useTime, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { milestones } from '@/lib/data';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
 const companyValues = [
     {
@@ -32,103 +32,9 @@ const companyValues = [
     }
 ]
 
-const journeyMilestoneIcons: { [key: string]: React.ReactNode } = {
-  'Founded': <Building className="w-8 h-8" />,
-  'Project': <Rocket className="w-8 h-8" />,
-  'Team': <Users className="w-8 h-8" />,
-  'Academy': <GraduationCap className="w-8 h-8" />,
-  'Default': <Milestone className="w-8 h-8" />,
-};
-
-const JourneyAnimation = () => {
-    const containerRef = useRef(null);
-    const isInView = useInView(containerRef, { once: true, amount: 0.2 });
-    const controls = useAnimation();
-
-    useEffect(() => {
-        if (isInView) {
-            controls.start("visible");
-        }
-    }, [isInView, controls]);
-
-    return (
-        <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden">
-            <svg className="absolute inset-0 w-full h-full" fill="none">
-                <defs>
-                    <linearGradient id="journey-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="hsl(var(--primary) / 0.2)" />
-                        <stop offset="100%" stopColor="hsl(var(--accent) / 0.2)" />
-                    </linearGradient>
-                </defs>
-                {milestones.map((_, i) => {
-                    const nextIndex = (i + 1) % milestones.length;
-                    return (
-                        <motion.line
-                            key={`line-${i}`}
-                            x1={milestones[i].position.x}
-                            y1={milestones[i].position.y}
-                            x2={milestones[nextIndex].position.x}
-                            y2={milestones[nextIndex].position.y}
-                            stroke="url(#journey-gradient)"
-                            strokeWidth="2"
-                            initial={{ pathLength: 0, opacity: 0 }}
-                            animate={controls}
-                            variants={{
-                                visible: { 
-                                    pathLength: 1, 
-                                    opacity: 1,
-                                    transition: { duration: 1.5, delay: i * 0.3 + 0.5, ease: "easeInOut" }
-                                }
-                            }}
-                        />
-                    )
-                })}
-            </svg>
-
-            {milestones.map((milestone, i) => (
-                <motion.div
-                    key={milestone.year}
-                    className="absolute"
-                    style={{
-                        left: milestone.position.x,
-                        top: milestone.position.y,
-                    }}
-                    initial={{ scale: 0, opacity: 0 }}
-                     animate={controls}
-                     variants={{
-                        visible: {
-                            scale: 1,
-                            opacity: 1,
-                            transition: { 
-                                type: "spring", 
-                                stiffness: 260, 
-                                damping: 20, 
-                                delay: i * 0.3
-                            }
-                        }
-                    }}
-                >
-                     <motion.div 
-                        className="relative flex flex-col items-center justify-center p-4 bg-background/70 backdrop-blur-md rounded-full shadow-lg text-primary text-center -translate-x-1/2 -translate-y-1/2 w-40 h-40"
-                        whileHover={{ scale: 1.1 }}
-                        animate={{ y: [0, -10, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, repeatType: 'mirror', delay: i * 0.5 }}
-                     >
-                        <div className="mb-1">{journeyMilestoneIcons[milestone.icon] || journeyMilestoneIcons['Default']}</div>
-                        <p className="font-headline text-lg font-bold">{milestone.year}</p>
-                        <p className="text-xs text-foreground/80 leading-tight">{milestone.title}</p>
-                    </motion.div>
-                </motion.div>
-            ))}
-        </div>
-    );
-};
-
-
 const AboutHero = () => {
     return (
         <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
-            <JourneyAnimation />
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
             <div className="container mx-auto px-4 md:px-6 relative z-20 text-center">
                 <motion.div
