@@ -108,7 +108,7 @@ const academySkills = [
   { name: 'JavaScript', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
   { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
   { name: 'Express.js', icon: <Wind className="h-10 w-10" /> },
-  { name: 'React.js', icon: <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg> },
+  { name: 'React.js', icon: <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://wwws.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg> },
   { name: 'Next.js', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">N</text></svg> },
   { name: 'MySQL', icon: <Database className="h-10 w-10" /> },
   { name: 'Git', icon: <GitBranch className="h-10 w-10" /> },
@@ -168,7 +168,7 @@ const AcademyHero = () => {
     }
 
     return (
-        <section className="relative w-full h-[90vh] md:h-dvh flex items-center justify-center bg-primary/5 overflow-hidden">
+        <section className="relative w-full flex items-center justify-center bg-primary/5 overflow-hidden pt-32 pb-20 md:h-dvh md:py-0">
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
             <div className="absolute inset-0 z-10 top-[-20%]">
                 {icons.length > 0 && icons}
