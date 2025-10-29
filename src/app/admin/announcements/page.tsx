@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -51,6 +51,7 @@ const VideoForm = ({ video: existingVideo, onSave }: { video?: any; onSave: () =
 
 
   const onSubmit = (data: VideoFormValues) => {
+    if (!firestore) return;
     if (existingVideo?.id) {
       const docRef = doc(firestore, 'announcements/videos/collection', existingVideo.id);
       setDocumentNonBlocking(docRef, data, { merge: true });
@@ -87,7 +88,14 @@ const VideoForm = ({ video: existingVideo, onSave }: { video?: any; onSave: () =
               <FormItem><FormLabel>Description</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
             )} />
             <FormField control={form.control} name="videoId" render={({ field }) => (
-              <FormItem><FormLabel>YouTube Video ID</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+              <FormItem>
+                <FormLabel>YouTube Video ID</FormLabel>
+                <FormControl><Input placeholder="e.g., dQw4w9WgXcQ" {...field} /></FormControl>
+                <FormDescription>
+                  This is the unique code at the end of a YouTube URL, not the full link.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
             )} />
             <Button type="submit">Save Video</Button>
           </form>
@@ -103,9 +111,9 @@ export default function AdminAnnouncementsPage() {
   const { toast } = useToast();
 
   // Firestore References
-  const videosCollectionRef = useMemoFirebase(() => collection(firestore, 'announcements/videos/collection'), [firestore]);
-  const nextBatchDocRef = useMemoFirebase(() => doc(firestore, 'announcements', 'nextBatch'), [firestore]);
-  const currentBatchDocRef = useMemoFirebase(() => doc(firestore, 'announcements', 'currentBatch'), [firestore]);
+  const videosCollectionRef = useMemoFirebase(() => firestore ? collection(firestore, 'announcements/videos/collection') : null, [firestore]);
+  const nextBatchDocRef = useMemoFirebase(() => firestore ? doc(firestore, 'announcements', 'nextBatch') : null, [firestore]);
+  const currentBatchDocRef = useMemoFirebase(() => firestore ? doc(firestore, 'announcements', 'currentBatch') : null, [firestore]);
 
   // Data Hooks
   const { data: videos, isLoading: videosLoading, error: videosError } = useCollection(videosCollectionRef);
@@ -123,23 +131,25 @@ export default function AdminAnnouncementsPage() {
   });
 
   const onNextBatchSubmit = (data: z.infer<typeof nextBatchSchema>) => {
+    if (!nextBatchDocRef) return;
     setDocumentNonBlocking(nextBatchDocRef, data, { merge: true });
     toast({ title: 'Next batch status updated!' });
   };
 
   const onCurrentBatchSubmit = (data: z.infer<typeof currentBatchSchema>) => {
+    if (!currentBatchDocRef) return;
     setDocumentNonBlocking(currentBatchDocRef, data, { merge: true });
     toast({ title: 'Current batch start date updated!' });
   };
   
   const handleDeleteVideo = (id: string) => {
-    if (!id) return;
+    if (!id || !firestore) return;
     const docRef = doc(firestore, 'announcements/videos/collection', id);
     deleteDocumentNonBlocking(docRef);
     toast({ title: 'Video deleted successfully!', variant: 'destructive' });
   };
 
-  if (!auth.currentUser) {
+  if (!auth?.currentUser) {
     return <p>Please log in to view this page.</p>;
   }
 
