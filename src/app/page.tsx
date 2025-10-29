@@ -422,7 +422,7 @@ const AnimatedProcess = () => {
 const HomeHero = () => {
     return (
         <section
-            className="relative w-full pt-32 pb-20 md:py-0 md:flex md:items-center md:justify-center md:h-[90vh]"
+            className="relative w-full pt-32 pb-20 md:py-0 md:flex md:items-center md:h-auto md:min-h-[500px] lg:h-auto lg:min-h-0"
         >
             <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
             <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
@@ -560,7 +560,7 @@ export default function Home() {
         <HomeHero />
 
         {/* Academy Section */}
-        <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
