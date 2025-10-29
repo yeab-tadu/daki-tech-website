@@ -422,7 +422,7 @@ const AnimatedProcess = () => {
 const HomeHero = () => {
     return (
         <section
-            className="relative w-full pt-32 pb-20 md:pt-0 md:min-h-screen flex items-center justify-center bg-background overflow-hidden"
+            className="relative w-full pt-32 pb-20 md:py-0 md:flex md:items-center md:justify-center md:h-[90vh]"
         >
             <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
             <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
@@ -590,7 +590,7 @@ export default function Home() {
                 </Button>
               </motion.div>
               <div className="flex justify-center items-center">
-                <SkillMarquee />
+                 <SkillMarquee />
               </div>
             </div>
           </div>
