@@ -210,7 +210,7 @@ export default function AdminAnnouncementsPage() {
                   <TableCell>{video.videoId}</TableCell>
                   <TableCell className="text-right">
                     <VideoForm video={video} onSave={() => {}} />
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(video.id)}>
+                    <Button variant="ghost" size="icon" onClick={() => handleDeleteVideo(video.id)}>
                       <Trash className="h-4 w-4" />
                     </Button>
                   </TableCell>
