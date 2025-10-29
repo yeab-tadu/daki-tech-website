@@ -322,197 +322,97 @@
         "id",
         "content"
       ]
+    },
+    "AnnouncementVideo": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AnnouncementVideo",
+      "type": "object",
+      "description": "Represents a single video announcement.",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the video." },
+        "description": { "type": "string", "description": "Short description of the video." },
+        "videoId": { "type": "string", "description": "The YouTube video ID." }
+      },
+      "required": ["title", "description", "videoId"]
+    },
+    "NextBatch": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "NextBatch",
+      "type": "object",
+      "description": "Information about the next upcoming batch.",
+      "properties": {
+        "status": { "type": "string", "description": "Registration status (e.g., 'Open', 'Opening Soon')." }
+      },
+      "required": ["status"]
+    },
+    "CurrentBatch": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CurrentBatch",
+      "type": "object",
+      "description": "Information about the currently running batch.",
+      "properties": {
+        "startDate": { "type": "string", "description": "The start date of the batch." }
+      },
+      "required": ["startDate"]
     }
   },
   "auth": {
     "providers": [
-      "password",
-      "anonymous"
+      "password"
     ]
   },
   "firestore": {
-    "structure": [
-      {
-        "path": "/services/{serviceId}",
-        "definition": {
-          "entityName": "Service",
-          "schema": {
-            "$ref": "#/backend/entities/Service"
-          },
-          "description": "Stores service information. Only accessible to admins.",
-          "params": [
-            {
-              "name": "serviceId",
-              "description": "Unique identifier for the service."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/projects/{projectId}",
-        "definition": {
-          "entityName": "Project",
-          "schema": {
-            "$ref": "#/backend/entities/Project"
-          },
-          "description": "Stores project information. Only accessible to admins.",
-          "params": [
-            {
-              "name": "projectId",
-              "description": "Unique identifier for the project."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/blogPosts/{blogPostId}",
-        "definition": {
-          "entityName": "BlogPost",
-          "schema": {
-            "$ref": "#/backend/entities/BlogPost"
-          },
-          "description": "Stores blog post information. Only accessible to admins.",
-          "params": [
-            {
-              "name": "blogPostId",
-              "description": "Unique identifier for the blog post."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/careers/{careerId}",
-        "definition": {
-          "entityName": "Career",
-          "schema": {
-            "$ref": "#/backend/entities/Career"
-          },
-          "description": "Stores career/job posting information. Only accessible to admins.",
-          "params": [
-            {
-              "name": "careerId",
-              "description": "Unique identifier for the career posting."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/faqs/{faqId}",
-        "definition": {
-          "entityName": "FAQ",
-          "schema": {
-            "$ref": "#/backend/entities/FAQ"
-          },
-          "description": "Stores FAQ entries. Only accessible to admins.",
-          "params": [
-            {
-              "name": "faqId",
-              "description": "Unique identifier for the FAQ entry."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/teamMembers/{teamMemberId}",
-        "definition": {
-          "entityName": "TeamMember",
-          "schema": {
-            "$ref": "#/backend/entities/TeamMember"
-          },
-          "description": "Stores team member information. Only accessible to admins.",
-          "params": [
-            {
-              "name": "teamMemberId",
-              "description": "Unique identifier for the team member."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/academyCourses/{academyCourseId}",
-        "definition": {
-          "entityName": "AcademyCourse",
-          "schema": {
-            "$ref": "#/backend/entities/AcademyCourse"
-          },
-          "description": "Stores academy course information. Only accessible to admins.",
-          "params": [
-            {
-              "name": "academyCourseId",
-              "description": "Unique identifier for the academy course."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/academyCourses/{academyCourseId}/batches/{academyBatchId}",
-        "definition": {
-          "entityName": "AcademyBatch",
-          "schema": {
-            "$ref": "#/backend/entities/AcademyBatch"
-          },
-          "description": "Stores academy batch information.  'academyCourseId' is denormalized for simpler querying and enforces hierarchical ownership. Only accessible to admins.",
-          "params": [
-            {
-              "name": "academyCourseId",
-              "description": "Unique identifier for the academy course."
-            },
-            {
-              "name": "academyBatchId",
-              "description": "Unique identifier for the academy batch."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/privacyPolicy/{privacyPolicyId}",
-        "definition": {
-          "entityName": "PrivacyPolicy",
-          "schema": {
-            "$ref": "#/backend/entities/PrivacyPolicy"
-          },
-          "description": "Stores privacy policy content. Only accessible to admins.",
-          "params": [
-            {
-              "name": "privacyPolicyId",
-              "description": "Unique identifier for the privacy policy."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/termsOfService/{termsOfServiceId}",
-        "definition": {
-          "entityName": "TermsOfService",
-          "schema": {
-            "$ref": "#/backend/entities/TermsOfService"
-          },
-          "description": "Stores terms of service content. Only accessible to admins.",
-          "params": [
-            {
-              "name": "termsOfServiceId",
-              "description": "Unique identifier for the terms of service."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/roles_admin/{userId}",
-        "definition": {
-          "entityName": "AdminRole",
-          "schema": {
-            "$ref": "#/backend/entities/TermsOfService"
-          },
-          "description": "Check if the user is an admin.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "user Id"
-            }
-          ]
-        }
-      }
-    ],
-    "reasoning": "This Firestore structure is designed to support the Daki Techs website's content management needs, focusing on simplicity, security, and scalability. It leverages Structural Segregation (Strategy B) by storing each content type (services, projects, blog posts, etc.) in its own top-level collection, which simplifies security rules by ensuring that all documents within a collection share the same access requirements. It relies on Authorization Independence by limiting `get()` operations. Since the user specifies that an admin should manage all content, we rely on checking the `request.auth.uid` to determine who has access. Since all content will be managed by an admin, we can assume that the `list` operation should only be performed by an authenticated user. Since the app only have one role (Admin), we will rely on the existence over content to determine if a user is an admin or not."
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/Service" },
+      "description": "Stores service information. Only accessible to admins."
+    },
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "Stores project information. Only accessible to admins."
+    },
+    "/blogPosts/{blogPostId}": {
+      "schema": { "$ref": "#/entities/BlogPost" },
+      "description": "Stores blog post information. Only accessible to admins."
+    },
+    "/careers/{careerId}": {
+      "schema": { "$ref": "#/entities/Career" },
+      "description": "Stores career/job posting information. Only accessible to admins."
+    },
+    "/faqs/{faqId}": {
+      "schema": { "$ref": "#/entities/FAQ" },
+      "description": "Stores FAQ entries. Only accessible to admins."
+    },
+    "/teamMembers/{teamMemberId}": {
+      "schema": { "$ref": "#/entities/TeamMember" },
+      "description": "Stores team member information. Only accessible to admins."
+    },
+    "/academyCourses/{academyCourseId}": {
+      "schema": { "$ref": "#/entities/AcademyCourse" },
+      "description": "Stores academy course information. Only accessible to admins."
+    },
+    "/academyCourses/{academyCourseId}/batches/{academyBatchId}": {
+      "schema": { "$ref": "#/entities/AcademyBatch" },
+      "description": "Stores academy batch information.  'academyCourseId' is denormalized for simpler querying and enforces hierarchical ownership. Only accessible to admins."
+    },
+    "/privacyPolicy/{privacyPolicyId}": {
+      "schema": { "$ref": "#/entities/PrivacyPolicy" },
+      "description": "Stores privacy policy content. Only accessible to admins."
+    },
+    "/termsOfService/{termsOfServiceId}": {
+      "schema": { "$ref": "#/entities/TermsOfService" },
+      "description": "Stores terms of service content. Only accessible to admins."
+    },
+    "/announcements/nextBatch": {
+        "schema": { "$ref": "#/entities/NextBatch" },
+        "description": "A single document storing the status of the next batch registration."
+    },
+    "/announcements/currentBatch": {
+        "schema": { "$ref": "#/entities/CurrentBatch" },
+        "description": "A single document storing the start date of the current batch."
+    },
+    "/announcements/videos/collection/{videoId}": {
+        "schema": { "$ref": "#/entities/AnnouncementVideo" },
+        "description": "A collection of announcement videos."
+    }
   }
 }

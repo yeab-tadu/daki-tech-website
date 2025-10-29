@@ -1,3 +1,5 @@
+'use client'
+
 import {
   SidebarProvider,
   Sidebar,
@@ -23,14 +25,20 @@ import {
   FolderKanban,
   LogOut,
   HelpCircle,
+  Megaphone,
 } from "lucide-react"
 import Link from "next/link"
+import { useAuth, useUser } from "@/firebase"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+import { signOut } from "firebase/auth"
 
 const adminNavItems = [
   { href: "/admin", icon: <LayoutDashboard />, label: "Dashboard" },
   { href: "/admin/services", icon: <Briefcase />, label: "Services" },
   { href: "/admin/projects", icon: <FolderKanban />, label: "Projects" },
   { href: "/admin/academy", icon: <BookOpen />, label: "Academy" },
+  { href: "/admin/announcements", icon: <Megaphone />, label: "Announcements" },
   { href: "/admin/testimonials", icon: <MessageSquare />, label: "Testimonials" },
   { href: "/admin/team", icon: <Users />, label: "Team" },
   { href: "/admin/faq", icon: <HelpCircle />, label: "FAQ" },
@@ -41,6 +49,29 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isUserLoading, router]);
+
+  const handleLogout = () => {
+    signOut(auth);
+    router.push('/login');
+  };
+
+  if (isUserLoading || !user) {
+     return (
+      <div className="flex items-center justify-center h-screen">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <SidebarProvider>
       <Sidebar>
@@ -64,20 +95,18 @@ export default function AdminLayout({
         <SidebarFooter>
            <SidebarMenu>
              <SidebarMenuItem>
-               <Link href="/login" className="w-full">
-                <SidebarMenuButton>
+                <SidebarMenuButton onClick={handleLogout}>
                     <LogOut />
                     <span>Logout</span>
                 </SidebarMenuButton>
-               </Link>
              </SidebarMenuItem>
               <SidebarMenuItem>
                  <SidebarMenuButton>
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src="https://picsum.photos/seed/admin/100/100" />
-                      <AvatarFallback>AD</AvatarFallback>
+                      <AvatarImage src={user?.photoURL || "https://picsum.photos/seed/admin/100/100"} />
+                      <AvatarFallback>{user?.email?.[0].toUpperCase()}</AvatarFallback>
                     </Avatar>
-                    <span>Admin User</span>
+                    <span>{user?.email || 'Admin'}</span>
                 </SidebarMenuButton>
              </SidebarMenuItem>
            </SidebarMenu>
