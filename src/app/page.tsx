@@ -103,7 +103,7 @@ const InteractiveCircle = () => {
   const rotate = useTransform(time, [0, 40000], [0, 360], { clamp: false });
 
   return (
-    <div className="relative w-[450px] h-[450px] flex items-center justify-center">
+    <div className="relative w-full h-full max-w-[450px] max-h-[450px] flex items-center justify-center aspect-square">
       <motion.div
         className="absolute top-0 left-0 w-full h-full"
         style={{ rotate }}
@@ -192,9 +192,9 @@ const SkillMarquee = () => {
             }}
         >
             {[...skills, ...skills].map((skill, index) => (
-            <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-32 flex flex-col items-center text-center text-foreground group">
-                <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
-                {skill.icon}
+            <div key={`${skill.name}-${index}`} className="flex-shrink-0 w-24 sm:w-32 flex flex-col items-center text-center text-foreground group">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-background rounded-full flex items-center justify-center shadow-lg text-accent transition-transform group-hover:scale-110">
+                {React.cloneElement(skill.icon, { className: 'h-8 w-8 sm:h-10 sm:w-10' })}
                 </div>
                 <span className="text-xs font-semibold mt-2">{skill.name}</span>
             </div>
@@ -229,7 +229,7 @@ const ServicesMarquee = () => {
 
     return (
       <motion.div
-        className="flex gap-8 py-4"
+        className="flex gap-6 md:gap-8 py-4"
         animate={{ x: xAnimation }}
         transition={{
           ease: 'linear',
@@ -239,7 +239,7 @@ const ServicesMarquee = () => {
         whileHover={{ animationPlayState: 'paused' }}
       >
         {[...services, ...services].map((service, index) => (
-           <div key={`${service.id}-${index}`} className="flex-shrink-0 w-[350px]">
+           <div key={`${service.id}-${index}`} className="flex-shrink-0 w-[300px] sm:w-[350px]">
               <motion.div
                 className="relative h-full"
                 whileHover={{ y: -8, rotateZ: '1deg', rotateX: '10deg' }}
@@ -251,9 +251,9 @@ const ServicesMarquee = () => {
                       whileHover={{ rotate: 360 }}
                       transition={{ duration: 0.5 }}
                     >
-                      {serviceIcons[service.id] || <Code className="h-8 w-8" />}
+                      {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-6 w-6 sm:h-8 sm:w-8" })}
                     </motion.div>
-                    <CardTitle className="font-headline text-xl">{service.title}</CardTitle>
+                    <CardTitle className="font-headline text-lg sm:text-xl">{service.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-foreground/80 h-20 overflow-hidden">{service.description}</p>
@@ -310,10 +310,10 @@ const WhyChooseUs = ({ items }: { items: WhyChooseUsItem[] }) => {
                  whileHover={{ animationPlayState: 'paused' }}
             >
                 {[...items, ...items].map((reason, index) => (
-                    <div key={`${reason.title}-${index}`} className="flex-shrink-0 w-52 flex flex-col items-center text-center group">
-                        <div className="w-40 h-40 bg-background rounded-full flex flex-col items-center justify-center p-4 shadow-lg text-primary transition-transform group-hover:scale-110 group-hover:bg-primary/10">
-                            {React.cloneElement(reason.icon, { className: "h-12 w-12 mb-2"})}
-                            <h3 className="font-headline text-base font-bold text-foreground">{reason.title}</h3>
+                    <div key={`${reason.title}-${index}`} className="flex-shrink-0 w-48 sm:w-52 flex flex-col items-center text-center group">
+                        <div className="w-32 h-32 sm:w-40 sm:h-40 bg-background rounded-full flex flex-col items-center justify-center p-4 shadow-lg text-primary transition-transform group-hover:scale-110 group-hover:bg-primary/10">
+                            {React.cloneElement(reason.icon, { className: "h-10 w-10 sm:h-12 sm:w-12 mb-2"})}
+                            <h3 className="font-headline text-sm sm:text-base font-bold text-foreground">{reason.title}</h3>
                         </div>
                     </div>
                 ))}
@@ -322,7 +322,7 @@ const WhyChooseUs = ({ items }: { items: WhyChooseUsItem[] }) => {
     };
     
     return (
-        <div className="w-full overflow-hidden relative space-y-8 py-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <div className="w-full overflow-hidden relative space-y-8 py-8 [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] md:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
             <MarqueeRow items={shuffledItems1} duration={60} />
             <MarqueeRow items={shuffledItems2} duration={55} direction={-1} />
         </div>
@@ -333,7 +333,7 @@ const WhyChooseUs = ({ items }: { items: WhyChooseUsItem[] }) => {
 const AnimatedProcess = () => {
     return (
         <div className="relative mt-12 md:mt-24 w-full max-w-6xl mx-auto">
-            <div className="flex justify-between items-start relative z-10">
+            <div className="flex justify-between items-start relative z-10 px-4 md:px-0">
                 {processSteps.map((step, index) => (
                     <motion.div
                         key={step.name}
@@ -344,7 +344,7 @@ const AnimatedProcess = () => {
                         transition={{ duration: 0.5, delay: index * 0.2 }}
                     >
                         <motion.div
-                            className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
+                            className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg md:text-xl ring-4 ring-background transition-all duration-300 group-hover:scale-110 group-hover:bg-accent"
                             animate={{
                                 scale: [1, 1.1, 1],
                             }}
@@ -362,7 +362,7 @@ const AnimatedProcess = () => {
                     </motion.div>
                 ))}
             </div>
-            <svg className="absolute top-6 md:top-8 left-0 w-full h-16 z-0" viewBox="0 0 1200 100" preserveAspectRatio="none">
+            <svg className="absolute top-6 md:top-8 left-0 w-full h-16 z-0 hidden md:block" viewBox="0 0 1200 100" preserveAspectRatio="none">
                  <defs>
                     <linearGradient id="path-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="hsl(var(--accent))" />
@@ -413,7 +413,7 @@ const AnimatedProcess = () => {
 const HomeHero = () => {
     return (
          <section
-          className="relative w-full h-dvh flex items-center bg-background overflow-hidden"
+          className="relative w-full h-[90vh] md:h-dvh flex items-center bg-background overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
           <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
@@ -500,7 +500,7 @@ const ProjectMarquee = () => {
         
         return (
         <motion.div
-            className="flex gap-8 py-4"
+            className="flex gap-6 md:gap-8 py-4"
             animate={{ x: xAnimation }}
             transition={{
             ease: 'linear',
@@ -510,17 +510,17 @@ const ProjectMarquee = () => {
             whileHover={{ animationPlayState: 'paused' }}
         >
             {[...items, ...items].map((project, index) => (
-                <div key={`${project.id}-${index}`} className="flex-shrink-0 w-[400px]">
+                <div key={`${project.id}-${index}`} className="flex-shrink-0 w-[320px] sm:w-[400px]">
                     <Card className="h-full overflow-hidden group transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
-                        <CardContent className="p-6 flex items-center gap-6">
-                            <div className="w-24 h-24 flex-shrink-0 text-primary group-hover:text-accent transition-colors">
+                        <CardContent className="p-6 flex flex-col sm:flex-row items-center gap-6">
+                            <div className="w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 text-primary group-hover:text-accent transition-colors">
                                 {projectIcons[project.id] || projectIcons['default']}
                             </div>
-                            <div className="space-y-2">
+                            <div className="space-y-2 text-center sm:text-left">
                                 <Badge variant="outline">{project.category}</Badge>
                                 <h3 className="font-headline text-xl font-bold">{project.title}</h3>
                                 <p className="text-sm text-foreground/80">{project.description}</p>
-                                <div className="flex flex-wrap gap-2 pt-2">
+                                <div className="flex flex-wrap gap-2 pt-2 justify-center sm:justify-start">
                                     {project.technologies.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
                                 </div>
                             </div>
@@ -555,7 +555,7 @@ export default function Home() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
-                className="space-y-6"
+                className="space-y-6 text-center lg:text-left"
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -566,7 +566,7 @@ export default function Home() {
                 <p className="text-foreground/80 md:text-lg">
                   Our Full-Stack Web Development course is a practical, step-by-step training that teaches you how to build complete websites and web apps from scratch. You’ll learn both front-end and back-end skills through real projects, gaining the confidence and experience needed to work as a professional web developer.
                 </p>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-6 w-6 text-accent" />
                     <span>6-Month Program</span>
@@ -724,3 +724,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

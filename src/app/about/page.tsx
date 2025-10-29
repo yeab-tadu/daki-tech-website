@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { milestones } from '@/lib/data';
 import React, { useState, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const companyValues = [
     {
@@ -48,14 +49,17 @@ type CompanyValue = typeof companyValues[0];
 
 
 const AboutHero = () => {
+    const isMobile = useIsMobile();
     const [icons, setIcons] = useState<React.ReactNode[]>([]);
     const techIcons = [Code, Database, GitBranch, Wind, Rocket];
+    const iconCount = isMobile ? 10 : 25;
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const generatedIcons = [...techIcons, ...techIcons, ...techIcons, ...techIcons, ...techIcons].map((Icon, index) => {
+            const generatedIcons = Array.from({ length: iconCount }).map((_, index) => {
+                const Icon = techIcons[index % techIcons.length];
                 const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
-                const leftPosition = `${(index * (100 / techIcons.length) + (Math.random() - 0.5) * 5) % 95}%`;
+                const leftPosition = `${(index * (100 / (iconCount / 2)) + (Math.random() - 0.5) * 5) % 95}%`;
                 const delay = Math.random() * 10;
                 const duration = 5 + Math.random() * 5;
                 
@@ -72,7 +76,7 @@ const AboutHero = () => {
             });
             setIcons(generatedIcons);
         }
-    }, []);
+    }, [isMobile, iconCount]);
 
     const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
         return (
@@ -98,7 +102,7 @@ const AboutHero = () => {
 
 
     return (
-        <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
+        <section className="relative w-full h-[90vh] md:h-dvh flex items-center justify-center bg-primary/5 overflow-hidden">
              <div className="absolute inset-0 bg-grid-pattern opacity-5" />
              <div className="absolute inset-0 z-10 top-[-20%]">
                 {icons.length > 0 && icons}
@@ -134,24 +138,28 @@ const AboutHero = () => {
 
 const RotatingAcademySkills = () => {
     const skills = [
-        { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
-        { name: 'JavaScript', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
+        { name: 'HTML & CSS', icon: <Code className="h-8 w-8 sm:h-10 sm:w-10" /> },
+        { name: 'JavaScript', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">JS</text></svg> },
         { name: 'React', icon: <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg> },
-        { name: 'Next.js', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">N</text></svg> },
+        { name: 'Next.js', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor">N</text></svg> },
         { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,27.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
-        { name: 'MySQL', icon: <Database className="h-10 w-10" /> },
-        { name: 'Express', icon: <Wind className="h-10 w-10" /> },
-        { name: 'Git', icon: <GitBranch className="h-10 w-10" /> },
+        { name: 'MySQL', icon: <Database className="h-8 w-8 sm:h-10 sm:w-10" /> },
+        { name: 'Express', icon: <Wind className="h-8 w-8 sm:h-10 sm:w-10" /> },
+        { name: 'Git', icon: <GitBranch className="h-8 w-8 sm:h-10 sm:w-10" /> },
     ];
 
-    const radius = 150;
-    const center = 175;
+    const isMobile = useIsMobile();
+    const radius = isMobile ? 110 : 150;
+    const center = isMobile ? 125 : 175;
     const time = useTime();
     const rotate = useTransform(time, [0, 30000], [0, 360], { clamp: false });
     const reverseRotate = useTransform(time, [0, 30000], [0, -360], { clamp: false });
+    const containerSize = isMobile ? 'w-[250px] h-[250px]' : 'w-[350px] h-[350px]';
+    const iconWrapperSize = isMobile ? 'w-16 h-16' : 'w-20 h-20';
+    const centerCircleSize = isMobile ? 'h-28 w-28' : 'h-40 w-40';
 
     return (
-        <div className="relative w-[350px] h-[350px] flex items-center justify-center">
+        <div className={`relative flex items-center justify-center ${containerSize}`}>
             <motion.div
                 className="absolute top-0 left-0 w-full h-full"
                 style={{ rotate }}
@@ -164,13 +172,13 @@ const RotatingAcademySkills = () => {
                     return (
                         <motion.div
                             key={skill.name}
-                            className="absolute w-20 h-20"
-                            style={{ top: y - 40, left: x - 40 }}
+                            className={`absolute ${iconWrapperSize}`}
+                            style={{ top: y - (isMobile ? 32 : 40), left: x - (isMobile ? 32 : 40) }}
                             whileHover={{ scale: 1.2 }}
                             title={skill.name}
                         >
                             <motion.div 
-                                className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-md text-primary p-2"
+                                className={`w-full h-full bg-background rounded-full flex items-center justify-center shadow-md text-primary p-2`}
                                 style={{ rotate: reverseRotate }}
                             >
                                 {skill.icon}
@@ -179,9 +187,9 @@ const RotatingAcademySkills = () => {
                     );
                 })}
             </motion.div>
-            <div className="relative flex h-40 w-40 flex-col items-center justify-center rounded-full bg-primary/10 text-center">
-                <p className="font-headline text-2xl font-bold text-primary">Daki</p>
-                <p className="font-headline text-2xl font-bold text-accent">Academy</p>
+            <div className={`relative flex flex-col items-center justify-center rounded-full bg-primary/10 text-center ${centerCircleSize}`}>
+                <p className="font-headline text-xl sm:text-2xl font-bold text-primary">Daki</p>
+                <p className="font-headline text-xl sm:text-2xl font-bold text-accent">Academy</p>
             </div>
         </div>
     )
@@ -192,7 +200,7 @@ const AcademyCTA = () => {
     <section className="py-12 md:py-24 lg:py-32 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-4">
+          <div className="space-y-4 text-center lg:text-left">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">Empowering the Next Generation</h2>
             <p className="text-foreground/80 text-lg">
               Beyond building great products, we're committed to building great developers. Daki Academy is our initiative to train and mentor aspiring tech talent, equipping them with the skills to succeed in the modern digital landscape.
@@ -273,7 +281,7 @@ const ValuesMarquee = () => {
     
     return (
       <motion.div
-        className="flex gap-8 py-4"
+        className="flex gap-6 md:gap-8 py-4"
         animate={{ x: xAnimation }}
         transition={{
           ease: 'linear',
@@ -283,7 +291,7 @@ const ValuesMarquee = () => {
         whileHover={{ animationPlayState: 'paused' }}
       >
         {[...items, ...items].map((item, index) => (
-          <div key={`${item.title}-${index}`} className="flex-shrink-0 w-[300px]">
+          <div key={`${item.title}-${index}`} className="flex-shrink-0 w-[280px] sm:w-[300px]">
             <Card className="text-center p-6 border-0 shadow-lg hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300 h-full">
               <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
                 {item.icon}
@@ -357,3 +365,5 @@ export default function AboutPage() {
     </div>
   );
 }
+
+    

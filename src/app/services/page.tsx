@@ -20,6 +20,7 @@ import {
     Paintbrush,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const serviceIcons: { [key: string]: React.ReactNode } = {
   'web-development': <Code className="h-full w-full" />,
@@ -35,7 +36,7 @@ const serviceIcons: { [key: string]: React.ReactNode } = {
 
 const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
     <motion.div
-      className="bg-background/80 backdrop-blur-sm rounded-full p-10 shadow-lg"
+      className="bg-background/80 backdrop-blur-sm rounded-full p-6 sm:p-10 shadow-lg"
       animate={{ 
         y: [0, -15, 0],
         rotate: [0, 5, -5, 0],
@@ -60,21 +61,25 @@ const ServicesHeroAnimation = () => {
     const servicesToDisplay = services.slice(0, 8);
     const time = useTime();
     const rotate = useTransform(time, [0, 40000], [0, 360], { clamp: false });
-    const radius = 200;
-    const center = 250;
+    const isMobile = useIsMobile();
+    const radius = isMobile ? 120 : 200;
+    const center = isMobile ? 150 : 250;
+    const containerSize = isMobile ? 300 : 500;
+    const iconSize = isMobile ? 24 : 32;
+
 
     return (
-        <div className="relative flex items-center justify-center" style={{ width: 500, height: 500 }}>
+        <div className="relative flex items-center justify-center" style={{ width: containerSize, height: containerSize }}>
             <motion.div className="absolute w-full h-full" style={{ rotate }}>
                 {servicesToDisplay.map((service, index) => {
                     const angle = (index / servicesToDisplay.length) * 2 * Math.PI;
-                    const x = center + radius * Math.cos(angle) - 64; 
-                    const y = center + radius * Math.sin(angle) - 64;
+                    const x = center + radius * Math.cos(angle) - (isMobile ? 48 : 64);
+                    const y = center + radius * Math.sin(angle) - (isMobile ? 48 : 64);
 
                     return (
                         <motion.div
                             key={service.id}
-                            className="absolute p-4 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary w-32 h-32"
+                            className={`absolute p-3 bg-background/60 backdrop-blur-sm rounded-full shadow-lg text-primary ${isMobile ? 'w-24 h-24' : 'w-32 h-32'}`}
                             style={{
                                 top: y,
                                 left: x,
@@ -86,7 +91,7 @@ const ServicesHeroAnimation = () => {
                         >
                             <motion.div style={{ rotate: useTransform(rotate, val => -val) }}>
                                <Link href={`#${service.id}`} title={service.title} className="w-full h-full">
-                                 {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full p-4" })}
+                                 {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full p-3 sm:p-4" })}
                                </Link>
                             </motion.div>
                         </motion.div>
@@ -94,7 +99,7 @@ const ServicesHeroAnimation = () => {
                 })}
             </motion.div>
             <div className="relative z-10 text-center">
-                 <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-primary">
+                 <h1 className="font-headline text-3xl sm:text-4xl font-extrabold tracking-tight md:text-6xl text-primary">
                     Services
                 </h1>
             </div>
@@ -120,7 +125,7 @@ export default function ServicesPage() {
                       <Link href="/contact">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Link>
                     </Button>
                 </div>
-                 <div className="hidden lg:flex items-center justify-center">
+                 <div className="flex items-center justify-center">
                    <ServicesHeroAnimation />
                  </div>
             </div>
@@ -151,7 +156,7 @@ export default function ServicesPage() {
                   </div>
                   <div className={`flex items-center justify-center min-h-[250px] ${isReversed ? 'lg:order-1' : ''}`}>
                       <AnimatedIcon>
-                        {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-40 w-40 text-primary" })}
+                        {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-32 w-32 sm:h-40 sm:w-40 text-primary" })}
                       </AnimatedIcon>
                   </div>
                 </div>
@@ -163,3 +168,5 @@ export default function ServicesPage() {
     </div>
   );
 }
+
+    

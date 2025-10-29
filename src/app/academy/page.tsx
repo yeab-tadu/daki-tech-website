@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -7,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar, Users, Briefcase, FileText, MessageSquare, Award, ArrowRight, Lightbulb, Target, Code, Wind, Rocket, Database, GitBranch, PlugZap, Router, BrainCircuit, Projector, Phone, Send, CheckCircle, Handshake, BriefcaseBusiness, Server, MonitorSmartphone, CodeXml, Layers, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const coursePhases = [
     {
@@ -14,7 +16,7 @@ const coursePhases = [
         title: "HTML, CSS & Bootstrap",
         description: "Master the fundamental building blocks of the web. You'll learn to structure web pages with HTML and style them with modern CSS and Bootstrap.",
         icons: [
-            <Code key="html-css" className="w-12 h-12 text-pink-500" />,
+            <Code key="html-css" className="w-10 h-10 sm:w-12 sm:h-12 text-pink-500" />,
             <svg key="bootstrap" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor" className="text-pink-500">B</text>
             </svg>
@@ -28,7 +30,7 @@ const coursePhases = [
              <svg key="js" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="24" fontWeight="bold" fill="currentColor" className="text-pink-500">JS</text>
             </svg>,
-            <GitBranch key="git" className="w-12 h-12 text-pink-500" />
+            <GitBranch key="git" className="w-10 h-10 sm:w-12 sm:h-12 text-pink-500" />
         ]
     },
     {
@@ -37,8 +39,8 @@ const coursePhases = [
         description: "Build powerful full-stack applications. You'll learn to create interactive frontends with React and robust backends with Node.js, Express, and MySQL.",
         icons: [
             <svg key="react" width="48" height="48" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" className="text-pink-500" /><g stroke="currentColor" strokeWidth="1" fill="none" className="text-pink-500"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg>,
-            <Database key="mysql" className="w-12 h-12 text-pink-500" />,
-            <Wind key="express" className="w-12 h-12 text-pink-500" />,
+            <Database key="mysql" className="w-10 h-10 sm:w-12 sm:h-12 text-pink-500" />,
+            <Wind key="express" className="w-10 h-10 sm:w-12 sm:h-12 text-pink-500" />,
             <svg key="nextjs" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor" className="text-pink-500">N</text>
             </svg>,
@@ -48,7 +50,7 @@ const coursePhases = [
         phase: 4,
         title: "Fullstack Projects & Deployment",
         description: "Apply everything you've learned by building complete, portfolio-ready projects from scratch and deploying them to the web.",
-        icons: [ <Rocket key="projects" className="w-16 h-16 text-pink-500" /> ]
+        icons: [ <Rocket key="projects" className="w-14 h-14 sm:w-16 sm:h-16 text-pink-500" /> ]
     }
 ];
 
@@ -104,7 +106,7 @@ const upcomingBatches = [
 const academySkills = [
   { name: 'HTML & CSS', icon: <Code className="h-10 w-10" /> },
   { name: 'JavaScript', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
-  { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,27.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
+  { name: 'Node.js', icon: <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke="currentColor" strokeWidth="5" fill="none" /><text x="50" y="55" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">JS</text></svg> },
   { name: 'Express.js', icon: <Wind className="h-10 w-10" /> },
   { name: 'React.js', icon: <svg width="40" height="40" viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="2.05" fill="currentColor" /><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2" /><ellipse rx="11" ry="4.2" transform="rotate(60)" /><ellipse rx="11" ry="4.2" transform="rotate(120)" /></g></svg> },
   { name: 'Next.js', icon: <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="30" fontWeight="bold" fill="currentColor">N</text></svg> },
@@ -115,13 +117,16 @@ const academySkills = [
 ];
 
 const AcademyHero = () => {
+    const isMobile = useIsMobile();
     const [icons, setIcons] = useState<React.ReactNode[]>([]);
+    const iconCount = isMobile ? 15 : 30;
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const generatedIcons = [...academySkills, ...academySkills, ...academySkills].map((skill, index) => {
+            const generatedIcons = Array.from({length: iconCount}).map((_, index) => {
+                const skill = academySkills[index % academySkills.length];
                 const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
-                const leftPosition = `${(index * (100 / academySkills.length) + (Math.random() - 0.5) * 5) % 95}%`;
+                const leftPosition = `${(index * (100 / (iconCount / 2)) + (Math.random() - 0.5) * 5) % 95}%`;
                 const delay = Math.random() * 10;
                 const duration = 5 + Math.random() * 5;
                 
@@ -138,7 +143,7 @@ const AcademyHero = () => {
             });
             setIcons(generatedIcons);
         }
-    }, []);
+    }, [isMobile, iconCount]);
 
     const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
         return (
@@ -163,7 +168,7 @@ const AcademyHero = () => {
     }
 
     return (
-        <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
+        <section className="relative w-full h-[90vh] md:h-dvh flex items-center justify-center bg-primary/5 overflow-hidden">
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
             <div className="absolute inset-0 z-10 top-[-20%]">
                 {icons.length > 0 && icons}
@@ -214,7 +219,7 @@ const CoursePhases = () => {
                                 <CardContent className="p-6 grid md:grid-cols-3 gap-6 items-center">
                                     <div className="md:col-span-2">
                                         <Badge variant="outline">Phase {phase.phase}</Badge>
-                                        <h3 className="font-headline text-2xl font-bold mt-2">{phase.title}</h3>
+                                        <h3 className="font-headline text-xl sm:text-2xl font-bold mt-2">{phase.title}</h3>
                                         <p className="text-foreground/80 mt-2">{phase.description}</p>
                                     </div>
                                     <div className="flex items-center justify-center md:justify-end gap-4 flex-wrap">
@@ -258,7 +263,7 @@ const WhyChooseUsMarquee = () => {
     
     return (
       <motion.div
-        className="flex gap-8 py-4"
+        className="flex gap-6 md:gap-8 py-4"
         animate={{ x: xAnimation }}
         transition={{
           ease: 'linear',
@@ -268,7 +273,7 @@ const WhyChooseUsMarquee = () => {
         whileHover={{ animationPlayState: 'paused' }}
       >
         {[...items, ...items].map((item, index) => (
-          <div key={`${item.title}-${index}`} className="flex-shrink-0 w-[300px]">
+          <div key={`${item.title}-${index}`} className="flex-shrink-0 w-[280px] sm:w-[300px]">
             <Card className="text-center p-6 border-0 shadow-lg hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300 h-full">
               <div className="inline-block bg-primary/10 p-4 rounded-full mb-4">
                 {item.icon}
@@ -314,7 +319,7 @@ const CareerPathSection = () => {
         
         return (
         <motion.div
-            className="flex gap-8 py-4"
+            className="flex gap-6 md:gap-8 py-4"
             animate={{ x: xAnimation }}
             transition={{
             ease: 'linear',
@@ -324,10 +329,10 @@ const CareerPathSection = () => {
             whileHover={{ animationPlayState: 'paused' }}
         >
             {[...items, ...items].map((item, index) => (
-            <div key={`${item.name}-${index}`} className="flex-shrink-0 w-64">
-                <div className="flex h-full items-center justify-center gap-4 p-6 bg-background rounded-lg shadow-lg hover:shadow-primary/20 hover:-translate-y-1 transition-all duration-300">
-                    <div className="text-accent">{React.cloneElement(item.icon as React.ReactElement, { className: "h-10 w-10"})}</div>
-                    <span className="font-headline text-lg font-semibold">{item.name}</span>
+            <div key={`${item.name}-${index}`} className="flex-shrink-0 w-56 sm:w-64">
+                <div className="flex h-full items-center justify-center gap-4 p-4 sm:p-6 bg-background rounded-lg shadow-lg hover:shadow-primary/20 hover:-translate-y-1 transition-all duration-300">
+                    <div className="text-accent">{React.cloneElement(item.icon as React.ReactElement, { className: "h-8 w-8 sm:h-10 sm:w-10"})}</div>
+                    <span className="font-headline text-base sm:text-lg font-semibold">{item.name}</span>
                 </div>
             </div>
             ))}
@@ -448,10 +453,10 @@ export default function AcademyPage() {
                 <div className="max-w-3xl mx-auto">
                     {upcomingBatches.map(batch => (
                         <Card key={batch.id} className="mb-4 shadow-sm hover:shadow-md transition-shadow">
-                            <CardContent className="p-6 flex flex-col sm:flex-row justify-between items-center">
+                            <CardContent className="p-6 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
                                 <div className="mb-4 sm:mb-0">
                                     <h3 className="font-headline text-xl font-bold">{batch.name}</h3>
-                                    <p className="text-foreground/80 flex items-center gap-2 mt-1"><Calendar className="h-4 w-4" /> Starts: {batch.startDate}</p>
+                                    <p className="text-foreground/80 flex items-center justify-center sm:justify-start gap-2 mt-1"><Calendar className="h-4 w-4" /> Starts: {batch.startDate}</p>
                                 </div>
                                  <Button disabled={batch.status !== 'Open'} asChild>
                                     <Link href="/contact?subject=Academy+Application">
@@ -504,5 +509,7 @@ export default function AcademyPage() {
     </div>
   );
 }
+
+    
 
     

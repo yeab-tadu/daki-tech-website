@@ -9,6 +9,7 @@ import type { Project } from '@/lib/types';
 import { FolderKanban, Layers, Server, Database, Rocket, CodeXml, Hotel, Building, GraduationCap, Contact, BookOpenCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 
 const projectIcons: { [key: string]: React.ReactNode } = {
@@ -21,14 +22,17 @@ const projectIcons: { [key: string]: React.ReactNode } = {
 };
 
 const PortfolioHero = () => {
+    const isMobile = useIsMobile();
     const [icons, setIcons] = useState<React.ReactNode[]>([]);
     const techIcons = [FolderKanban, Layers, Server, Database, Rocket, CodeXml];
+    const iconCount = isMobile ? 8 : 16;
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const generatedIcons = [...techIcons, ...techIcons, ...techIcons, ...techIcons].map((Icon, index) => {
+            const generatedIcons = Array.from({ length: iconCount }).map((_, index) => {
+                const Icon = techIcons[index % techIcons.length];
                 const sizeClass = ['w-12 h-12', 'w-16 h-16', 'w-20 h-20'][index % 3];
-                const leftPosition = `${(index * (100 / techIcons.length) + (Math.random() - 0.5) * 5) % 95}%`;
+                const leftPosition = `${(index * (100 / (iconCount / 2)) + (Math.random() - 0.5) * 5) % 95}%`;
                 const delay = Math.random() * 10;
                 const duration = 7 + Math.random() * 8;
                 
@@ -45,7 +49,7 @@ const PortfolioHero = () => {
             });
             setIcons(generatedIcons);
         }
-    }, []);
+    }, [isMobile, iconCount]);
 
     const FloatingIcon = ({ icon, className, delay, duration, style }: { icon: React.ReactNode, className: string, delay: number, duration: number, style: React.CSSProperties }) => {
         return (
@@ -70,7 +74,7 @@ const PortfolioHero = () => {
     }
 
     return (
-        <section className="relative w-full h-dvh min-h-[700px] flex items-center justify-center bg-primary/5 overflow-hidden">
+        <section className="relative w-full h-[90vh] md:h-dvh flex items-center justify-center bg-primary/5 overflow-hidden">
             <div className="absolute inset-0 z-10 top-0">
                 {icons.length > 0 && icons}
             </div>
@@ -103,7 +107,7 @@ const ProjectMarquee = () => {
         
         return (
         <motion.div
-            className="flex gap-8 py-4"
+            className="flex gap-6 md:gap-8 py-4"
             animate={{ x: xAnimation }}
             transition={{
             ease: 'linear',
@@ -113,17 +117,17 @@ const ProjectMarquee = () => {
             whileHover={{ animationPlayState: 'paused' }}
         >
             {[...items, ...items].map((project, index) => (
-                <div key={`${project.id}-${index}`} className="flex-shrink-0 w-[400px]">
+                <div key={`${project.id}-${index}`} className="flex-shrink-0 w-[320px] sm:w-[400px]">
                     <Card className="h-full overflow-hidden group transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2">
-                        <CardContent className="p-6 flex items-center gap-6">
-                            <div className="w-24 h-24 flex-shrink-0 text-primary group-hover:text-accent transition-colors">
+                        <CardContent className="p-6 flex flex-col sm:flex-row items-center gap-6">
+                            <div className="w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 text-primary group-hover:text-accent transition-colors">
                                 {React.cloneElement(projectIcons[project.id] || projectIcons['default'], { className: "w-full h-full" })}
                             </div>
-                            <div className="space-y-2">
+                            <div className="space-y-2 text-center sm:text-left">
                                 <Badge variant="outline">{project.category}</Badge>
                                 <h3 className="font-headline text-xl font-bold">{project.title}</h3>
                                 <p className="text-sm text-foreground/80">{project.description}</p>
-                                <div className="flex flex-wrap gap-2 pt-2">
+                                <div className="flex flex-wrap gap-2 pt-2 justify-center sm:justify-start">
                                     {project.technologies.map(tech => <Badge key={tech} variant="secondary">{tech}</Badge>)}
                                 </div>
                             </div>
@@ -160,3 +164,5 @@ export default function PortfolioPage() {
     </div>
   );
 }
+
+    
