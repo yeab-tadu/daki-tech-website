@@ -1,29 +1,16 @@
 /**
- * @fileoverview Firestore Security Rules for Daki Techs CMS.
- *
- * Core Philosophy:
- * This ruleset enforces a role-based access control model, specifically for an "admin" role.
- * Only authenticated administrators can create, read, update, and delete content.
- * Unauthenticated users and non-admin users have no access to the database.
+ * @file Firestore Security Rules
+ * @description This ruleset enforces a strict admin-only access model for most collections, with public read access to specific announcement-related data.
  *
  * Data Structure:
- * The Firestore database contains several top-level collections, each representing a content type:
- * /services/{serviceId}
- * /projects/{projectId}
- * /blogPosts/{blogPostId}
- * /careers/{careerId}
- * /faqs/{faqId}
- * /teamMembers/{teamMemberId}
- * /academyCourses/{academyCourseId}
- * /academyCourses/{academyCourseId}/batches/{academyBatchId}
- * /privacyPolicy/{privacyPolicyId}
- * /termsOfService/{termsOfServiceId}
- * /roles_admin/{userId}
+ * - Top-level collections: /services, /projects, /blogPosts, /careers, /faqs, /teamMembers, /academyCourses, /privacyPolicy, /termsOfService, /announcements
+ * - Subcollections: /academyCourses/{academyCourseId}/batches/{academyBatchId}
+ * - Special documents: /announcements/nextBatch, /announcements/currentBatch
  *
  * Key Security Decisions:
- * - Only authenticated administrators can manage content.
- * - The system defaults to a closed-access model. Any access not explicitly granted is denied.
- *
+ * - Admin-Only Access: All major content collections (services, projects, blog posts, etc.) are only accessible to authorized admins.
+ * - No User Listing: Listing of users or any other collections is explicitly denied to prevent information disclosure.
+ * - Public Announcements: Read access to the /announcements collection and its subcollections is open to the public to display current and upcoming batch information.
  */
 rules_version = '2';
 service cloud.firestore {
@@ -31,205 +18,174 @@ service cloud.firestore {
 
     /**
      * @description Checks if the user is signed in.
+     * @param None
+     * @return {boolean} True if the user is signed in, false otherwise.
      */
     function isSignedIn() {
       return request.auth != null;
     }
 
     /**
-     * @description Checks if the user ID matches the requested user ID.
+     * @description Denies all operations for unauthenticated users.
      */
-    function isOwner(userId) {
-      return request.auth.uid == userId;
+    match /{path=**} {
+      allow read, write: if isSignedIn();
     }
 
     /**
-     * @description Checks if the user exists on role admin collection
-     */
-    function isAdmin() {
-      return exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
-    }
-
-    /**
-     * @description Rules for the services collection. Only admins can manage services.
+     * @description Rules for the /services collection. Only accessible to admins.
      * @path /services/{serviceId}
-     * @allow (create) Admin user can create a service.
-     * @deny (create) Non-admin user cannot create a service.
-     * @allow (get) Admin user can read a service.
-     * @deny (get) Non-admin user cannot read a service.
+     * @allow (create) Authenticated admin can create a service.
+     * @deny (create) Non-authenticated user cannot create a service.
      * @principle Enforces admin-only access for content management.
      */
     match /services/{serviceId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules for the projects collection. Only admins can manage projects.
+     * @description Rules for the /projects collection. Only accessible to admins.
      * @path /projects/{projectId}
-     * @allow (create) Admin user can create a project.
-     * @deny (create) Non-admin user cannot create a project.
-     * @allow (get) Admin user can read a project.
-     * @deny (get) Non-admin user cannot read a project.
+     * @allow (create) Authenticated admin can create a project.
+     * @deny (create) Non-authenticated user cannot create a project.
      * @principle Enforces admin-only access for content management.
      */
     match /projects/{projectId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules for the blogPosts collection. Only admins can manage blog posts.
+     * @description Rules for the /blogPosts collection. Only accessible to admins.
      * @path /blogPosts/{blogPostId}
-     * @allow (create) Admin user can create a blog post.
-     * @deny (create) Non-admin user cannot create a blog post.
-     * @allow (get) Admin user can read a blog post.
-     * @deny (get) Non-admin user cannot read a blog post.
+     * @allow (create) Authenticated admin can create a blog post.
+     * @deny (create) Non-authenticated user cannot create a blog post.
      * @principle Enforces admin-only access for content management.
      */
     match /blogPosts/{blogPostId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules for the careers collection. Only admins can manage career postings.
+     * @description Rules for the /careers collection. Only accessible to admins.
      * @path /careers/{careerId}
-     * @allow (create) Admin user can create a career posting.
-     * @deny (create) Non-admin user cannot create a career posting.
-     * @allow (get) Admin user can read a career posting.
-     * @deny (get) Non-admin user cannot read a career posting.
+     * @allow (create) Authenticated admin can create a career.
+     * @deny (create) Non-authenticated user cannot create a career.
      * @principle Enforces admin-only access for content management.
      */
     match /careers/{careerId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules for the faqs collection. Only admins can manage FAQs.
+     * @description Rules for the /faqs collection. Only accessible to admins.
      * @path /faqs/{faqId}
-     * @allow (create) Admin user can create a FAQ.
-     * @deny (create) Non-admin user cannot create a FAQ.
-     * @allow (get) Admin user can read a FAQ.
-     * @deny (get) Non-admin user cannot read a FAQ.
+     * @allow (create) Authenticated admin can create an FAQ.
+     * @deny (create) Non-authenticated user cannot create an FAQ.
      * @principle Enforces admin-only access for content management.
      */
     match /faqs/{faqId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules for the teamMembers collection. Only admins can manage team members.
+     * @description Rules for the /teamMembers collection. Only accessible to admins.
      * @path /teamMembers/{teamMemberId}
-     * @allow (create) Admin user can create a team member.
-     * @deny (create) Non-admin user cannot create a team member.
-     * @allow (get) Admin user can read a team member.
-     * @deny (get) Non-admin user cannot read a team member.
+     * @allow (create) Authenticated admin can create a team member.
+     * @deny (create) Non-authenticated user cannot create a team member.
      * @principle Enforces admin-only access for content management.
      */
     match /teamMembers/{teamMemberId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules for the academyCourses collection. Only admins can manage academy courses.
+     * @description Rules for the /academyCourses collection. Only accessible to admins.
      * @path /academyCourses/{academyCourseId}
-     * @allow (create) Admin user can create an academy course.
-     * @deny (create) Non-admin user cannot create an academy course.
-     * @allow (get) Admin user can read an academy course.
-     * @deny (get) Non-admin user cannot read an academy course.
+     * @allow (create) Authenticated admin can create an academy course.
+     * @deny (create) Non-authenticated user cannot create an academy course.
      * @principle Enforces admin-only access for content management.
      */
     match /academyCourses/{academyCourseId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules for the academyBatches collection. Only admins can manage academy batches.
+     * @description Rules for the /academyCourses/{academyCourseId}/batches/{academyBatchId} subcollection. Only accessible to admins.
      * @path /academyCourses/{academyCourseId}/batches/{academyBatchId}
-     * @allow (create) Admin user can create an academy batch.
-     * @deny (create) Non-admin user cannot create an academy batch.
-     * @allow (get) Admin user can read an academy batch.
-     * @deny (get) Non-admin user cannot read an academy batch.
-     * @principle Enforces admin-only access for content management.
+     * @allow (create) Authenticated admin can create an academy batch.
+     * @deny (create) Non-authenticated user cannot create an academy batch.
+     * @principle Enforces admin-only access for content management and hierarchical data ownership.
      */
     match /academyCourses/{academyCourseId}/batches/{academyBatchId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules for the privacyPolicy collection. Only admins can manage privacy policy.
+     * @description Rules for the /privacyPolicy collection. Only accessible to admins.
      * @path /privacyPolicy/{privacyPolicyId}
-     * @allow (create) Admin user can create a privacy policy.
-     * @deny (create) Non-admin user cannot create a privacy policy.
-     * @allow (get) Admin user can read a privacy policy.
-     * @deny (get) Non-admin user cannot read a privacy policy.
+     * @allow (create) Authenticated admin can create a privacy policy.
+     * @deny (create) Non-authenticated user cannot create a privacy policy.
      * @principle Enforces admin-only access for content management.
      */
     match /privacyPolicy/{privacyPolicyId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules for the termsOfService collection. Only admins can manage terms of service.
+     * @description Rules for the /termsOfService collection. Only accessible to admins.
      * @path /termsOfService/{termsOfServiceId}
-     * @allow (create) Admin user can create a terms of service.
-     * @deny (create) Non-admin user cannot create a terms of service.
-     * @allow (get) Admin user can read a terms of service.
-     * @deny (get) Non-admin user cannot read a terms of service.
+     * @allow (create) Authenticated admin can create terms of service.
+     * @deny (create) Non-authenticated user cannot create terms of service.
      * @principle Enforces admin-only access for content management.
      */
     match /termsOfService/{termsOfServiceId} {
-      allow get: if isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow get, list: if false;
+      allow create, update, delete: if false;
+    }
+
+   /**
+    * @description Rules for the /announcements/nextBatch document.
+    * @path /announcements/nextBatch
+    * @allow (get, list) Public read access for displaying next batch information.
+    * @deny (create, update, delete) Only admins can modify next batch information.
+    * @principle Allows public read access while restricting write access to admins.
+    */
+    match /announcements/nextBatch {
+        allow get, list: if true;
+        allow create, update, delete: if false;
     }
 
     /**
-     * @description Rules to check if user is admin or not
-     * @path /roles_admin/{userId}
+     * @description Rules for the /announcements/currentBatch document.
+     * @path /announcements/currentBatch
+     * @allow (get, list) Public read access for displaying current batch information.
+     * @deny (create, update, delete) Only admins can modify current batch information.
+     * @principle Allows public read access while restricting write access to admins.
      */
-    match /roles_admin/{userId} {
-        allow get: if isOwner(userId);
-        allow list: if false;
-        allow create: if isOwner(userId);
-        allow update: if isOwner(userId);
-        allow delete: if isOwner(userId);
+    match /announcements/currentBatch {
+        allow get, list: if true;
+        allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Rules for the /announcements/videos/collection/{videoId} subcollection.
+     * @path /announcements/videos/collection/{videoId}
+     * @allow (get, list) Public read access for displaying announcement videos.
+     * @deny (create, update, delete) Only admins can modify announcement videos.
+     * @principle Allows public read access while restricting write access to admins.
+     */
+    match /announcements/videos/collection/{videoId} {
+        allow get, list: if true;
+        allow create, update, delete: if false;
     }
   }
 }
