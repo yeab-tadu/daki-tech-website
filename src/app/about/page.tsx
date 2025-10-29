@@ -102,7 +102,7 @@ const AboutHero = () => {
 
 
     return (
-        <section className="relative w-full h-[90vh] md:h-dvh flex items-center justify-center bg-primary/5 overflow-hidden">
+        <section className="relative w-full flex items-center justify-center bg-primary/5 overflow-hidden pt-32 pb-20 md:h-dvh md:py-0">
              <div className="absolute inset-0 bg-grid-pattern opacity-5" />
              <div className="absolute inset-0 z-10 top-[-20%]">
                 {icons.length > 0 && icons}
