@@ -10,7 +10,8 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarInset,
-  SidebarTrigger
+  SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import Logo from "@/components/Logo"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -44,37 +45,23 @@ const adminNavItems = [
   { href: "/admin/faq", icon: <HelpCircle />, label: "FAQ" },
 ]
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const { user, isUserLoading } = useUser();
+function AdminSidebar() {
+  const { user } = useUser();
   const auth = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    if (!isUserLoading && !user) {
-      router.push('/login');
-    }
-  }, [user, isUserLoading, router]);
+  const { setOpenMobile } = useSidebar();
 
   const handleLogout = () => {
     signOut(auth);
     router.push('/login');
   };
 
-  if (isUserLoading || !user) {
-     return (
-      <div className="flex items-center justify-center h-screen">
-        <p>Loading...</p>
-      </div>
-    );
+  const handleLinkClick = () => {
+    setOpenMobile(false);
   }
 
   return (
-    <SidebarProvider>
-      <Sidebar>
+     <Sidebar>
         <SidebarHeader>
           <Logo className="h-8 w-auto" />
         </SidebarHeader>
@@ -82,7 +69,7 @@ export default function AdminLayout({
           <SidebarMenu>
             {adminNavItems.map(item => (
                 <SidebarMenuItem key={item.href}>
-                    <Link href={item.href} className="w-full">
+                    <Link href={item.href} className="w-full" onClick={handleLinkClick}>
                         <SidebarMenuButton>
                             {item.icon}
                             <span>{item.label}</span>
@@ -112,6 +99,35 @@ export default function AdminLayout({
            </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
+  )
+}
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const { user, isUserLoading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isUserLoading, router]);
+
+
+  if (isUserLoading || !user) {
+     return (
+      <div className="flex items-center justify-center h-screen">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  return (
+    <SidebarProvider>
+      <AdminSidebar />
       <SidebarInset>
         <header className="p-4 border-b flex items-center gap-4 bg-background">
           <SidebarTrigger />
