@@ -74,7 +74,7 @@ const PortfolioHero = () => {
     }
 
     return (
-        <section className="relative w-full h-[90vh] md:h-dvh flex items-center justify-center bg-primary/5 overflow-hidden">
+        <section className="relative w-full pt-32 pb-20 md:h-dvh flex items-center justify-center bg-primary/5 overflow-hidden md:py-0">
             <div className="absolute inset-0 z-10 top-0">
                 {icons.length > 0 && icons}
             </div>
