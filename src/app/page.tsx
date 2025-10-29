@@ -96,56 +96,65 @@ type WhyChooseUsItem = (typeof whyChooseUs)[0];
 const heroServices = services.slice(0, 8);
 
 const InteractiveCircle = () => {
-  const [hovered, setHovered] = useState<string | null>(null);
-  const radius = 200;
-  const center = 225;
-  const time = useTime();
-  const rotate = useTransform(time, [0, 40000], [0, 360], { clamp: false });
+    const [hovered, setHovered] = useState<string | null>(null);
+    const isMobile = useIsMobile();
+    const radius = isMobile ? 120 : 200;
+    const center = isMobile ? 150 : 225;
+    const containerSize = isMobile ? 300 : 450;
+    const iconWrapperSize = isMobile ? 'w-16 h-16' : 'w-24 h-24';
+    const iconSize = isMobile ? 'w-12 h-12' : 'w-20 h-20';
+    const centerCircleSize = isMobile ? 'h-32 w-32' : 'h-48 w-48';
 
-  return (
-    <div className="relative w-full h-full max-w-[450px] max-h-[450px] flex items-center justify-center aspect-square">
-      <motion.div
-        className="absolute top-0 left-0 w-full h-full"
-        style={{ rotate }}
-      >
-        {heroServices.map((service, i) => {
-          const angle = (i / heroServices.length) * 2 * Math.PI;
-          const x = center + radius * Math.cos(angle);
-          const y = center + radius * Math.sin(angle);
+    const time = useTime();
+    const rotate = useTransform(time, [0, 40000], [0, 360], { clamp: false });
 
-          return (
+    return (
+        <div 
+            className="relative flex items-center justify-center aspect-square"
+            style={{ width: containerSize, height: containerSize }}
+        >
             <motion.div
-              key={service.id}
-              className="absolute w-24 h-24"
-              style={{ top: y - 48, left: x - 48 }}
-              onMouseEnter={() => setHovered(service.id)}
-              onMouseLeave={() => setHovered(null)}
-              whileHover={{ scale: 1.2 }}
+                className="absolute top-0 left-0 w-full h-full"
+                style={{ rotate }}
             >
-              <Link href={`/services#${service.id}`} className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center shadow-md text-primary">
-                  {serviceIcons[service.id]}
-                </div>
-              </Link>
+                {heroServices.map((service, i) => {
+                    const angle = (i / heroServices.length) * 2 * Math.PI;
+                    const x = center + radius * Math.cos(angle);
+                    const y = center + radius * Math.sin(angle);
+
+                    return (
+                        <motion.div
+                            key={service.id}
+                            className={`absolute ${iconWrapperSize}`}
+                            style={{ top: y - (isMobile ? 32: 48), left: x - (isMobile ? 32: 48) }}
+                            onMouseEnter={() => setHovered(service.id)}
+                            onMouseLeave={() => setHovered(null)}
+                            whileHover={{ scale: 1.2 }}
+                        >
+                            <Link href={`/services#${service.id}`} className="flex flex-col items-center text-center">
+                                <div className={`${iconSize} bg-background rounded-full flex items-center justify-center shadow-md text-primary p-2`}>
+                                    {React.cloneElement(serviceIcons[service.id] as React.ReactElement, { className: "h-full w-full" })}
+                                </div>
+                            </Link>
+                        </motion.div>
+                    );
+                })}
             </motion.div>
-          );
-        })}
-      </motion.div>
-      <motion.div
-        className="relative flex h-48 w-48 flex-col items-center justify-center rounded-full bg-primary/10 text-center"
-        animate={{ scale: hovered ? 1.1 : 1 }}
-      >
-        <div className="flex flex-col items-center justify-center">
-          <p className="font-headline text-4xl font-bold text-primary">
-            {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ')[0] : 'Daki'}
-          </p>
-          <p className="font-headline text-4xl font-bold text-accent">
-            {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ').slice(1).join(' ') : 'Techs'}
-          </p>
+            <motion.div
+                className={`relative flex flex-col items-center justify-center rounded-full bg-primary/10 text-center ${centerCircleSize}`}
+                animate={{ scale: hovered ? 1.1 : 1 }}
+            >
+                <div className="flex flex-col items-center justify-center">
+                    <p className="font-headline text-3xl md:text-4xl font-bold text-primary">
+                        {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ')[0] : 'Daki'}
+                    </p>
+                    <p className="font-headline text-3xl md:text-4xl font-bold text-accent">
+                        {hovered ? heroServices.find(s => s.id === hovered)?.title.split(' ').slice(1).join(' ') : 'Techs'}
+                    </p>
+                </div>
+            </motion.div>
         </div>
-      </motion.div>
-    </div>
-  );
+    );
 };
 
 const initialAcademySkills = [
@@ -412,72 +421,72 @@ const AnimatedProcess = () => {
 
 const HomeHero = () => {
     return (
-         <section
-          className="relative w-full h-[90vh] md:h-dvh flex items-center bg-background overflow-hidden"
+        <section
+            className="relative w-full min-h-[calc(100vh-4rem)] pt-24 pb-12 md:pt-0 md:min-h-screen flex items-center justify-center bg-background overflow-hidden"
         >
-          <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
-          <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
+            <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
 
-          <div className="container mx-auto px-4 md:px-6 relative z-20">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <motion.div
-                className="flex flex-col justify-center space-y-6 text-center md:text-left"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-              >
-                <div className="space-y-4">
-                  <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-                    <motion.span
-                      className="text-primary"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.5 }}
-                    >Innovate.
-                    </motion.span>
-                    <motion.span
-                      className="text-accent"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.7 }}
-                    > Build.
-                    </motion.span>
-                    <motion.span
-                      className="text-foreground"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.9 }}
-                    > Empower.
-                    </motion.span>
-                  </h1>
-                  <p className="max-w-[600px] text-foreground/80 md:text-xl mx-auto md:mx-0">
-                    Empowering businesses with digital solutions and shaping future tech leaders at our academy.
-                  </p>
+            <div className="container mx-auto px-4 md:px-6 relative z-20">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                    <motion.div
+                        className="flex flex-col justify-center space-y-6 text-center md:text-left"
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+                    >
+                        <div className="space-y-4">
+                            <h1 className="font-headline text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                                <motion.span
+                                    className="text-primary"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.5 }}
+                                >Innovate.
+                                </motion.span>
+                                <motion.span
+                                    className="text-accent"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.7 }}
+                                > Build.
+                                </motion.span>
+                                <motion.span
+                                    className="text-foreground"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.9 }}
+                                > Empower.
+                                </motion.span>
+                            </h1>
+                            <p className="max-w-[600px] text-foreground/80 md:text-xl mx-auto md:mx-0">
+                                Empowering businesses with digital solutions and shaping future tech leaders at our academy.
+                            </p>
+                        </div>
+                        <motion.div
+                            className="flex flex-col gap-4 min-[400px]:flex-row md:justify-start justify-center"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+                        >
+                            <Button asChild size="lg" className="transition-transform hover:scale-105 shadow-lg">
+                                <Link href="/contact">Get a Quote</Link>
+                            </Button>
+                            <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
+                                <Link href="/academy">Explore Academy</Link>
+                            </Button>
+                        </motion.div>
+                    </motion.div>
+                    <motion.div
+                        className="flex justify-center items-center group mt-8 md:mt-0"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
+                    >
+                        <InteractiveCircle />
+                    </motion.div>
                 </div>
-                <motion.div
-                  className="flex flex-col gap-4 min-[400px]:flex-row md:justify-start justify-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
-                >
-                  <Button asChild size="lg" className="transition-transform hover:scale-105 shadow-lg">
-                    <Link href="/contact">Get a Quote</Link>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="transition-transform hover:scale-105">
-                    <Link href="/academy">Explore Academy</Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-              <motion.div
-                className="hidden md:flex justify-center items-center group"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
-              >
-                <InteractiveCircle />
-              </motion.div>
             </div>
-          </div>
         </section>
     )
 }
