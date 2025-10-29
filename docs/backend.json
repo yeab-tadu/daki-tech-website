@@ -1,0 +1,518 @@
+{
+  "entities": {
+    "Service": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Service",
+      "type": "object",
+      "description": "Represents a service offered by Daki Techs.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the service."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the service."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the service."
+        },
+        "image": {
+          "type": "string",
+          "description": "URL of the image representing the service."
+        },
+        "icon": {
+          "type": "string",
+          "description": "Icon associated with the service."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "image",
+        "icon"
+      ]
+    },
+    "Project": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Project",
+      "type": "object",
+      "description": "Represents a project completed or ongoing by Daki Techs.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the project."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the project."
+        },
+        "description": {
+          "type": "string",
+          "description": "Short description of the project."
+        },
+        "image": {
+          "type": "string",
+          "description": "URL of the image showcasing the project."
+        },
+        "technologiesUsed": {
+          "type": "string",
+          "description": "List of technologies used in the project."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "image",
+        "technologiesUsed"
+      ]
+    },
+    "BlogPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "BlogPost",
+      "type": "object",
+      "description": "Represents a blog post on the Daki Techs website.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the blog post."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the blog post."
+        },
+        "excerpt": {
+          "type": "string",
+          "description": "Short excerpt or summary of the blog post."
+        },
+        "content": {
+          "type": "string",
+          "description": "Full content of the blog post."
+        },
+        "date": {
+          "type": "string",
+          "description": "Date the blog post was published.",
+          "format": "date-time"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the blog post (e.g., Tech Trends, Web Development)."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "excerpt",
+        "content",
+        "date",
+        "category"
+      ]
+    },
+    "Career": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Career",
+      "type": "object",
+      "description": "Represents a job posting at Daki Techs.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the career/job posting."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the job position."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the job responsibilities and requirements."
+        },
+        "requirements": {
+          "type": "string",
+          "description": "Specific skills and qualifications required for the job."
+        },
+        "location": {
+          "type": "string",
+          "description": "Location of the job (e.g., city, country)."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "requirements",
+        "location"
+      ]
+    },
+    "FAQ": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "FAQ",
+      "type": "object",
+      "description": "Represents a frequently asked question.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the FAQ entry."
+        },
+        "question": {
+          "type": "string",
+          "description": "The question being asked."
+        },
+        "answer": {
+          "type": "string",
+          "description": "The answer to the question."
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the FAQ (e.g., General, Services)."
+        }
+      },
+      "required": [
+        "id",
+        "question",
+        "answer",
+        "category"
+      ]
+    },
+    "TeamMember": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TeamMember",
+      "type": "object",
+      "description": "Represents a team member at Daki Techs.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the team member."
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of the team member."
+        },
+        "role": {
+          "type": "string",
+          "description": "Job title or role of the team member."
+        },
+        "bio": {
+          "type": "string",
+          "description": "Short biography of the team member."
+        },
+        "image": {
+          "type": "string",
+          "description": "URL of the image of the team member."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "role",
+        "bio",
+        "image"
+      ]
+    },
+    "AcademyCourse": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AcademyCourse",
+      "type": "object",
+      "description": "Represents a course offered by Daki Academy.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the academy course."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the course."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the course content and objectives."
+        },
+        "modules": {
+          "type": "string",
+          "description": "List of modules covered in the course."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the course."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "modules",
+        "price"
+      ]
+    },
+    "AcademyBatch": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AcademyBatch",
+      "type": "object",
+      "description": "Represents a batch of an academy course.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the academy batch."
+        },
+        "courseId": {
+          "type": "string",
+          "description": "Reference to AcademyCourse. (Relationship: AcademyCourse 1:N AcademyBatch)"
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Start date of the batch.",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "End date of the batch.",
+          "format": "date-time"
+        },
+        "schedule": {
+          "type": "string",
+          "description": "Schedule of the batch (e.g., days and times)."
+        }
+      },
+      "required": [
+        "id",
+        "courseId",
+        "startDate",
+        "endDate",
+        "schedule"
+      ]
+    },
+    "PrivacyPolicy": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PrivacyPolicy",
+      "type": "object",
+      "description": "Represents the privacy policy content.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the privacy policy."
+        },
+        "content": {
+          "type": "string",
+          "description": "The actual content of the privacy policy."
+        }
+      },
+      "required": [
+        "id",
+        "content"
+      ]
+    },
+    "TermsOfService": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TermsOfService",
+      "type": "object",
+      "description": "Represents the terms of service content.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the terms of service."
+        },
+        "content": {
+          "type": "string",
+          "description": "The actual content of the terms of service."
+        }
+      },
+      "required": [
+        "id",
+        "content"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/services/{serviceId}",
+        "definition": {
+          "entityName": "Service",
+          "schema": {
+            "$ref": "#/backend/entities/Service"
+          },
+          "description": "Stores service information. Only accessible to admins.",
+          "params": [
+            {
+              "name": "serviceId",
+              "description": "Unique identifier for the service."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/projects/{projectId}",
+        "definition": {
+          "entityName": "Project",
+          "schema": {
+            "$ref": "#/backend/entities/Project"
+          },
+          "description": "Stores project information. Only accessible to admins.",
+          "params": [
+            {
+              "name": "projectId",
+              "description": "Unique identifier for the project."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/blogPosts/{blogPostId}",
+        "definition": {
+          "entityName": "BlogPost",
+          "schema": {
+            "$ref": "#/backend/entities/BlogPost"
+          },
+          "description": "Stores blog post information. Only accessible to admins.",
+          "params": [
+            {
+              "name": "blogPostId",
+              "description": "Unique identifier for the blog post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/careers/{careerId}",
+        "definition": {
+          "entityName": "Career",
+          "schema": {
+            "$ref": "#/backend/entities/Career"
+          },
+          "description": "Stores career/job posting information. Only accessible to admins.",
+          "params": [
+            {
+              "name": "careerId",
+              "description": "Unique identifier for the career posting."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/faqs/{faqId}",
+        "definition": {
+          "entityName": "FAQ",
+          "schema": {
+            "$ref": "#/backend/entities/FAQ"
+          },
+          "description": "Stores FAQ entries. Only accessible to admins.",
+          "params": [
+            {
+              "name": "faqId",
+              "description": "Unique identifier for the FAQ entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/teamMembers/{teamMemberId}",
+        "definition": {
+          "entityName": "TeamMember",
+          "schema": {
+            "$ref": "#/backend/entities/TeamMember"
+          },
+          "description": "Stores team member information. Only accessible to admins.",
+          "params": [
+            {
+              "name": "teamMemberId",
+              "description": "Unique identifier for the team member."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/academyCourses/{academyCourseId}",
+        "definition": {
+          "entityName": "AcademyCourse",
+          "schema": {
+            "$ref": "#/backend/entities/AcademyCourse"
+          },
+          "description": "Stores academy course information. Only accessible to admins.",
+          "params": [
+            {
+              "name": "academyCourseId",
+              "description": "Unique identifier for the academy course."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/academyCourses/{academyCourseId}/batches/{academyBatchId}",
+        "definition": {
+          "entityName": "AcademyBatch",
+          "schema": {
+            "$ref": "#/backend/entities/AcademyBatch"
+          },
+          "description": "Stores academy batch information.  'academyCourseId' is denormalized for simpler querying and enforces hierarchical ownership. Only accessible to admins.",
+          "params": [
+            {
+              "name": "academyCourseId",
+              "description": "Unique identifier for the academy course."
+            },
+            {
+              "name": "academyBatchId",
+              "description": "Unique identifier for the academy batch."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/privacyPolicy/{privacyPolicyId}",
+        "definition": {
+          "entityName": "PrivacyPolicy",
+          "schema": {
+            "$ref": "#/backend/entities/PrivacyPolicy"
+          },
+          "description": "Stores privacy policy content. Only accessible to admins.",
+          "params": [
+            {
+              "name": "privacyPolicyId",
+              "description": "Unique identifier for the privacy policy."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/termsOfService/{termsOfServiceId}",
+        "definition": {
+          "entityName": "TermsOfService",
+          "schema": {
+            "$ref": "#/backend/entities/TermsOfService"
+          },
+          "description": "Stores terms of service content. Only accessible to admins.",
+          "params": [
+            {
+              "name": "termsOfServiceId",
+              "description": "Unique identifier for the terms of service."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{userId}",
+        "definition": {
+          "entityName": "AdminRole",
+          "schema": {
+            "$ref": "#/backend/entities/TermsOfService"
+          },
+          "description": "Check if the user is an admin.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "user Id"
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "This Firestore structure is designed to support the Daki Techs website's content management needs, focusing on simplicity, security, and scalability. It leverages Structural Segregation (Strategy B) by storing each content type (services, projects, blog posts, etc.) in its own top-level collection, which simplifies security rules by ensuring that all documents within a collection share the same access requirements. It relies on Authorization Independence by limiting `get()` operations. Since the user specifies that an admin should manage all content, we rely on checking the `request.auth.uid` to determine who has access. Since all content will be managed by an admin, we can assume that the `list` operation should only be performed by an authenticated user. Since the app only have one role (Admin), we will rely on the existence over content to determine if a user is an admin or not."
+  }
+}
