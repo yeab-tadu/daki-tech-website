@@ -43,9 +43,12 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-2">
           <Button asChild>
             <Link href="/contact">Contact Us</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/login">Login</Link>
           </Button>
         </div>
         <div className="md:hidden">
@@ -81,6 +84,13 @@ export default function Header() {
                       {link.label}
                     </Link>
                   ))}
+                   <Link
+                      href="/login"
+                      className='text-lg font-medium text-foreground/80 transition-colors hover:text-primary'
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Login
+                    </Link>
                 </nav>
                 <div className="p-4 border-t">
                   <Button asChild className="w-full" onClick={() => setMenuOpen(false)}>
