@@ -422,7 +422,7 @@ const AnimatedProcess = () => {
 const HomeHero = () => {
     return (
         <section
-            className="relative w-full pt-32 pb-20 md:py-0 md:flex md:items-center md:h-auto md:min-h-[500px] lg:h-auto lg:min-h-0"
+            className="relative w-full pt-32 pb-20 md:py-0 md:flex md:items-center"
         >
             <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
             <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
@@ -477,14 +477,11 @@ const HomeHero = () => {
                             </Button>
                         </motion.div>
                     </motion.div>
-                    <motion.div
+                    <div
                         className="flex justify-center items-center group mt-8 md:mt-0"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
                     >
                         <InteractiveCircle />
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -562,14 +559,8 @@ export default function Home() {
         {/* Academy Section */}
         <section id="academy" className="w-full py-12 md:py-24 lg:py-32 bg-background overflow-hidden">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <motion.div
-                className="space-y-6 text-center lg:text-left"
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8 }}
-              >
+            <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
+              <div className="space-y-6 text-center lg:text-left">
                 <Badge>Daki Academy</Badge>
                 <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Launch Your Tech Career</h2>
                 <p className="text-foreground/80 md:text-lg">
@@ -588,8 +579,8 @@ export default function Home() {
                 <Button size="lg" asChild className="transition-transform hover:scale-105">
                   <Link href="/academy">Explore the Academy <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
-              </motion.div>
-              <div className="flex justify-center items-center">
+              </div>
+              <div className="mt-8 lg:mt-0">
                  <SkillMarquee />
               </div>
             </div>
@@ -733,5 +724,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
