@@ -422,7 +422,7 @@ const AnimatedProcess = () => {
 const HomeHero = () => {
     return (
         <section
-            className="relative w-full min-h-[calc(100vh-4rem)] pt-24 pb-12 md:pt-0 md:min-h-screen flex items-center justify-center bg-background overflow-hidden"
+            className="relative w-full pt-32 pb-20 md:pt-0 md:min-h-screen flex items-center justify-center bg-background overflow-hidden"
         >
             <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-5" />
             <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent" />
