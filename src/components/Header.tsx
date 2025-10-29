@@ -6,7 +6,14 @@ import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import Logo from '@/components/Logo';
 import { cn } from '@/lib/utils';
 
@@ -60,16 +67,25 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full max-w-xs bg-background p-0">
+              <SheetHeader className="p-4 border-b flex flex-row justify-between items-center">
+                <Link href="/" onClick={() => setMenuOpen(false)}>
+                  <Logo className="h-8 w-auto" />
+                </Link>
+                <SheetTitle className="sr-only">Main Menu</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Primary navigation menu for the website.
+                </SheetDescription>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setMenuOpen(false)}
+                  className="mt-0"
+                >
+                  <X className="h-6 w-6" />
+                  <span className="sr-only">Close menu</span>
+                </Button>
+              </SheetHeader>
               <div className="flex flex-col h-full">
-                <div className="flex justify-between items-center p-4 border-b">
-                   <Link href="/" onClick={() => setMenuOpen(false)}>
-                    <Logo className="h-8 w-auto" />
-                  </Link>
-                  <Button variant="ghost" size="icon" onClick={() => setMenuOpen(false)}>
-                    <X className="h-6 w-6" />
-                    <span className="sr-only">Close menu</span>
-                  </Button>
-                </div>
                 <nav className="flex flex-col gap-4 p-4 flex-grow">
                   {navLinks.map((link) => (
                     <Link
@@ -77,23 +93,29 @@ export default function Header() {
                       href={link.href}
                       className={cn(
                         'text-lg font-medium transition-colors hover:text-primary',
-                        pathname === link.href ? 'text-primary' : 'text-foreground/80'
+                        pathname === link.href
+                          ? 'text-primary'
+                          : 'text-foreground/80'
                       )}
                       onClick={() => setMenuOpen(false)}
                     >
                       {link.label}
                     </Link>
                   ))}
-                   <Link
-                      href="/login"
-                      className='text-lg font-medium text-foreground/80 transition-colors hover:text-primary'
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      Login
-                    </Link>
+                  <Link
+                    href="/login"
+                    className="text-lg font-medium text-foreground/80 transition-colors hover:text-primary"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
                 </nav>
                 <div className="p-4 border-t">
-                  <Button asChild className="w-full" onClick={() => setMenuOpen(false)}>
+                  <Button
+                    asChild
+                    className="w-full"
+                    onClick={() => setMenuOpen(false)}
+                  >
                     <Link href="/contact">Contact Us</Link>
                   </Button>
                 </div>
